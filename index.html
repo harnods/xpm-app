@@ -1,0 +1,3390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mekari Expense — XPM Mobile Prototype</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<style>
+/* ── Pixel (PXL) design tokens ── */
+:root{
+  /* Typography sizes */
+  --pxl-font-size-xs:10px;
+  --pxl-font-size-sm:12px;
+  --pxl-font-size-md:14px;
+  --pxl-font-size-lg:16px;
+  --pxl-font-size-2xl:24px;
+  --pxl-letter-spacing-dense:-0.2px;
+  /* Line heights */
+  --pxl-line-height-xs:12px;
+  --pxl-line-height-sm:16px;
+  --pxl-line-height-md:20px;
+  --pxl-line-height-lg:24px;
+  --pxl-line-height-2xl:32px;
+  /* Weights */
+  --pxl-weight-regular:400;
+  --pxl-weight-semibold:600;
+  /* Spacing scale */
+  --pxl-space-4xs:2px;
+  --pxl-space-3xs:4px;
+  --pxl-space-2xs:6px;
+  --pxl-space-xs:8px;
+  --pxl-space-sm:12px;
+  --pxl-space-md:16px;
+  --pxl-space-lg:20px;
+  /* Radii */
+  --pxl-radii-md:6px;
+  --pxl-radii-xl:12px;
+  --pxl-radii-full:999px;
+  /* Font family */
+  --pxl-font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  /* Colors used inline */
+  --pxl-color-default:#272b32;
+  --pxl-color-secondary:#656f80;
+  --pxl-color-secondary-pressed:#4c5460;
+  --pxl-color-link:#4b61dc;
+  --pxl-color-inverse:#ffffff;
+  --pxl-color-surface:#F2F3F9;
+  --pxl-color-stage:#ffffff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+
+body{
+  background:#D8DEF0;
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:32px 20px 60px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+/* Responsive — scale phone on smaller viewports for presentation */
+.prototype-wrap{transform-origin:top center;}
+@media (max-width:560px){
+  body{padding:20px 8px 40px;}
+  .prototype-wrap{transform:scale(0.78);}
+}
+@media (max-width:420px){
+  .prototype-wrap{transform:scale(0.62);}
+}
+@media (max-height:900px) and (min-width:560px){
+  .prototype-wrap{transform:scale(0.88);}
+}
+@media (max-height:780px) and (min-width:560px){
+  .prototype-wrap{transform:scale(0.74);}
+}
+
+/* ── Prototype shell ── */
+.prototype-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.proto-label{font-size:11px;font-weight:700;color:#7B8BAA;letter-spacing:0.8px;text-transform:uppercase;}
+.proto-hint{font-size:11px;color:#9CA3AF;text-align:center;max-width:390px;line-height:1.5;}
+
+/* ── iPhone frame wrapper ── */
+.iphone-frame{
+  position:relative;
+  width:430px;
+  height:932px;
+  flex-shrink:0;
+  filter:drop-shadow(0 32px 80px rgba(0,0,0,0.28)) drop-shadow(0 6px 16px rgba(0,0,0,0.12));
+}
+
+/* iPhone 15 Pro body */
+.iphone-frame::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:52px;
+  background:linear-gradient(160deg,#3a3a3c 0%,#1c1c1e 40%,#2a2a2c 100%);
+  z-index:0;
+}
+
+/* Titanium edge highlight */
+.iphone-frame::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:52px;
+  border:1.5px solid transparent;
+  background:linear-gradient(160deg,rgba(255,255,255,.25),rgba(255,255,255,.04) 40%,rgba(255,255,255,.12)) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:destination-out;
+  mask-composite:exclude;
+  z-index:10;
+  pointer-events:none;
+}
+
+/* Side buttons — volume up */
+.iphone-frame .btn-vol-up{
+  position:absolute;left:-3px;top:180px;
+  width:4px;height:44px;
+  background:linear-gradient(90deg,#2a2a2c,#4a4a4e);
+  border-radius:2px 0 0 2px;
+  z-index:5;
+}
+/* Volume down */
+.iphone-frame .btn-vol-dn{
+  position:absolute;left:-3px;top:236px;
+  width:4px;height:44px;
+  background:linear-gradient(90deg,#2a2a2c,#4a4a4e);
+  border-radius:2px 0 0 2px;
+  z-index:5;
+}
+/* Mute/silent */
+.iphone-frame .btn-mute{
+  position:absolute;left:-3px;top:128px;
+  width:4px;height:32px;
+  background:linear-gradient(90deg,#2a2a2c,#4a4a4e);
+  border-radius:2px 0 0 2px;
+  z-index:5;
+}
+/* Power button */
+.iphone-frame .btn-power{
+  position:absolute;right:-3px;top:200px;
+  width:4px;height:72px;
+  background:linear-gradient(270deg,#2a2a2c,#4a4a4e);
+  border-radius:0 2px 2px 0;
+  z-index:5;
+}
+
+/* ── Phone (screen area inside frame) ── */
+.phone{
+  position:absolute;
+  top:12px;left:12px;right:12px;bottom:12px;
+  background:#F2F3F9;
+  border-radius:42px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  z-index:2;
+}
+
+/* Dynamic Island */
+.dynamic-island{
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;height:34px;
+  background:#000;
+  border-radius:20px;
+  z-index:100;
+  pointer-events:none;
+}
+
+/* ── Status bar (iOS notch — Figma 1693:15946) ── */
+.status-bar{background:#F2F3F9;padding:13px 26px 9px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro',sans-serif;}
+.status-bar .ios-time{width:80px;height:22px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;color:#000;line-height:22px;font-feature-settings:'tnum';}
+.status-bar .ios-r-accessories{width:77.528px;height:13px;display:block;}
+.status-bar.dark{background:transparent;}
+.status-bar.dark .ios-time{color:#fff;}
+.status-bar.dark .ios-r-accessories{filter:invert(1) brightness(2);}
+
+/* ── App header (Figma 1693:16222) ── */
+.app-header{padding:var(--pxl-space-2xs) var(--pxl-space-sm);display:flex;justify-content:space-between;align-items:center;background:var(--pxl-color-surface);flex-shrink:0;gap:var(--pxl-space-sm);min-height:48px;}
+.app-header .greeting{display:flex;flex-direction:column;justify-content:center;min-width:0;flex:1;font-family:var(--pxl-font-family);color:var(--pxl-color-default);}
+.app-header .greeting-overline{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);font-weight:var(--pxl-weight-regular);}
+.app-header .greeting-name{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);}
+.app-header .header-actions{display:flex;align-items:center;gap:var(--pxl-space-md);flex-shrink:0;}
+.app-header .header-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.app-header .header-icon img{width:24px;height:24px;display:block;}
+.app-header .header-avatar{position:relative;width:24px;height:24px;border-radius:var(--pxl-radii-full);overflow:visible;flex-shrink:0;}
+.app-header .header-avatar img{width:24px;height:24px;border-radius:var(--pxl-radii-full);object-fit:cover;display:block;}
+.app-header .header-avatar .online-dot{position:absolute;right:0;bottom:0;width:8px;height:8px;background:#83CA16;border:1px solid #fff;border-radius:var(--pxl-radii-full);}
+
+/* App header — title-only variant (Figma 1696:25846) for non-home screens */
+.app-header--title{padding:0 var(--pxl-space-md);height:56px;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:var(--pxl-space-sm);background:var(--pxl-color-surface);flex-shrink:0;}
+.app-header--title .page-title{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-2xl);line-height:var(--pxl-line-height-2xl);font-weight:var(--pxl-weight-semibold);letter-spacing:var(--pxl-letter-spacing-dense);color:var(--pxl-color-default);flex:1;min-width:0;}
+.app-header--title .header-action{width:36px;height:36px;border-radius:var(--pxl-radii-full);display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--pxl-color-default);position:relative;}
+.app-header--title .header-action:active{background:rgba(0,0,0,0.06);}
+.app-header--title .header-action i{font-size:22px;}
+.app-header--title .header-action .action-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--pxl-color-link);border:1.5px solid var(--pxl-color-surface);border-radius:var(--pxl-radii-full);display:none;}
+.app-header--title .header-action.has-filter .action-dot{display:block;}
+
+/* Search + filter row (My Requests) */
+.search-row{display:flex;align-items:center;gap:var(--pxl-space-xs);flex-shrink:0;}
+.search-field{flex:1;min-width:0;display:flex;align-items:center;gap:var(--pxl-space-2xs);height:40px;padding:0 var(--pxl-space-sm);background:#fff;border:1px solid #dcdfe4;border-radius:var(--pxl-radii-full);cursor:text;}
+.search-field:focus-within{border-color:var(--pxl-color-link);box-shadow:0 0 0 2px rgba(75,97,220,0.16);}
+.search-icon{font-size:18px;color:#758195;flex-shrink:0;}
+.search-input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);color:var(--pxl-color-default);padding:0;}
+.search-input::placeholder{color:#758195;}
+.search-input::-webkit-search-cancel-button{display:none;}
+.search-clear{width:24px;height:24px;border:none;background:rgba(117,129,149,0.18);border-radius:var(--pxl-radii-full);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;flex-shrink:0;padding:0;}
+.search-clear i{font-size:14px;}
+.search-filter-btn{position:relative;width:40px;height:40px;border-radius:var(--pxl-radii-full);background:transparent;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;}
+.search-filter-btn:active{background:rgba(0,0,0,0.06);}
+.search-filter-btn .action-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--pxl-color-link);border:1.5px solid var(--pxl-color-surface);border-radius:var(--pxl-radii-full);display:none;}
+.search-filter-btn.has-filter .action-dot{display:block;}
+.tx-empty{display:flex;flex-direction:column;align-items:center;gap:var(--pxl-space-2xs);padding:var(--pxl-space-lg) var(--pxl-space-sm);color:var(--pxl-color-secondary);}
+.tx-empty i{font-size:32px;color:#9aa4b2;}
+.tx-empty p{margin:0;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);}
+
+/* Skeleton loader for infinite scroll */
+.tx-loader{display:flex;flex-direction:column;gap:var(--pxl-space-xs);padding:var(--pxl-space-sm) 0;}
+.tx-skel{display:flex;flex-direction:column;gap:var(--pxl-space-3xs);padding:var(--pxl-space-sm) 0;border-bottom:1px solid #dcdfe4;}
+.tx-skel:last-child{border-bottom:none;}
+.tx-skel-line{height:12px;border-radius:var(--pxl-radii-sm);background:linear-gradient(90deg,#E8EBF4 0%,#F2F3F9 50%,#E8EBF4 100%);background-size:200% 100%;animation:tx-shimmer 1.2s linear infinite;}
+.tx-skel-line.w70{width:70%;height:14px;}
+.tx-skel-line.w65{width:65%;height:14px;}
+.tx-skel-line.w55{width:55%;height:14px;}
+.tx-skel-line.w45{width:45%;}
+.tx-skel-line.w40{width:40%;}
+.tx-skel-line.w35{width:35%;}
+@keyframes tx-shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.tx-end{margin:var(--pxl-space-sm) 0 0;padding:var(--pxl-space-sm) 0;text-align:center;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);}
+
+/* ── Scroll ── */
+.scroll-area{flex:1;overflow-y:auto;scrollbar-width:none;}
+.scroll-area::-webkit-scrollbar{display:none;}
+/* Content area: PXL md side padding, sm gap between widgets */
+.content{padding:var(--pxl-space-md) var(--pxl-space-sm) 88px;display:flex;flex-direction:column;gap:var(--pxl-space-sm);}
+
+/* ── Cards (Figma uses 4px gap between cards via parent flex) ── */
+.card{background:white;border-radius:6px;padding:12px;}
+.content > .card{margin-bottom:0;}
+
+/* ── Section label ── */
+.section-label{font-size:11px;font-weight:600;color:#8896A8;letter-spacing:0.6px;text-transform:uppercase;margin:0 0 8px;}
+
+/* ── This-month widget (Figma 1693:19289) ── */
+.month-card{background:var(--pxl-color-stage);border-radius:var(--pxl-radii-md);padding:var(--pxl-space-sm);display:flex;flex-direction:column;gap:var(--pxl-space-xs);font-family:var(--pxl-font-family);}
+.month-card .month-header{display:flex;flex-direction:column;align-items:flex-start;}
+.month-card .month-label{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);color:var(--pxl-color-secondary-pressed);font-weight:var(--pxl-weight-regular);}
+.month-card .month-amount{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);color:var(--pxl-color-default);font-weight:var(--pxl-weight-semibold);}
+.month-card .month-cells{display:flex;gap:var(--pxl-space-3xs);align-items:stretch;width:100%;}
+.month-card .month-cell{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:var(--pxl-space-3xs);padding:var(--pxl-space-xs);border-radius:var(--pxl-radii-md);overflow:hidden;}
+.month-card .month-cell .cell-label{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);color:var(--pxl-color-default);font-weight:var(--pxl-weight-regular);}
+.month-card .month-cell .cell-value{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);white-space:nowrap;}
+.month-card .cell-pending{background:#f0f4ff;} .month-card .cell-pending .cell-value{color:#5f519f;}
+.month-card .cell-awaiting{background:#fff8ee;} .month-card .cell-awaiting .cell-value{color:#a14a0b;}
+.month-card .cell-disbursed{background:#f0fff5;} .month-card .cell-disbursed .cell-value{color:#186f4a;}
+.month-card .month-credits{display:flex;align-items:center;gap:var(--pxl-space-sm);padding-top:var(--pxl-space-sm);margin-top:var(--pxl-space-2xs);border-top:1px solid #dcdfe4;}
+.month-card .month-credits .credits-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pxl-color-link);}
+.month-card .month-credits .credits-icon i{font-size:20px;}
+.month-card .month-credits .credits-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--pxl-space-3xs);}
+.month-card .month-credits .credits-row{display:flex;justify-content:space-between;align-items:center;gap:var(--pxl-space-xs);}
+.month-card .month-credits .credits-label{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.month-card .month-credits .credits-count{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-link);}
+.month-card .month-credits .credits-track{background:#e5e9fb;border-radius:var(--pxl-radii-full);height:4px;width:100%;overflow:hidden;}
+.month-card .month-credits .credits-fill{background:var(--pxl-color-link);height:4px;border-radius:var(--pxl-radii-full);}
+
+/* ── Needs your attention widget (Figma 1694:21181) ── */
+.attn-card{background:var(--pxl-color-stage);border-radius:var(--pxl-radii-md);padding:var(--pxl-space-sm);display:flex;flex-direction:column;gap:var(--pxl-space-xs);font-family:var(--pxl-font-family);}
+.attn-header{display:flex;flex-direction:column;}
+.attn-title{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.attn-subtitle{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-secondary-pressed);}
+.attn-list{display:flex;gap:var(--pxl-space-3xs);width:100%;}
+.attn-tile{flex:1;min-width:0;background:#f0f4ff;border-radius:var(--pxl-radii-md);padding:var(--pxl-space-xs);display:flex;gap:var(--pxl-space-sm);align-items:flex-start;cursor:pointer;}
+.attn-tile img{width:24px;height:24px;flex-shrink:0;}
+.attn-tile-col{display:flex;flex-direction:column;min-width:0;}
+.attn-tile-label{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-default);}
+.attn-tile-count{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:#5f519f;}
+
+/* ── Recent transactions widget (Figma 1694:21662) ── */
+.tx-card{background:var(--pxl-color-stage);border-radius:var(--pxl-radii-md);padding:var(--pxl-space-sm);display:flex;flex-direction:column;gap:var(--pxl-space-xs);font-family:var(--pxl-font-family);}
+.tx-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.tx-header-title{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.tx-header-link{display:flex;align-items:center;gap:var(--pxl-space-xs);cursor:pointer;}
+.tx-header-link span{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-link);}
+.tx-filter-bar{display:flex;flex-direction:column;gap:var(--pxl-space-3xs);width:100%;}
+.tx-month{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.tx-chip-row{display:flex;gap:var(--pxl-space-xs);align-items:flex-start;flex-wrap:wrap;}
+.tx-chip{display:inline-flex;align-items:center;gap:var(--pxl-space-3xs);padding:var(--pxl-space-4xs) var(--pxl-space-xs);border-radius:var(--pxl-radii-full);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-regular);cursor:pointer;white-space:nowrap;background:#f0f1f3;color:var(--pxl-color-default);border:none;}
+.tx-chip.active{background:var(--pxl-color-secondary-pressed);color:var(--pxl-color-inverse);}
+.tx-list-group{display:flex;flex-direction:column;width:100%;}
+.tx-row{display:flex;gap:var(--pxl-space-sm);align-items:flex-start;min-height:48px;padding:var(--pxl-space-sm) 0;border-bottom:1px solid #dcdfe4;width:100%;cursor:pointer;}
+.tx-row:active{background:rgba(0,0,0,0.03);}
+.tx-row:last-child{border-bottom:none;}
+.tx-row-col{flex:1;min-width:0;display:flex;flex-direction:column;font-weight:var(--pxl-weight-regular);justify-content:center;}
+.tx-row-name{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);color:var(--pxl-color-default);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tx-row-meta{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tx-row-status{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tx-status-warn{color:#a14a0b;}
+.tx-status-danger{color:#a8352d;}
+.tx-status-success{color:#186f4a;}
+.tx-status-neutral{color:var(--pxl-color-secondary);}
+.tx-row-amount{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-default);text-align:right;flex-shrink:0;}
+.tx-row-amount-col{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;font-family:var(--pxl-font-family);}
+.tx-row-amount-col .tx-row-amount{font-weight:var(--pxl-weight-regular);}
+.tx-row-amount-col .tx-row-sub{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);color:var(--pxl-color-secondary);font-weight:var(--pxl-weight-regular);}
+/* Date group label inside tx-card (Caption/Semibold uppercase) */
+.tx-section-label{
+  font-family:var(--pxl-font-family);
+  font-size:var(--pxl-font-size-sm);
+  line-height:var(--pxl-line-height-sm);
+  font-weight:var(--pxl-weight-semibold);
+  color:var(--pxl-color-secondary);
+  letter-spacing:0.4px;
+  text-transform:uppercase;
+  /* Sticky to top of scroll-area, full-bleed across tx-card */
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:var(--pxl-color-stage);
+  margin:0 calc(-1 * var(--pxl-space-sm));
+  padding:var(--pxl-space-xs) var(--pxl-space-sm) var(--pxl-space-3xs);
+}
+
+/* ── Auto-fill credits card (My Requests) ── */
+.credits-card{background:var(--pxl-color-stage);border-radius:var(--pxl-radii-md);padding:var(--pxl-space-sm);display:flex;align-items:center;gap:var(--pxl-space-sm);font-family:var(--pxl-font-family);}
+.credits-card .credits-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pxl-color-link);}
+.credits-card .credits-icon i{font-size:20px;}
+.credits-card .credits-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--pxl-space-3xs);}
+.credits-card .credits-row{display:flex;justify-content:space-between;align-items:center;gap:var(--pxl-space-xs);}
+.credits-card .credits-label{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.credits-card .credits-count{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-link);}
+.credits-card .credits-track{background:#e5e9fb;border-radius:var(--pxl-radii-full);height:4px;width:100%;overflow:hidden;}
+.credits-card .credits-fill{background:var(--pxl-color-link);height:4px;border-radius:var(--pxl-radii-full);}
+
+/* ── Budget categories widget (Figma 1694:21302) ── */
+.budget-widget{display:flex;flex-direction:column;gap:var(--pxl-space-xs);padding:var(--pxl-space-sm) 0;font-family:var(--pxl-font-family);}
+.budget-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.budget-header-title{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.budget-header-link{display:flex;align-items:center;gap:var(--pxl-space-xs);cursor:pointer;}
+.budget-header-link span{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-link);}
+
+/* Figma chevron icon: 24x24 box with the SVG at full size */
+.chevron-box{position:relative;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.chevron-box img,.chevron-box svg{width:24px;height:24px;display:block;}
+.budget-list-group{display:flex;flex-wrap:wrap;gap:var(--pxl-space-xs);align-items:stretch;}
+.budget-card{background:#1c3a6f;border-radius:var(--pxl-radii-xl);padding:var(--pxl-space-sm);color:var(--pxl-color-inverse);flex:1 1 calc(50% - 4px);min-width:0;display:flex;flex-direction:column;gap:var(--pxl-space-2xs);}
+.budget-card-title{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-inverse);}
+.budget-card-row{display:flex;flex-direction:column;}
+.budget-card-label{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-inverse);}
+.budget-card-amount{font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-inverse);}
+.budget-card-amount.muted{opacity:.55;font-style:italic;}
+.budget-progress-row{display:flex;flex-direction:column;gap:var(--pxl-space-3xs);width:100%;}
+.budget-progress-track{background:#4b618c;border-radius:var(--pxl-radii-full);height:4px;width:100%;overflow:hidden;}
+.budget-progress-fill{height:4px;border-radius:var(--pxl-radii-full);}
+.budget-card-limit{font-size:var(--pxl-font-size-xs);line-height:var(--pxl-line-height-xs);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-inverse);}
+
+/* ── Action tiles ── */
+.action-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.action-tile{background:#F0F4FF;border-radius:12px;padding:10px 8px;cursor:pointer;text-align:center;transition:opacity .15s;}
+.action-tile:active{opacity:.75;}
+
+/* ── Chip row ── */
+.chip-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:nowrap;overflow-x:auto;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;white-space:nowrap;cursor:pointer;transition:all .15s;}
+
+/* ── Request cards ── */
+.req-card{background:white;border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer;}
+.req-card:active{opacity:.85;}
+.status-badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px;margin-top:4px;}
+
+/* ── Bottom nav (Figma 1679:15637, white surface) ── */
+.bottom-nav-wrap{position:relative;flex-shrink:0;background:#fff;border-top:0.5px solid #E8EBF4;}
+.bottom-nav{background:#fff;display:flex;align-items:flex-start;width:100%;}
+.nav-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:var(--pxl-space-xs) var(--pxl-space-3xs);cursor:pointer;}
+.nav-item img{width:24px;height:24px;display:block;}
+.nav-item .nav-label{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);text-align:center;font-weight:var(--pxl-weight-regular);color:var(--pxl-color-secondary);white-space:nowrap;}
+.nav-item.active .nav-label{color:var(--pxl-color-link);font-weight:var(--pxl-weight-semibold);}
+/* Home indicator */
+.home-indicator{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:21px 0 8px;width:100%;background:#fff;flex-shrink:0;}
+.home-indicator .bar{width:134px;height:5px;background:#000;border-radius:999px;}
+.home-indicator.dark{background:transparent;}
+.home-indicator.dark .bar{background:#fff;}
+
+/* ── Floating Action Button (Figma 1693:19275) ── */
+/* Sits inside .content-area, absolute bottom-right (above bottom nav, not overlapping) */
+.fab-pill{
+  position:absolute;
+  right:var(--pxl-space-md);
+  bottom:var(--pxl-space-md);
+  height:44px;min-height:44px;
+  background:#1d2125;
+  border-radius:var(--pxl-radii-full);
+  padding:0 var(--pxl-space-lg) 0 var(--pxl-space-md);
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--pxl-space-xs);
+  box-shadow:0 10px 15px -3px rgba(0,0,0,0.10),0 4px 6px -2px rgba(0,0,0,0.05);
+  cursor:pointer;
+  z-index:5;
+  border:none;
+  font-family:var(--pxl-font-family);
+}
+.fab-pill img{width:24px;height:24px;display:block;}
+.fab-pill span{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-inverse);white-space:nowrap;}
+
+/* ── Badge ── */
+.badge{background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:8px;padding:1px 5px;min-width:16px;text-align:center;line-height:14px;}
+
+/* ── Icon box & avatar ── */
+.icon-box{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;}
+
+/* ── Screens ── */
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;position:relative;}
+.screen.active{display:flex;}
+
+/* Content area between header and bottom nav (Figma 1693:16231) */
+.content-area{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── Full-screen overlay ── */
+.overlay{
+  position:absolute;inset:0;
+  background:#F2F3F9;
+  z-index:50;
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+}
+.overlay.active{display:flex;}
+
+/* ── Scan receipt overlay (Reimbursement) ── */
+.scan-overlay{background:#0F1115;color:#fff;position:absolute;inset:0;}
+.scan-overlay .scan-stage{flex:1;position:relative;overflow:hidden;}
+.scan-overlay .scan-viewfinder{position:absolute;inset:0;background:radial-gradient(ellipse at center, #1E2230 0%, #0F1115 100%);display:flex;align-items:center;justify-content:center;}
+.scan-overlay .scan-frame{position:relative;width:78%;aspect-ratio:3 / 4;max-height:62%;}
+.scan-overlay .scan-corner{position:absolute;width:28px;height:28px;border-color:#fff;border-style:solid;border-width:0;}
+.scan-overlay .scan-corner.tl{top:0;left:0;border-top-width:3px;border-left-width:3px;border-top-left-radius:8px;}
+.scan-overlay .scan-corner.tr{top:0;right:0;border-top-width:3px;border-right-width:3px;border-top-right-radius:8px;}
+.scan-overlay .scan-corner.bl{bottom:0;left:0;border-bottom-width:3px;border-left-width:3px;border-bottom-left-radius:8px;}
+.scan-overlay .scan-corner.br{bottom:0;right:0;border-bottom-width:3px;border-right-width:3px;border-bottom-right-radius:8px;}
+.scan-overlay .scan-hint{position:absolute;left:0;right:0;bottom:24%;text-align:center;font-family:var(--pxl-font-family);font-size:13px;color:rgba(255,255,255,0.78);}
+
+.scan-overlay .scan-topbar{position:absolute;top:0;left:0;right:0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;z-index:2;}
+.scan-overlay .scan-close{width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.16);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;}
+.scan-overlay .scan-close i{font-size:20px;}
+.scan-overlay .scan-credits{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,0.16);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;border:none;cursor:pointer;font-family:var(--pxl-font-family);font-size:12px;font-weight:600;}
+.scan-overlay .scan-credits i{font-size:14px;color:#FFE082;}
+.scan-overlay .scan-credits.empty{background:rgba(217,119,6,0.22);}
+.scan-overlay .scan-credits.empty i{color:#FBBF24;}
+
+.scan-overlay .scan-banner{position:absolute;left:16px;right:16px;top:62px;z-index:2;background:rgba(251,191,36,0.16);border:1px solid rgba(251,191,36,0.42);border-radius:12px;padding:10px 12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;}
+.scan-overlay .scan-banner.visible{display:block;}
+.scan-overlay .scan-banner-title{font-family:var(--pxl-font-family);font-size:12px;font-weight:700;color:#FDE68A;letter-spacing:0.3px;}
+.scan-overlay .scan-banner-body{font-family:var(--pxl-font-family);font-size:12px;line-height:1.5;color:rgba(255,255,255,0.86);margin-top:2px;}
+
+.scan-overlay .scan-controls{position:absolute;left:0;right:0;bottom:36px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;z-index:2;}
+.scan-overlay .scan-gallery{display:flex;flex-direction:column;align-items:center;gap:4px;border:none;background:transparent;color:#fff;cursor:pointer;padding:0;}
+.scan-overlay .scan-gallery-thumb{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.16);display:inline-flex;align-items:center;justify-content:center;color:#fff;}
+.scan-overlay .scan-gallery-thumb i{font-size:20px;}
+.scan-overlay .scan-gallery-label{font-family:var(--pxl-font-family);font-size:11px;font-weight:600;color:rgba(255,255,255,0.88);}
+.scan-overlay .scan-shutter{width:72px;height:72px;border-radius:50%;border:none;background:rgba(255,255,255,0.18);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.scan-overlay .scan-shutter:active .scan-shutter-inner{transform:scale(0.92);}
+.scan-overlay .scan-shutter-inner{width:60px;height:60px;border-radius:50%;background:#fff;transition:transform 120ms ease;}
+.scan-overlay .scan-flash{width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.16);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;align-self:center;}
+.scan-overlay .scan-flash i{font-size:20px;}
+.scan-overlay .scan-flash.on{background:#FBBF24;color:#1A1A2E;}
+
+.scan-overlay .scan-manual{position:absolute;left:50%;transform:translateX(-50%);bottom:132px;background:rgba(255,255,255,0.16);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:none;color:#fff;font-family:var(--pxl-font-family);font-size:13px;font-weight:600;cursor:pointer;z-index:2;padding:8px 16px;border-radius:999px;white-space:nowrap;}
+.scan-overlay .scan-manual:active{background:rgba(255,255,255,0.24);}
+.scan-overlay .scan-preview{position:absolute;inset:0;background:#0F1115;display:none;z-index:5;}
+.scan-overlay.previewing .scan-preview{display:block;}
+.scan-overlay.previewing .scan-topbar,.scan-overlay.previewing .scan-controls,.scan-overlay.previewing .scan-manual,.scan-overlay.previewing .scan-banner{display:none !important;}
+.scan-overlay .scan-preview-photo{position:absolute;inset:24px 24px 140px;border-radius:14px;background:#1E2230;border:1px solid rgba(255,255,255,0.12);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.scan-overlay .scan-preview-receipt{width:62%;aspect-ratio:3 / 4;background:#F5F1E6;border-radius:6px;box-shadow:0 12px 32px rgba(0,0,0,0.45);position:relative;background-image:repeating-linear-gradient(to bottom,#F5F1E6 0,#F5F1E6 18px,#E8E2D2 18px,#E8E2D2 19px);}
+.scan-overlay .scan-preview-badge{position:absolute;top:12px;left:12px;background:rgba(15,17,21,0.78);color:#fff;font-family:var(--pxl-font-family);font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;padding:4px 8px;border-radius:6px;}
+.scan-overlay .scan-preview-add{position:absolute;left:20px;bottom:50px;display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:999px;background:rgba(255,255,255,0.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:none;color:#fff;font-family:var(--pxl-font-family);font-size:14px;font-weight:600;cursor:pointer;}
+.scan-overlay .scan-preview-add i{font-size:18px;}
+.scan-overlay .scan-preview-add:active{background:rgba(255,255,255,0.26);}
+.scan-overlay .scan-preview-confirm{position:absolute;right:20px;bottom:42px;width:60px;height:60px;border-radius:50%;background:#fff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.32);}
+.scan-overlay .scan-preview-confirm img{width:28px;height:28px;display:block;}
+.scan-overlay .scan-preview-confirm:active{transform:scale(0.96);}
+.scan-overlay .scan-preview-thumbs{position:absolute;left:0;right:0;bottom:118px;display:none;justify-content:center;gap:8px;padding:0 20px;flex-wrap:wrap;}
+.scan-overlay .scan-preview-thumbs.visible{display:flex;}
+.scan-overlay .scan-pv-thumb{position:relative;width:44px;height:56px;border-radius:6px;background:#1E2230;border:1.5px solid rgba(255,255,255,0.28);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.scan-overlay .scan-pv-thumb .num{color:#fff;font-family:var(--pxl-font-family);font-size:12px;font-weight:700;opacity:0.7;}
+.scan-overlay .scan-pv-thumb.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,0.18);}
+.scan-overlay .scan-pv-thumb.active .num{opacity:1;}
+.scan-overlay .scan-pv-thumb .remove{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#0F1115;border:1.5px solid #fff;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.scan-overlay .scan-pv-thumb .remove i{font-size:10px;}
+
+/* ── Reimbursement form overlay ── */
+.reimb-form-overlay{background:#fff;}
+.reimb-form-overlay .status-bar{background:#fff;}
+.rf-header{display:flex;align-items:center;gap:var(--pxl-space-sm);padding:0 var(--pxl-space-md);height:56px;flex-shrink:0;background:#fff;}
+.rf-back{width:36px;height:36px;border:none;background:transparent;color:var(--pxl-color-default);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:var(--pxl-radii-full);margin-left:-8px;flex-shrink:0;padding:0;}
+.rf-back:active{background:rgba(0,0,0,0.06);}
+.rf-back i{font-size:22px;}
+.rf-title{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-2xl);line-height:var(--pxl-line-height-2xl);font-weight:var(--pxl-weight-semibold);letter-spacing:var(--pxl-letter-spacing-dense);color:var(--pxl-color-default);flex:1;min-width:0;}
+
+.reimb-form-overlay .rf-form{background:#fff;padding:var(--pxl-space-md) var(--pxl-space-md) var(--pxl-space-lg);display:flex;flex-direction:column;}
+.reimb-form-overlay .scroll-area{background:#fff;}
+.reimb-form-overlay .rf-field{padding:var(--pxl-space-sm) 0;border-bottom:1px solid #dcdfe4;display:flex;flex-direction:column;gap:var(--pxl-space-3xs);}
+.reimb-form-overlay .rf-field:last-child{border-bottom:none;}
+.reimb-form-overlay .rf-label{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.reimb-form-overlay .rf-req{color:#D52B1E;margin-left:2px;}
+.reimb-form-overlay .rf-input,.reimb-form-overlay .rf-textarea{border:none;outline:none;background:transparent;padding:0;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);color:var(--pxl-color-default);width:100%;}
+.reimb-form-overlay .rf-input::placeholder,.reimb-form-overlay .rf-textarea::placeholder{color:#A6ACBE;}
+.reimb-form-overlay .rf-textarea{resize:none;min-height:24px;}
+.reimb-form-overlay .rf-select,.reimb-form-overlay .rf-row{display:flex;align-items:center;justify-content:space-between;gap:var(--pxl-space-xs);cursor:pointer;}
+.reimb-form-overlay .rf-select-value,.reimb-form-overlay .rf-value{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);color:var(--pxl-color-default);}
+.reimb-form-overlay .rf-select-value{color:#A6ACBE;}
+.reimb-form-overlay .rf-select-value.has-value{color:var(--pxl-color-default);}
+.reimb-form-overlay .rf-select-caret{width:20px;height:20px;transform:rotate(90deg);}
+.reimb-form-overlay .rf-trailing{font-size:20px;color:#758195;}
+.reimb-form-overlay .rf-helper{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);}
+.reimb-form-overlay .rf-counter{align-self:flex-end;}
+
+.reimb-form-overlay .rf-attach{display:flex;flex-wrap:wrap;gap:var(--pxl-space-xs);}
+.reimb-form-overlay .rf-attach-add{width:80px;height:80px;border-radius:var(--pxl-radii-md);border:1.5px dashed #C8D0E0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--pxl-color-link);cursor:pointer;}
+.reimb-form-overlay .rf-attach-add i{font-size:24px;}
+.reimb-form-overlay .rf-attach-thumb{width:80px;height:80px;border-radius:var(--pxl-radii-md);background:#1E2230;position:relative;overflow:hidden;}
+.reimb-form-overlay .rf-attach-thumb .remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(15,17,21,0.7);color:#fff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;}
+.reimb-form-overlay .rf-attach-thumb .remove i{font-size:12px;}
+
+.rf-actions{flex-shrink:0;padding:var(--pxl-space-sm) var(--pxl-space-md);display:flex;flex-direction:column;gap:var(--pxl-space-2xs);background:#fff;}
+.rf-btn{height:48px;border-radius:var(--pxl-radii-md);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);cursor:pointer;border:none;}
+.rf-btn-primary{background:var(--pxl-color-link);color:var(--pxl-color-inverse);}
+.rf-btn-primary:active{opacity:0.9;}
+.rf-btn-primary:disabled{background:#C8D0E0;color:#fff;cursor:not-allowed;}
+.rf-btn-secondary{background:#fff;color:var(--pxl-color-link);border:1px solid #dcdfe4;}
+
+/* ── Trip flow overlays ── */
+.trip-overlay{background:#fff;}
+.trip-overlay .status-bar,.trip-overlay .rf-header,.trip-overlay .scroll-area{background:#fff;}
+.trip-overlay .rf-actions{background:#fff;}
+.trip-helper{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);color:var(--pxl-color-secondary);padding:0 var(--pxl-space-md) var(--pxl-space-sm);}
+.trip-list{display:flex;flex-direction:column;}
+.trip-card{display:flex;align-items:center;gap:var(--pxl-space-sm);padding:var(--pxl-space-sm) var(--pxl-space-md);border-bottom:1px solid #F2F3F9;cursor:pointer;background:#fff;}
+.trip-card:last-child{border-bottom:none;}
+.trip-card:active{background:#F2F3F9;}
+.trip-card-icon{width:40px;height:40px;border-radius:var(--pxl-radii-md);background:#F5F0FF;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.trip-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--pxl-space-3xs);font-family:var(--pxl-font-family);}
+.trip-card-name{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.trip-card-meta{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);}
+.trip-card-status{align-self:flex-start;font-family:var(--pxl-font-family);font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;margin-top:2px;}
+.trip-card-status.warn{color:#a14a0b;background:#fff8ee;}
+.trip-card-status.danger{color:#a01010;background:#fdecec;}
+
+/* Classify */
+.classify-banner{margin:0 var(--pxl-space-md) var(--pxl-space-sm);padding:var(--pxl-space-sm);border-radius:var(--pxl-radii-md);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:1.5;display:flex;align-items:flex-start;gap:var(--pxl-space-2xs);}
+.classify-banner.ai{background:#F0F4FF;color:#3b4ec0;}
+.classify-banner.manual{background:#FFF8EE;color:#8a4810;}
+.classify-banner i{font-size:18px;flex-shrink:0;margin-top:1px;}
+.classify-list{display:flex;flex-direction:column;}
+.classify-row{display:flex;align-items:center;gap:var(--pxl-space-sm);padding:var(--pxl-space-sm) var(--pxl-space-md);border-bottom:1px solid #F2F3F9;background:#fff;}
+.classify-row:last-child{border-bottom:none;}
+.classify-thumb-btn{border:none;background:transparent;padding:0;cursor:pointer;flex-shrink:0;}
+.classify-thumb{width:48px;height:60px;border-radius:6px;background:#1E2230;background-image:repeating-linear-gradient(to bottom,#F5F1E6 0,#F5F1E6 6px,#E8E2D2 6px,#E8E2D2 7px);position:relative;border:1px solid rgba(0,0,0,0.08);}
+.classify-thumb .num{position:absolute;top:2px;left:4px;font-family:var(--pxl-font-family);font-size:9px;font-weight:700;color:#8a7a4b;}
+.classify-thumb-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--pxl-color-link);color:#fff;font-family:var(--pxl-font-family);font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #fff;}
+.classify-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--pxl-space-3xs);}
+.classify-label{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);color:var(--pxl-color-secondary);}
+.classify-picker{display:flex;align-items:center;cursor:pointer;}
+.classify-picker-value{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);display:inline-flex;align-items:center;}
+.classify-picker-value.placeholder{color:#A6ACBE;font-weight:var(--pxl-weight-regular);}
+.classify-picker .ai-tag,.classify-picker-value .ai-tag{font-size:10px;font-weight:700;color:#3b4ec0;background:#E5EBFF;padding:2px 6px;border-radius:4px;margin-left:6px;letter-spacing:0.3px;}
+.classify-edit{width:36px;height:36px;border:none;background:transparent;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--pxl-color-link);flex-shrink:0;}
+.classify-edit:active{background:#F2F3F9;}
+.classify-edit i{font-size:18px;}
+
+/* Trip subheader (caption below page header) */
+.trip-subheader{padding:0 var(--pxl-space-md) var(--pxl-space-sm);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);color:var(--pxl-color-secondary);background:#fff;flex-shrink:0;}
+
+/* Receipt preview overlay */
+.rp-classification{padding:var(--pxl-space-md) var(--pxl-space-md) var(--pxl-space-2xs);display:flex;flex-direction:column;gap:var(--pxl-space-3xs);background:#fff;}
+.rp-classification-label{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);color:var(--pxl-color-secondary);}
+.rp-classification-row{display:flex;align-items:center;justify-content:space-between;padding:var(--pxl-space-sm);border:1px solid #dcdfe4;border-radius:var(--pxl-radii-md);cursor:pointer;}
+.rp-classification-value{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);display:inline-flex;align-items:center;flex-wrap:wrap;}
+.rp-classification-value .ai-tag{font-size:10px;font-weight:700;color:#3b4ec0;background:#E5EBFF;padding:2px 6px;border-radius:4px;margin-left:8px;letter-spacing:0.3px;}
+.rp-section-label{padding:var(--pxl-space-sm) var(--pxl-space-md) var(--pxl-space-2xs);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-secondary);text-transform:uppercase;letter-spacing:0.4px;background:#fff;}
+.rp-edit{width:32px;height:32px;border:none;background:transparent;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--pxl-color-link);cursor:pointer;}
+.rp-edit:active{background:#F2F3F9;}
+.rp-edit i{font-size:18px;}
+.rp-photos{padding:var(--pxl-space-sm) var(--pxl-space-md);display:grid;grid-template-columns:repeat(2,1fr);gap:var(--pxl-space-2xs);background:#fff;}
+.rp-photo{aspect-ratio:3 / 4;border-radius:var(--pxl-radii-md);background:#1E2230;background-image:repeating-linear-gradient(to bottom,#F5F1E6 0,#F5F1E6 16px,#E8E2D2 16px,#E8E2D2 17px);position:relative;border:1px solid rgba(0,0,0,0.08);overflow:hidden;}
+.rp-photo .num{position:absolute;top:6px;left:8px;font-family:var(--pxl-font-family);font-size:11px;font-weight:700;color:#8a7a4b;}
+.rp-photo .remove{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:rgba(15,17,21,0.78);color:#fff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.rp-photo .remove i{font-size:12px;}
+.rp-actions-group{margin-top:var(--pxl-space-sm);background:#fff;border-top:1px solid #F2F3F9;border-bottom:1px solid #F2F3F9;}
+.rp-action-row{display:flex;align-items:center;gap:var(--pxl-space-sm);width:100%;padding:var(--pxl-space-sm) var(--pxl-space-md);background:#fff;border:none;border-bottom:1px solid #F2F3F9;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);cursor:pointer;text-align:left;}
+.rp-action-row:last-child{border-bottom:none;}
+.rp-action-row:active{background:#F2F3F9;}
+.rp-action-row .rp-action-icon{width:32px;height:32px;border-radius:var(--pxl-radii-md);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rp-action-row .rp-action-icon i{font-size:18px;}
+.rp-action-row .rp-action-icon.add{background:#EEF2FF;color:var(--pxl-color-link);}
+.rp-action-row .rp-action-icon.split{background:#F2F3F9;color:var(--pxl-color-default);}
+.rp-action-row .rp-action-label{flex:1;min-width:0;display:flex;flex-direction:column;}
+.rp-action-row .rp-action-caption{font-size:var(--pxl-font-size-sm);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-secondary);}
+.rp-action-row .rp-action-chevron{width:20px;height:20px;flex-shrink:0;}
+
+/* Split sheet */
+.split-list{display:flex;flex-direction:column;}
+.split-row{display:flex;align-items:center;gap:var(--pxl-space-sm);padding:var(--pxl-space-sm) var(--pxl-space-md);border-bottom:1px solid #F2F3F9;cursor:pointer;background:#fff;}
+.split-row:last-child{border-bottom:none;}
+.split-row:active{background:#F2F3F9;}
+.split-row .split-thumb{width:44px;height:56px;border-radius:6px;background-image:repeating-linear-gradient(to bottom,#F5F1E6 0,#F5F1E6 6px,#E8E2D2 6px,#E8E2D2 7px);position:relative;border:1px solid rgba(0,0,0,0.08);flex-shrink:0;}
+.split-row .split-thumb .num{position:absolute;top:2px;left:4px;font-family:var(--pxl-font-family);font-size:9px;font-weight:700;color:#8a7a4b;}
+.split-row .split-label{flex:1;min-width:0;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.split-row img{width:20px;height:20px;flex-shrink:0;}
+
+/* Trip submit success sheet */
+.success-sheet-body{padding:8px 20px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;}
+.success-sheet-icon{width:56px;height:56px;border-radius:50%;background:#E6F7EE;display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px;}
+.success-sheet-icon img{width:32px;height:32px;display:block;filter:invert(36%) sepia(83%) saturate(395%) hue-rotate(95deg) brightness(94%) contrast(90%);}
+.success-sheet-title{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-2xl);line-height:var(--pxl-line-height-2xl);font-weight:var(--pxl-weight-semibold);letter-spacing:var(--pxl-letter-spacing-dense);color:var(--pxl-color-default);}
+.success-sheet-desc{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);color:var(--pxl-color-secondary);}
+
+/* Trip form wizard */
+.reimb-form-overlay .trip-form-sub{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);font-weight:var(--pxl-weight-regular);color:var(--pxl-color-secondary);}
+.trip-progress{display:flex;gap:4px;padding:0 var(--pxl-space-md) var(--pxl-space-sm);background:#fff;}
+.trip-progress .dot{flex:1;height:4px;border-radius:2px;background:#E8EBF4;}
+.trip-progress .dot.done{background:var(--pxl-color-link);}
+.trip-progress .dot.current{background:var(--pxl-color-link);opacity:0.6;}
+.reimb-form-overlay#overlay-trip-form{background:#fff;}
+.reimb-form-overlay#overlay-trip-form .status-bar{background:#fff;}
+.reimb-form-overlay#overlay-trip-form .rf-header{background:#fff;}
+.reimb-form-overlay#overlay-trip-form .scroll-area{background:#fff;}
+.reimb-form-overlay#overlay-trip-form .rf-actions{background:#fff;}
+.reimb-form-overlay#overlay-trip-form .rf-form{background:#fff;}
+
+/* ── Sheet list (category, date) ── */
+.sheet-list{display:flex;flex-direction:column;}
+.sheet-list-item{padding:14px 20px;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);color:var(--pxl-color-default);cursor:pointer;border-bottom:1px solid #F2F3F9;}
+.sheet-list-item:last-child{border-bottom:none;}
+.sheet-list-item:active{background:#F2F3F9;}
+.sheet-list-item.active{color:var(--pxl-color-link);font-weight:var(--pxl-weight-semibold);}
+.category-search{display:flex;align-items:center;gap:var(--pxl-space-2xs);height:40px;padding:0 var(--pxl-space-sm);background:#F2F3F9;border-radius:var(--pxl-radii-md);}
+.category-search i{font-size:18px;color:#758195;}
+.category-search input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);color:var(--pxl-color-default);}
+.category-search input::placeholder{color:#758195;}
+.category-search input::-webkit-search-cancel-button{display:none;}
+.sheet-empty{padding:14px 20px;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);color:var(--pxl-color-secondary);text-align:center;}
+
+/* ── Calendar date picker ── */
+.cal-header{display:flex;align-items:center;justify-content:space-between;padding:4px 20px 12px;}
+.cal-title{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.cal-nav{width:36px;height:36px;border:none;background:transparent;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--pxl-color-default);cursor:pointer;}
+.cal-nav:active{background:#F2F3F9;}
+.cal-nav i{font-size:20px;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 12px;gap:0;}
+.cal-weekdays span{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-secondary);text-align:center;padding:6px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 12px 12px;gap:2px;}
+.cal-cell{aspect-ratio:1 / 1;display:flex;align-items:center;justify-content:center;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);color:var(--pxl-color-default);border-radius:50%;cursor:pointer;}
+.cal-cell:active{background:#F2F3F9;}
+.cal-cell.muted{color:#C8D0E0;}
+.cal-cell.today{color:var(--pxl-color-link);font-weight:var(--pxl-weight-semibold);}
+.cal-cell.selected{background:var(--pxl-color-link);color:#fff;font-weight:var(--pxl-weight-semibold);}
+.cal-cell.selected.today{color:#fff;}
+.cal-day-icon{display:inline-flex;align-items:flex-end;justify-content:center;width:20px;height:22px;border:1.5px solid currentColor;border-radius:4px;position:relative;padding-bottom:2px;flex-shrink:0;}
+.cal-day-icon::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:currentColor;border-top-left-radius:2px;border-top-right-radius:2px;}
+.cal-day-icon .num{font-family:var(--pxl-font-family);font-size:10px;font-weight:700;line-height:1;}
+.cal-today-btn{display:block;margin:4px auto 8px;background:transparent;border:none;color:var(--pxl-color-link);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);font-weight:var(--pxl-weight-semibold);cursor:pointer;padding:6px 14px;border-radius:999px;}
+.cal-today-btn:active{background:#F2F3F9;}
+.cal-actions{display:flex;gap:var(--pxl-space-2xs);padding:6px 20px 4px;}
+.cal-actions .rf-btn{flex:1;height:44px;border-radius:var(--pxl-radii-md);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);font-weight:var(--pxl-weight-semibold);cursor:pointer;border:none;}
+.cal-actions .rf-btn-primary{background:var(--pxl-color-link);color:#fff;}
+.cal-actions .rf-btn-secondary{background:#fff;color:var(--pxl-color-link);border:1px solid #dcdfe4;}
+
+/* ── Toast ── */
+.app-toast{position:absolute;top:60px;left:50%;transform:translate(-50%,-12px);opacity:0;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:rgba(15,17,21,0.92);color:#fff;font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-semibold);box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:200;pointer-events:none;transition:opacity 200ms ease,transform 200ms ease;white-space:nowrap;max-width:88%;}
+.app-toast i{font-size:18px;color:#86EFAC;}
+.app-toast.success i{color:#86EFAC;}
+.app-toast.error i{color:#FCA5A5;}
+.app-toast.visible{opacity:1;transform:translate(-50%,0);}
+
+/* ── Bottom sheet ── */
+.sheet-backdrop{
+  position:absolute;inset:0;
+  background:rgba(15,20,40,0.5);
+  z-index:100;
+  display:none;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+.sheet-backdrop.active{display:flex;}
+.bottom-sheet{background:white;border-radius:22px 22px 0 0;padding:0 0 24px;}
+.sheet-handle{width:36px;height:4px;background:#DDE2EE;border-radius:2px;margin:12px auto 10px;}
+.sheet-item{padding:12px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;}
+.sheet-divider{height:1px;background:#dcdfe4;margin:8px 20px 12px;}
+.sheet-item:active{background:#F8FAFF;}
+
+/* ── Filter sheet ── */
+.filter-sheet{max-height:88%;display:flex;flex-direction:column;padding:0;font-family:var(--pxl-font-family);}
+.filter-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:var(--pxl-space-sm) var(--pxl-space-md) var(--pxl-space-xs);border-bottom:1px solid #ebedf2;flex-shrink:0;}
+.filter-sheet-header .title{font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-default);}
+.filter-sheet-header .close-btn{background:transparent;border:none;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--pxl-color-secondary);}
+.filter-sheet-header .close-btn i{font-size:22px;}
+.filter-sheet-body{flex:1;overflow-y:auto;padding:var(--pxl-space-md) var(--pxl-space-md) var(--pxl-space-sm);display:flex;flex-direction:column;gap:var(--pxl-space-md);scrollbar-width:none;}
+.filter-sheet-body::-webkit-scrollbar{display:none;}
+.filter-section{display:flex;flex-direction:column;gap:var(--pxl-space-xs);}
+.filter-section-label{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-secondary);letter-spacing:0.4px;text-transform:uppercase;}
+/* Reuse tx-chip but allow multi-select variant */
+.filter-chip-row{display:flex;flex-wrap:wrap;gap:var(--pxl-space-xs);}
+.filter-chip{display:inline-flex;align-items:center;gap:var(--pxl-space-3xs);padding:var(--pxl-space-3xs) var(--pxl-space-sm);border-radius:var(--pxl-radii-full);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);font-weight:var(--pxl-weight-regular);cursor:pointer;white-space:nowrap;background:#f0f1f3;color:var(--pxl-color-default);border:1px solid transparent;min-height:32px;}
+.filter-chip.active{background:#eaecfb;color:var(--pxl-color-link);border-color:var(--pxl-color-link);font-weight:var(--pxl-weight-semibold);}
+.filter-chip .check{display:none;width:16px;height:16px;font-size:14px;}
+.filter-chip.active .check{display:inline-flex;align-items:center;justify-content:center;}
+/* Inputs */
+.filter-input,.filter-select{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-md);line-height:var(--pxl-line-height-md);color:var(--pxl-color-default);background:#fff;border:1px solid #dcdfe4;border-radius:var(--pxl-radii-md);padding:10px 12px;width:100%;outline:none;-webkit-appearance:none;appearance:none;}
+.filter-input:focus,.filter-select:focus{border-color:var(--pxl-color-link);}
+.filter-input::placeholder{color:#9aa3b1;}
+.filter-row-2{display:grid;grid-template-columns:1fr 1fr;gap:var(--pxl-space-xs);}
+.filter-row-2 .field-label{font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);color:var(--pxl-color-secondary);margin-bottom:4px;display:block;}
+.filter-amount-inputs{display:flex;flex-direction:column;gap:var(--pxl-space-xs);}
+.filter-amount-inputs.between{display:grid;grid-template-columns:1fr 1fr;gap:var(--pxl-space-xs);}
+.filter-amount-inputs .input-wrap{position:relative;}
+.filter-amount-inputs .input-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:var(--pxl-font-size-md);color:var(--pxl-color-secondary);pointer-events:none;}
+.filter-amount-inputs .filter-input{padding-left:34px;}
+/* Footer */
+.filter-sheet-footer{display:flex;gap:var(--pxl-space-xs);padding:var(--pxl-space-sm) var(--pxl-space-md) calc(var(--pxl-space-md) + 8px);border-top:1px solid #ebedf2;background:#fff;flex-shrink:0;}
+.filter-btn{flex:1;height:48px;border-radius:var(--pxl-radii-md);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-lg);line-height:var(--pxl-line-height-lg);font-weight:var(--pxl-weight-semibold);cursor:pointer;border:none;}
+.filter-btn.secondary{background:transparent;color:var(--pxl-color-default);border:1px solid #dcdfe4;}
+.filter-btn.primary{background:var(--pxl-color-link);color:var(--pxl-color-inverse);}
+.filter-btn.primary:active{opacity:0.9;}
+
+/* Active filters row above list */
+.active-filters{display:none;flex-wrap:wrap;gap:var(--pxl-space-xs);padding:0;}
+.active-filters.visible{display:flex;}
+.active-filter-pill{display:inline-flex;align-items:center;gap:6px;padding:var(--pxl-space-3xs) var(--pxl-space-xs);border-radius:var(--pxl-radii-full);background:#eaecfb;color:var(--pxl-color-link);font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);}
+.active-filter-pill .remove{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;}
+.active-filter-pill .remove i{font-size:14px;}
+.active-filters .clear-all{font-family:var(--pxl-font-family);font-size:var(--pxl-font-size-sm);line-height:var(--pxl-line-height-sm);font-weight:var(--pxl-weight-semibold);color:var(--pxl-color-link);cursor:pointer;background:transparent;border:none;padding:var(--pxl-space-3xs) var(--pxl-space-xs);}
+
+/* ── Tab bar ── */
+.tab-bar{display:flex;border-bottom:1.5px solid #F2F3F9;padding:0 16px;gap:0;flex-shrink:0;}
+.tab-btn{padding:11px 16px 9px;font-size:13px;font-weight:600;color:#8896A8;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;white-space:nowrap;}
+.tab-btn.active{color:#0050C8;border-bottom-color:#0050C8;}
+
+/* ── Notification items ── */
+.notif-item{padding:12px 16px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-bottom:0.5px solid #F0F2F8;background:white;}
+.notif-item:last-child{border-bottom:none;}
+.notif-item.unread{border-left:3px solid #0050C8;background:#F8FAFF;}
+.unread-dot{width:8px;height:8px;background:#0050C8;border-radius:50%;flex-shrink:0;margin-top:5px;}
+
+/* ── OCR bar ── */
+.ocr-bar{margin:0 14px 10px;background:#EEF2FF;border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+
+/* ── Divider ── */
+.divider{height:0.5px;background:#F0F2F8;margin:0;}
+</style>
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+    <div class="dynamic-island"></div>
+
+    <!-- ═══════════════════════════════════════════
+         STATUS BAR (always rendered by screen)
+    ════════════════════════════════════════════ -->
+
+    <!-- ═══════════════════════════════════════════
+         SCREEN 1 · HOME
+    ════════════════════════════════════════════ -->
+    <div class="screen active" id="screen-home">
+
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+
+      <div class="app-header">
+        <div class="greeting">
+          <span class="greeting-overline">Good morning,</span>
+          <span class="greeting-name">Rizal Chandra</span>
+        </div>
+        <div class="header-actions">
+          <div class="header-icon" onclick="openInbox()">
+            <img src="assets/inbox.svg" alt="Inbox">
+          </div>
+          <div class="header-avatar">
+            <img src="assets/avatar.png" alt="Rizal">
+            <span class="online-dot"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+      <div class="scroll-area">
+        <div class="content">
+
+          <!-- ── This month widget (Figma 1693:19289) ── -->
+          <div class="month-card">
+            <div class="month-header">
+              <span class="month-label">This month</span>
+              <span class="month-amount">Rp1.511.000</span>
+            </div>
+            <div class="month-cells">
+              <div class="month-cell cell-pending">
+                <span class="cell-label">Pending</span>
+                <span class="cell-value">3 claims</span>
+              </div>
+              <div class="month-cell cell-awaiting">
+                <span class="cell-label">Awaiting payment</span>
+                <span class="cell-value">Rp150.000</span>
+              </div>
+              <div class="month-cell cell-disbursed">
+                <span class="cell-label">Disbursed</span>
+                <span class="cell-value">Rp1.300.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Needs your attention (Figma 1694:21181) ── -->
+          <div class="attn-card">
+            <div class="attn-header">
+              <span class="attn-title">Needs your attention</span>
+              <span class="attn-subtitle">Items waiting for action</span>
+            </div>
+            <div class="attn-list">
+              <div class="attn-tile" onclick="setActiveNav('requests')">
+                <img src="assets/icon-claims.svg" alt="">
+                <div class="attn-tile-col">
+                  <span class="attn-tile-label">Claims</span>
+                  <span class="attn-tile-count">2</span>
+                </div>
+              </div>
+              <div class="attn-tile" onclick="setActiveNav('requests')">
+                <img src="assets/icon-trips.svg" alt="">
+                <div class="attn-tile-col">
+                  <span class="attn-tile-label">Trips</span>
+                  <span class="attn-tile-count">1</span>
+                </div>
+              </div>
+              <div class="attn-tile">
+                <img src="assets/icon-purchases.svg" alt="">
+                <div class="attn-tile-col">
+                  <span class="attn-tile-label">Purchases</span>
+                  <span class="attn-tile-count">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Budget categories (Figma 1694:21302) ── -->
+          <div class="budget-widget">
+            <div class="budget-header">
+              <span class="budget-header-title">Budget categories</span>
+              <div class="budget-header-link">
+                <span>View all limits</span>
+                <div class="chevron-box"><img src="assets/chevron-right.svg" alt=""></div>
+              </div>
+            </div>
+            <div class="budget-list-group">
+              <!-- Transport — 25% used (green) -->
+              <div class="budget-card">
+                <span class="budget-card-title">Transport claim</span>
+                <div class="budget-card-row">
+                  <span class="budget-card-label">Available to spend</span>
+                  <span class="budget-card-amount">Rp11.250.000</span>
+                </div>
+                <div class="budget-progress-row">
+                  <div class="budget-progress-track">
+                    <div class="budget-progress-fill" style="background:#4bde80;width:25%;"></div>
+                  </div>
+                  <span class="budget-card-limit">Limit Rp15.000.000/month</span>
+                </div>
+              </div>
+              <!-- Meals — 63% used (orange) -->
+              <div class="budget-card">
+                <span class="budget-card-title">Meals &amp; Entertainment</span>
+                <div class="budget-card-row">
+                  <span class="budget-card-label">Available to spend</span>
+                  <span class="budget-card-amount">Rp5.000.000</span>
+                </div>
+                <div class="budget-progress-row">
+                  <div class="budget-progress-track">
+                    <div class="budget-progress-fill" style="background:#fc923b;width:63%;"></div>
+                  </div>
+                  <span class="budget-card-limit">Limit Rp8.000.000/month</span>
+                </div>
+              </div>
+              <!-- Accommodation — 88% used (red) -->
+              <div class="budget-card">
+                <span class="budget-card-title">Accomodation</span>
+                <div class="budget-card-row">
+                  <span class="budget-card-label">Available to spend</span>
+                  <span class="budget-card-amount">Rp600.000</span>
+                </div>
+                <div class="budget-progress-row">
+                  <div class="budget-progress-track">
+                    <div class="budget-progress-fill" style="background:#ef4444;width:88%;"></div>
+                  </div>
+                  <span class="budget-card-limit">Limit Rp5.000.000/month</span>
+                </div>
+              </div>
+              <!-- Subscription — no limit set -->
+              <div class="budget-card">
+                <span class="budget-card-title">Subscription</span>
+                <div class="budget-card-row">
+                  <span class="budget-card-label">Available to spend</span>
+                  <span class="budget-card-amount muted">No limit set</span>
+                </div>
+                <div class="budget-progress-row">
+                  <div class="budget-progress-track">
+                    <div class="budget-progress-fill" style="background:#94a3b8;width:0%;"></div>
+                  </div>
+                  <span class="budget-card-limit">&nbsp;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Recent transactions (Figma 1694:21662) ── -->
+          <div class="tx-card">
+            <div class="tx-header">
+              <span class="tx-header-title">Recent transactions</span>
+              <div class="tx-header-link" onclick="setActiveNav('requests')">
+                <span>View all</span>
+                <div class="chevron-box"><img src="assets/chevron-right.svg" alt=""></div>
+              </div>
+            </div>
+
+            <div class="tx-filter-bar">
+              <span class="tx-month">May 2026</span>
+              <div class="tx-chip-row">
+                <button class="tx-chip active" type="button">All</button>
+                <button class="tx-chip" type="button">Disbursed</button>
+                <button class="tx-chip" type="button">Awaiting approval</button>
+              </div>
+            </div>
+
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Bluegrass Bar &amp; Grill</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting approval</span></span>
+                </div>
+                <span class="tx-row-amount">Rp550.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Grab</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting disbursement</span></span>
+                </div>
+                <span class="tx-row-amount">Rp48.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Notion</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-danger">Rejected</span></span>
+                </div>
+                <span class="tx-row-amount">Rp149.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Omah Sendok Restoran</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Cash Advance - <span class="tx-status-neutral">Completed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp754.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Grab</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp14.000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+        <button class="fab-pill" onclick="openFab()">
+          <img src="assets/fab-plus.svg" alt="">
+          <span>Request</span>
+        </button>
+      </div><!-- /content-area -->
+
+      <!-- Bottom nav — Home active (Figma 1679:15637) -->
+      <div class="bottom-nav-wrap">
+        <div class="bottom-nav">
+          <div class="nav-item active" onclick="setActiveNav('home')">
+            <img src="assets/nav-home-active.svg" alt="">
+            <span class="nav-label">Home</span>
+          </div>
+          <div class="nav-item" onclick="setActiveNav('requests')">
+            <img src="assets/nav-requests.svg" alt="">
+            <span class="nav-label">My requests</span>
+          </div>
+          <div class="nav-item">
+            <img src="assets/nav-purchases.svg" alt="">
+            <span class="nav-label">Purchases</span>
+          </div>
+          <div class="nav-item">
+            <img src="assets/nav-cards.svg" alt="">
+            <span class="nav-label">My cards</span>
+          </div>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+    </div><!-- /screen-home -->
+
+
+    <!-- ═══════════════════════════════════════════
+         SCREEN 2 · MY REQUESTS
+    ════════════════════════════════════════════ -->
+    <div class="screen" id="screen-requests">
+
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+
+      <div class="app-header app-header--title">
+        <span class="page-title">My requests</span>
+      </div>
+
+      <div class="content-area">
+      <div class="scroll-area" id="requests-scroll">
+        <div class="content">
+
+          <!-- ── Search + filter (scrolls with content) ── -->
+          <div class="search-row">
+            <label class="search-field" for="search-input">
+              <i class="ti ti-search search-icon"></i>
+              <input id="search-input" type="search" class="search-input" placeholder="Search vendor, type, or amount" oninput="onSearchInput(event)" autocomplete="off">
+              <button type="button" class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear" style="display:none;"><i class="ti ti-x"></i></button>
+            </label>
+            <button class="search-filter-btn" id="filter-btn" type="button" onclick="openFilterSheet()" aria-label="Filter">
+              <img src="assets/funnel.svg" alt="" style="width:24px;height:24px;display:block;">
+              <span class="action-dot"></span>
+            </button>
+          </div>
+
+          <!-- ── This month stats + AI credits ── -->
+          <div class="month-card">
+            <div class="month-header">
+              <span class="month-label">This month</span>
+              <span class="month-amount">Rp1.511.000</span>
+            </div>
+            <div class="month-cells">
+              <div class="month-cell cell-pending">
+                <span class="cell-label">Pending</span>
+                <span class="cell-value">3 claims</span>
+              </div>
+              <div class="month-cell cell-awaiting">
+                <span class="cell-label">Awaiting payment</span>
+                <span class="cell-value">Rp150.000</span>
+              </div>
+              <div class="month-cell cell-disbursed">
+                <span class="cell-label">Disbursed</span>
+                <span class="cell-value">Rp1.300.000</span>
+              </div>
+            </div>
+            <div class="month-credits">
+              <div class="credits-icon"><i class="ti ti-sparkles"></i></div>
+              <div class="credits-body">
+                <div class="credits-row">
+                  <span class="credits-label">Auto-fill credits</span>
+                  <span class="credits-count">12 remaining</span>
+                </div>
+                <div class="credits-track">
+                  <div class="credits-fill" style="width:40%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Active filters (shown when filters applied) ── -->
+          <div class="active-filters" id="active-filters"></div>
+
+          <!-- ── Requests list (Recent transactions pattern) ── -->
+          <div class="tx-card">
+            <div class="tx-chip-row" id="req-chips">
+              <button class="tx-chip active" type="button" onclick="switchReqFilter('all',this)">All</button>
+              <button class="tx-chip" type="button" onclick="switchReqFilter('claims',this)">Claims</button>
+              <button class="tx-chip" type="button" onclick="switchReqFilter('trips',this)">Trips</button>
+            </div>
+
+            <p class="tx-section-label">13 Jul</p>
+            <div class="tx-list-group">
+              <!-- Claim -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Bluegrass Bar &amp; Grill</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting approval</span></span>
+                </div>
+                <span class="tx-row-amount">Rp550.000</span>
+              </div>
+              <!-- Trip -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Business trip · Surabaya</span>
+                  <span class="tx-row-meta">12 Jun – 16 Jun 2023</span>
+                  <span class="tx-row-status">Trip - <span class="tx-status-warn">Awaiting report</span></span>
+                </div>
+                <div class="tx-row-amount-col">
+                  <span class="tx-row-amount">Rp1.200.000</span>
+                  <span class="tx-row-sub">4 expenses</span>
+                </div>
+              </div>
+              <!-- Claim awaiting disbursement -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Grab</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting payment</span></span>
+                </div>
+                <span class="tx-row-amount">Rp48.000</span>
+              </div>
+              <!-- Claim rejected -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Notion</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-danger">Rejected</span></span>
+                </div>
+                <span class="tx-row-amount">Rp149.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">12 Jul</p>
+            <div class="tx-list-group">
+              <!-- Trip completed -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Business trip · Bandung</span>
+                  <span class="tx-row-meta">20–25 May 2023</span>
+                  <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                </div>
+                <div class="tx-row-amount-col">
+                  <span class="tx-row-amount">Rp3.500.000</span>
+                  <span class="tx-row-sub">7 expenses</span>
+                </div>
+              </div>
+              <!-- Claim disbursed -->
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Grab</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp14.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">10 Jul</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Starbucks Senayan</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp135.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Gojek</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp32.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">GoFood — Sate Khas Senayan</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting payment</span></span>
+                </div>
+                <span class="tx-row-amount">Rp178.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">8 Jul</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Figma Professional</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp225.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Zoom Pro</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp215.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Bluebird</span>
+                  <span class="tx-row-meta">Transport Claim</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-danger">Rejected</span></span>
+                </div>
+                <span class="tx-row-amount">Rp62.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">5 Jul</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Business trip · Yogyakarta</span>
+                  <span class="tx-row-meta">28 Jun – 2 Jul 2023</span>
+                  <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                </div>
+                <div class="tx-row-amount-col">
+                  <span class="tx-row-amount">Rp2.850.000</span>
+                  <span class="tx-row-sub">6 expenses</span>
+                </div>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Toko Buku Gramedia</span>
+                  <span class="tx-row-meta">Office Supplies</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp95.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Pos Indonesia</span>
+                  <span class="tx-row-meta">Postage &amp; Courier</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp48.500</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">2 Jul</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Hotel Tentrem Yogyakarta</span>
+                  <span class="tx-row-meta">Accommodation</span>
+                  <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp1.450.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Garuda Indonesia</span>
+                  <span class="tx-row-meta">Transport · Flight</span>
+                  <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp1.180.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Sate Klathak Pak Pong</span>
+                  <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                  <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp95.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">28 Jun</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Apple iCloud+ 200GB</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp45.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Telkomsel Postpaid</span>
+                  <span class="tx-row-meta">Telecom</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp325.000</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Indomaret</span>
+                  <span class="tx-row-meta">Office Supplies</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp78.500</span>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Tokopedia — Logitech Mouse</span>
+                  <span class="tx-row-meta">Office Equipment</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp499.000</span>
+              </div>
+            </div>
+
+            <p class="tx-section-label">22 Jun</p>
+            <div class="tx-list-group">
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Business trip · Medan</span>
+                  <span class="tx-row-meta">15–20 Jun 2023</span>
+                  <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                </div>
+                <div class="tx-row-amount-col">
+                  <span class="tx-row-amount">Rp4.120.000</span>
+                  <span class="tx-row-sub">9 expenses</span>
+                </div>
+              </div>
+              <div class="tx-row">
+                <div class="tx-row-col">
+                  <span class="tx-row-name">Notion Team</span>
+                  <span class="tx-row-meta">Subscription</span>
+                  <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                </div>
+                <span class="tx-row-amount">Rp145.000</span>
+              </div>
+            </div>
+
+            <!-- ── Infinite scroll anchor ── -->
+            <div class="tx-loader" id="tx-loader" aria-hidden="true">
+              <div class="tx-skel"><div class="tx-skel-line w70"></div><div class="tx-skel-line w40"></div></div>
+              <div class="tx-skel"><div class="tx-skel-line w55"></div><div class="tx-skel-line w35"></div></div>
+              <div class="tx-skel"><div class="tx-skel-line w65"></div><div class="tx-skel-line w45"></div></div>
+            </div>
+            <p class="tx-end" id="tx-end" style="display:none;">You've reached the end</p>
+          </div>
+
+        </div>
+      </div>
+
+        <button class="fab-pill" onclick="openFab()">
+          <img src="assets/fab-plus.svg" alt="">
+          <span>Request</span>
+        </button>
+      </div><!-- /content-area -->
+
+      <!-- Bottom nav — My Requests active (Figma 1679:15637) -->
+      <div class="bottom-nav-wrap">
+        <div class="bottom-nav">
+          <div class="nav-item" onclick="setActiveNav('home')">
+            <img src="assets/nav-home.svg" alt="">
+            <span class="nav-label">Home</span>
+          </div>
+          <div class="nav-item active" onclick="setActiveNav('requests')">
+            <img src="assets/nav-requests-active.svg" alt="">
+            <span class="nav-label">My requests</span>
+          </div>
+          <div class="nav-item">
+            <img src="assets/nav-purchases.svg" alt="">
+            <span class="nav-label">Purchases</span>
+          </div>
+          <div class="nav-item">
+            <img src="assets/nav-cards.svg" alt="">
+            <span class="nav-label">My cards</span>
+          </div>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+    </div><!-- /screen-requests -->
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · INBOX
+    ════════════════════════════════════════════ -->
+    <div class="overlay" id="overlay-inbox" style="background:white;">
+      <!-- Header -->
+      <div style="background:white;padding:14px 16px 0;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <i class="ti ti-arrow-left" onclick="closeInbox()" style="font-size:20px;color:#1A1A2E;cursor:pointer;"></i>
+          <span style="font-size:18px;font-weight:700;color:#1A1A2E;flex:1;">Inbox</span>
+          <span style="font-size:12px;color:#0050C8;font-weight:500;cursor:pointer;">Mark all as read</span>
+        </div>
+        <!-- Tabs -->
+        <div class="tab-bar" style="padding:0;background:white;">
+          <span class="tab-btn active" id="tab-notif" onclick="switchInboxTab('notif')">
+            Notifications
+            <span style="background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:8px;padding:1px 5px;margin-left:3px;vertical-align:middle;">3</span>
+          </span>
+          <span class="tab-btn" id="tab-approval" onclick="switchInboxTab('approval')">
+            Need my approval
+            <span style="background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:8px;padding:1px 5px;margin-left:3px;vertical-align:middle;">2</span>
+          </span>
+        </div>
+      </div>
+      <div style="height:1px;background:#F2F3F9;flex-shrink:0;"></div>
+
+      <!-- Notifications panel -->
+      <div class="scroll-area" id="panel-notif" style="flex:1;background:#F8FAFC;">
+        <div class="notif-item unread">
+          <div class="icon-box" style="background:#F0FFF5;">
+            <i class="ti ti-circle-check" style="font-size:16px;color:#16A34A;"></i>
+          </div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Claim approved</p>
+            <p style="font-size:12px;color:#8896A8;">Grab · Transport claim · Rp 48.000</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">2 minutes ago</p>
+          </div>
+          <div class="unread-dot"></div>
+        </div>
+
+        <div class="notif-item unread">
+          <div class="icon-box" style="background:#F0FFF5;">
+            <i class="ti ti-cash" style="font-size:16px;color:#16A34A;"></i>
+          </div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Payment processed</p>
+            <p style="font-size:12px;color:#8896A8;">Omah Sendok Restoran · Rp 754.000</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">1 hour ago</p>
+          </div>
+          <div class="unread-dot"></div>
+        </div>
+
+        <div class="notif-item unread">
+          <div class="icon-box" style="background:#FEF2F2;">
+            <i class="ti ti-circle-x" style="font-size:16px;color:#DC2626;"></i>
+          </div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Claim rejected</p>
+            <p style="font-size:12px;color:#8896A8;">Notion · Subscription · Rp 149.000</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">3 hours ago</p>
+          </div>
+          <div class="unread-dot"></div>
+        </div>
+
+        <div class="notif-item">
+          <div class="icon-box" style="background:#F0FFF5;">
+            <i class="ti ti-plane" style="font-size:16px;color:#16A34A;"></i>
+          </div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Trip approved</p>
+            <p style="font-size:12px;color:#8896A8;">Business trip · Bandung · 20–25 May 2023</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">Yesterday</p>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="icon-box" style="background:#EEF2FF;">
+            <i class="ti ti-message" style="font-size:16px;color:#0050C8;"></i>
+          </div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">New comment on your claim</p>
+            <p style="font-size:12px;color:#8896A8;">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">2 days ago</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Need my approval panel -->
+      <div class="scroll-area" id="panel-approval" style="flex:1;background:#F8FAFC;display:none;">
+        <div style="background:#FFFBEB;border-bottom:1px solid #FDE68A;padding:10px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;">
+          <i class="ti ti-clock" style="font-size:14px;color:#92400E;flex-shrink:0;"></i>
+          <span style="font-size:12px;color:#92400E;font-weight:500;">2 items need your review</span>
+        </div>
+
+        <div class="notif-item" style="background:white;padding:14px 16px;">
+          <div class="avatar" style="background:#FEF3C7;color:#92400E;">RC</div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Rizal Candra</p>
+            <p style="font-size:12px;color:#8896A8;">Transport claim · Grab · Rp 150.000</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">Submitted 1 hour ago</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;margin-left:8px;">
+            <span style="background:#0050C8;color:white;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:#F3F5F9;color:#6B7280;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;">Reject</span>
+          </div>
+        </div>
+
+        <div class="notif-item" style="background:white;padding:14px 16px;">
+          <div class="avatar" style="background:#EEF2FF;color:#1E40AF;">OG</div>
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px;">Octavia Gunawan</p>
+            <p style="font-size:12px;color:#8896A8;">Business trip · Surabaya · 12–16 Jun 2023</p>
+            <p style="font-size:11px;color:#B0BAC9;margin-top:3px;">Submitted 3 hours ago</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;margin-left:8px;">
+            <span style="background:#0050C8;color:white;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:#F3F5F9;color:#6B7280;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;">Reject</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /overlay-inbox -->
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · TRIP DETAIL
+    ════════════════════════════════════════════ -->
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · REQUEST DETAIL (blank placeholder)
+    ════════════════════════════════════════════ -->
+    <div class="overlay" id="overlay-request-detail" style="background:#F2F3F9;">
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="app-header app-header--title" style="gap:var(--pxl-space-2xs);">
+        <button type="button" onclick="closeRequestDetail()" aria-label="Back"
+                style="width:36px;height:36px;border:none;background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-8px;">
+          <i class="ti ti-chevron-left" style="font-size:24px;color:var(--pxl-color-default);"></i>
+        </button>
+        <span class="page-title" id="request-detail-title">Request</span>
+      </div>
+      <div class="content-area">
+        <div class="scroll-area"><div class="content"></div></div>
+      </div>
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div>
+
+    <div class="overlay" id="overlay-trip" style="background:#F2F3F9;">
+      <div style="background:#F2F3F9;padding:14px 16px 10px;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+          <i class="ti ti-arrow-left" onclick="closeTripDetail()" style="font-size:20px;color:#1A1A2E;cursor:pointer;"></i>
+          <span style="font-size:17px;font-weight:700;color:#1A1A2E;flex:1;">Business trip · Surabaya</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding-left:30px;">
+          <span style="font-size:12px;color:#8896A8;">12 Jun – 16 Jun 2023</span>
+          <span style="font-size:12px;font-weight:600;color:#D97706;background:#FFF8EE;padding:2px 8px;border-radius:5px;">Awaiting report</span>
+        </div>
+      </div>
+
+      <div class="scroll-area" style="flex:1;">
+        <div style="padding:0 14px 100px;">
+
+          <!-- Summary card -->
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+              <div>
+                <p style="font-size:11px;color:#8896A8;margin-bottom:2px;">Total expenses</p>
+                <p style="font-size:20px;font-weight:700;color:#1A1A2E;">Rp 1.203.000</p>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-size:11px;color:#8896A8;margin-bottom:2px;">Approved budget</p>
+                <p style="font-size:14px;font-weight:600;color:#16A34A;">Rp 2.500.000</p>
+              </div>
+            </div>
+            <div style="background:#F3F5F9;border-radius:8px;height:6px;">
+              <div style="background:#0050C8;border-radius:8px;height:6px;width:48%;"></div>
+            </div>
+            <p style="font-size:11px;color:#8896A8;margin-top:5px;">48% of budget used</p>
+          </div>
+
+          <!-- Expenses list -->
+          <p class="section-label">Expenses (4)</p>
+
+          <div class="card" style="padding:10px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid #F0F2F8;">
+              <div>
+                <p style="font-size:13px;font-weight:600;color:#1A1A2E;">Garuda Indonesia</p>
+                <p style="font-size:11px;color:#8896A8;margin-top:1px;">Transport · 12 Jun 2023</p>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#1A1A2E;">Rp 550.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid #F0F2F8;">
+              <div>
+                <p style="font-size:13px;font-weight:600;color:#1A1A2E;">Hotel Majapahit</p>
+                <p style="font-size:11px;color:#8896A8;margin-top:1px;">Accommodation · 12–14 Jun 2023</p>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#1A1A2E;">Rp 480.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid #F0F2F8;">
+              <div>
+                <p style="font-size:13px;font-weight:600;color:#1A1A2E;">Ayam Goreng Surabaya</p>
+                <p style="font-size:11px;color:#8896A8;margin-top:1px;">Meals · 13 Jun 2023</p>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#1A1A2E;">Rp 128.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+              <div>
+                <p style="font-size:13px;font-weight:600;color:#1A1A2E;">Grab</p>
+                <p style="font-size:11px;color:#8896A8;margin-top:1px;">Transport · 16 Jun 2023</p>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:#1A1A2E;">Rp 45.000</span>
+            </div>
+          </div>
+
+          <div style="background:#EEF2FF;border-radius:12px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+            <i class="ti ti-info-circle" style="font-size:15px;color:#0050C8;flex-shrink:0;margin-top:1px;"></i>
+            <p style="font-size:12px;color:#1E40AF;line-height:1.5;">Your report is ready to submit. Review the expenses and create your report below.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sticky CTA — "Create report" (not "Submit report") -->
+      <div style="position:absolute;bottom:0;left:0;right:0;background:white;padding:14px 16px 20px;border-top:1px solid #F2F3F9;display:flex;gap:10px;">
+        <button onclick="closeTripDetail()" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid #C8D0E0;background:white;font-size:14px;font-weight:600;color:#6B7280;cursor:pointer;">Add expense</button>
+        <button onclick="openCreateReport()" style="flex:2;padding:13px;border-radius:12px;border:none;background:#0050C8;font-size:14px;font-weight:600;color:white;cursor:pointer;">Create report</button>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /overlay-trip -->
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · CREATE REPORT
+    ════════════════════════════════════════════ -->
+    <div class="overlay" id="overlay-create-report" style="background:white;">
+      <div style="background:white;padding:14px 16px 12px;flex-shrink:0;border-bottom:0.5px solid #F2F3F9;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <i class="ti ti-arrow-left" onclick="closeCreateReport()" style="font-size:20px;color:#1A1A2E;cursor:pointer;"></i>
+          <span style="font-size:17px;font-weight:700;color:#1A1A2E;">Create report</span>
+        </div>
+      </div>
+
+      <div class="scroll-area" style="flex:1;background:#F8FAFC;">
+        <div style="padding:14px;">
+
+          <!-- Trip info -->
+          <div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:10px;">
+            <p style="font-size:11px;color:#8896A8;margin-bottom:4px;font-weight:600;">Trip</p>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class="ti ti-plane" style="font-size:16px;color:#7C3AED;"></i>
+              <p style="font-size:14px;font-weight:600;color:#1A1A2E;">Business trip · Surabaya</p>
+            </div>
+            <p style="font-size:12px;color:#8896A8;margin-top:2px;padding-left:24px;">12–16 Jun 2023 · 4 expenses</p>
+          </div>
+
+          <!-- Form fields -->
+          <div style="background:white;border-radius:14px;padding:14px;margin-bottom:10px;">
+            <p style="font-size:11px;font-weight:600;color:#8896A8;margin-bottom:12px;letter-spacing:0.4px;text-transform:uppercase;">Report details</p>
+
+            <div style="margin-bottom:14px;">
+              <p style="font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;">Report title</p>
+              <div style="border:1.5px solid #C8D0E0;border-radius:10px;padding:10px 12px;">
+                <p style="font-size:13px;color:#1A1A2E;">Surabaya business trip — Jun 2023</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px;">
+              <p style="font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;">Description <span style="color:#9CA3AF;font-weight:400;">(optional)</span></p>
+              <div style="border:1.5px solid #E8EBF4;border-radius:10px;padding:10px 12px;min-height:60px;">
+                <p style="font-size:13px;color:#9CA3AF;">Example: purpose of the trip</p>
+              </div>
+            </div>
+
+            <!-- Total summary -->
+            <div style="background:#F8FAFC;border-radius:10px;padding:10px 12px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;color:#8896A8;">Total expenses</span>
+                <span style="font-size:12px;font-weight:600;color:#1A1A2E;">Rp 1.203.000</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-size:12px;color:#8896A8;">Number of items</span>
+                <span style="font-size:12px;font-weight:600;color:#1A1A2E;">4 expenses</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CTA row -->
+      <div style="background:white;padding:12px 16px 20px;border-top:0.5px solid #F2F3F9;display:flex;gap:8px;flex-shrink:0;">
+        <button onclick="closeCreateReport()" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid #C8D0E0;background:white;font-size:13px;font-weight:600;color:#6B7280;cursor:pointer;">Save as draft</button>
+        <button onclick="closeCreateReport()" style="flex:2;padding:13px;border-radius:12px;border:none;background:#0050C8;font-size:13px;font-weight:600;color:white;cursor:pointer;">Submit report</button>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /overlay-create-report -->
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · FAB
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-fab" onclick="closeFab(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 10px;letter-spacing:0.6px;text-transform:uppercase;">New request</p>
+
+        <div class="sheet-item" onclick="openReimbChoice()">
+          <div style="width:40px;height:40px;background:#EEF2FF;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <img src="assets/reimbursement.svg" alt="" style="width:24px;height:24px;display:block;">
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:600;color:#1A1A2E;">Reimbursement</p>
+            <p style="font-size:12px;color:#8896A8;margin-top:1px;">Snap, upload, or fill manually</p>
+          </div>
+          <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+        </div>
+
+        <div class="sheet-item" onclick="openTripCapture()">
+          <div style="width:40px;height:40px;background:#F5F0FF;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <img src="assets/business-trip.svg" alt="" style="width:24px;height:24px;display:block;">
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:600;color:#1A1A2E;">Trip expense</p>
+            <p style="font-size:12px;color:#8896A8;margin-top:1px;">Submit a domestic or overseas trip report</p>
+          </div>
+          <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+        </div>
+
+        <div class="sheet-item" onclick="closeFab()">
+          <div style="width:40px;height:40px;background:#ECFDF5;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <img src="assets/cash-advance.svg" alt="" style="width:24px;height:24px;display:block;">
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:600;color:#1A1A2E;">Cash advance</p>
+            <p style="font-size:12px;color:#8896A8;margin-top:1px;">Request funds before your expense</p>
+          </div>
+          <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+        </div>
+
+        <div class="sheet-item" onclick="closeFab()">
+          <div style="width:40px;height:40px;background:#FFF7ED;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <img src="assets/loan.svg" alt="" style="width:24px;height:24px;display:block;">
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:600;color:#1A1A2E;">Purchase request</p>
+            <p style="font-size:12px;color:#8896A8;margin-top:1px;">Request approval before purchasing</p>
+          </div>
+          <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+        </div>
+
+        <div style="height:6px;"></div>
+      </div>
+    </div><!-- /sheet-fab -->
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · MY REQUESTS FILTER
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-filter" onclick="closeFilterSheet(event)">
+      <div class="bottom-sheet filter-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <div class="filter-sheet-header">
+          <span class="title">Filter requests</span>
+          <button class="close-btn" type="button" onclick="closeFilterSheet()" aria-label="Close">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+
+        <div class="filter-sheet-body">
+          <!-- Period -->
+          <div class="filter-section">
+            <span class="filter-section-label">Period</span>
+            <div class="filter-chip-row" id="filter-period">
+              <button class="filter-chip active" type="button" data-period="this-month">This month</button>
+              <button class="filter-chip" type="button" data-period="last-month">Last month</button>
+              <button class="filter-chip" type="button" data-period="last-3">Last 3 months</button>
+              <button class="filter-chip" type="button" data-period="this-year">This year</button>
+              <button class="filter-chip" type="button" data-period="custom">Custom</button>
+            </div>
+            <div class="filter-row-2" id="filter-period-custom" style="display:none;">
+              <div>
+                <label class="field-label">Month</label>
+                <select class="filter-select" id="filter-month">
+                  <option value="">All months</option>
+                  <option>January</option><option>February</option><option>March</option>
+                  <option>April</option><option>May</option><option>June</option>
+                  <option selected>July</option><option>August</option><option>September</option>
+                  <option>October</option><option>November</option><option>December</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label">Year</label>
+                <select class="filter-select" id="filter-year">
+                  <option>2026</option>
+                  <option selected>2025</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                  <option>2022</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="filter-section">
+            <span class="filter-section-label">Status</span>
+            <div class="filter-chip-row" id="filter-status">
+              <button class="filter-chip" type="button" data-status="awaiting-approval"><span class="check"><i class="ti ti-check"></i></span>Awaiting approval</button>
+              <button class="filter-chip" type="button" data-status="awaiting-payment"><span class="check"><i class="ti ti-check"></i></span>Awaiting payment</button>
+              <button class="filter-chip" type="button" data-status="awaiting-report"><span class="check"><i class="ti ti-check"></i></span>Awaiting report</button>
+              <button class="filter-chip" type="button" data-status="disbursed"><span class="check"><i class="ti ti-check"></i></span>Disbursed</button>
+              <button class="filter-chip" type="button" data-status="completed"><span class="check"><i class="ti ti-check"></i></span>Completed</button>
+              <button class="filter-chip" type="button" data-status="rejected"><span class="check"><i class="ti ti-check"></i></span>Rejected</button>
+            </div>
+          </div>
+
+          <!-- Amount -->
+          <div class="filter-section">
+            <span class="filter-section-label">Amount (Rp)</span>
+            <div class="filter-chip-row" id="filter-amount-mode">
+              <button class="filter-chip active" type="button" data-amount="any">Any</button>
+              <button class="filter-chip" type="button" data-amount="gt">Greater than</button>
+              <button class="filter-chip" type="button" data-amount="between">Between</button>
+              <button class="filter-chip" type="button" data-amount="lt">Less than</button>
+            </div>
+            <div class="filter-amount-inputs" id="filter-amount-inputs" style="display:none;">
+              <div class="input-wrap" id="amount-single-wrap">
+                <span class="input-prefix">Rp</span>
+                <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-single" placeholder="0">
+              </div>
+              <div class="input-wrap" id="amount-min-wrap" style="display:none;">
+                <span class="input-prefix">Rp</span>
+                <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-min" placeholder="Min">
+              </div>
+              <div class="input-wrap" id="amount-max-wrap" style="display:none;">
+                <span class="input-prefix">Rp</span>
+                <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-max" placeholder="Max">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-sheet-footer">
+          <button class="filter-btn secondary" type="button" onclick="resetFilters()">Reset</button>
+          <button class="filter-btn primary" type="button" onclick="applyFilters()">Apply</button>
+        </div>
+      </div>
+    </div><!-- /sheet-filter -->
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · REIMBURSEMENT CHOICE
+    ════════════════════════════════════════════ -->
+    <div class="overlay scan-overlay" id="overlay-reimb">
+      <div class="status-bar dark">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="scan-stage">
+        <div class="scan-viewfinder">
+          <div class="scan-frame">
+            <span class="scan-corner tl"></span>
+            <span class="scan-corner tr"></span>
+            <span class="scan-corner bl"></span>
+            <span class="scan-corner br"></span>
+          </div>
+          <p class="scan-hint">Align the receipt inside the frame</p>
+        </div>
+
+        <div class="scan-topbar">
+          <button class="scan-close" type="button" onclick="closeReimbChoice()" aria-label="Close">
+            <i class="ti ti-x"></i>
+          </button>
+          <button class="scan-credits" type="button" id="scan-credits-chip" onclick="toggleScanBanner()">
+            <i class="ti ti-sparkles"></i>
+            <span id="scan-credits-label">12 AI credits left</span>
+          </button>
+        </div>
+
+        <div class="scan-banner" id="scan-banner">
+          <div class="scan-banner-title">No credits? No problem</div>
+          <div class="scan-banner-body">Snap a photo — we'll attach it to your claim. Fill in the details manually after.</div>
+        </div>
+
+        <div class="scan-controls">
+          <button class="scan-gallery" type="button" onclick="captureReceipt()" aria-label="Browse gallery">
+            <span class="scan-gallery-thumb"><i class="ti ti-photo"></i></span>
+            <span class="scan-gallery-label">Browse</span>
+          </button>
+          <button class="scan-shutter" type="button" onclick="captureReceipt()" aria-label="Capture">
+            <span class="scan-shutter-inner"></span>
+          </button>
+          <button class="scan-flash" type="button" id="scan-flash" onclick="toggleScanFlash()" aria-label="Flash">
+            <i class="ti ti-bolt-off"></i>
+          </button>
+        </div>
+
+        <button class="scan-manual" type="button" onclick="manualEntry()">Fill manually instead</button>
+
+        <!-- Preview screen (after capture) -->
+        <div class="scan-preview" id="scan-preview">
+          <div class="scan-preview-photo">
+            <div class="scan-preview-receipt">
+              <span class="scan-preview-badge" id="scan-preview-badge">Receipt 1</span>
+            </div>
+          </div>
+          <div class="scan-preview-thumbs" id="scan-preview-thumbs"></div>
+          <button class="scan-preview-add" type="button" onclick="addMoreReceipt()">
+            <i class="ti ti-plus"></i>
+            <span>Add more</span>
+          </button>
+          <button class="scan-preview-confirm" type="button" onclick="confirmReceipts()" aria-label="Confirm">
+            <img src="assets/check.svg" alt="">
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator dark"><div class="bar"></div></div>
+    </div><!-- /overlay-reimb -->
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · REIMBURSEMENT FORM
+    ════════════════════════════════════════════ -->
+    <div class="overlay reimb-form-overlay" id="overlay-reimb-form">
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="rf-header">
+        <button class="rf-back" type="button" onclick="closeReimbForm()" aria-label="Back">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <span class="rf-title">Request reimbursement</span>
+      </div>
+
+      <div class="scroll-area">
+        <form class="rf-form" onsubmit="event.preventDefault();submitReimb();">
+
+          <div class="rf-field">
+            <label class="rf-label">Claim category<span class="rf-req">*</span></label>
+            <div class="rf-select" id="rf-category" onclick="openCategorySheet()">
+              <span class="rf-select-value" id="rf-category-value">Select category</span>
+              <img src="assets/chevron-right.svg" alt="" class="rf-select-caret">
+            </div>
+          </div>
+
+          <div class="rf-field">
+            <label class="rf-label">Transaction date<span class="rf-req">*</span></label>
+            <div class="rf-row" onclick="openDateSheet()" style="cursor:pointer;">
+              <span class="rf-value" id="rf-date">Thu, 21 May 2026</span>
+              <i class="ti ti-calendar rf-trailing"></i>
+            </div>
+          </div>
+
+          <div class="rf-field">
+            <label class="rf-label" for="rf-vendor">Vendor<span class="rf-req">*</span></label>
+            <input class="rf-input" id="rf-vendor" type="text" placeholder="">
+          </div>
+
+          <div class="rf-field">
+            <label class="rf-label" for="rf-amount">Amount<span class="rf-req">*</span></label>
+            <input class="rf-input" id="rf-amount" type="text" inputmode="numeric" placeholder="">
+            <span class="rf-helper" id="rf-balance">Remaining balance for May 2026: Rp 1.500.000</span>
+          </div>
+
+          <div class="rf-field">
+            <label class="rf-label">Attachment<span class="rf-req">*</span></label>
+            <div class="rf-attach" id="rf-attach">
+              <button type="button" class="rf-attach-add" onclick="event.stopPropagation();" aria-label="Add attachment">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+            <span class="rf-helper">Files must be in JPG, JPEG, PNG, PDF, CSV, or XLSX with a maximum size of 20MB. You can upload up to 5 files.</span>
+          </div>
+
+          <div class="rf-field">
+            <label class="rf-label" for="rf-desc">Description</label>
+            <textarea class="rf-textarea" id="rf-desc" maxlength="600" rows="2" oninput="updateDescCount(event)"></textarea>
+            <span class="rf-helper rf-counter"><span id="rf-desc-count">0</span>/600</span>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="rf-actions">
+        <button class="rf-btn rf-btn-primary" type="button" onclick="submitReimb()">Submit</button>
+        <button class="rf-btn rf-btn-secondary" type="button" onclick="closeReimbForm()">Cancel</button>
+      </div>
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /overlay-reimb-form -->
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · SELECT TRIP
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-trip-select" onclick="closeTripSelect(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 4px;letter-spacing:0.6px;text-transform:uppercase;">Select trip</p>
+        <p style="font-size:13px;color:#8896A8;padding:0 20px 10px;">Choose which trip to report these receipts against.</p>
+        <div class="trip-list" id="trip-list"></div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · CLASSIFY RECEIPTS
+    ════════════════════════════════════════════ -->
+    <div class="overlay trip-overlay" id="overlay-classify">
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="rf-header">
+        <button class="rf-back" type="button" onclick="closeClassify()" aria-label="Back">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <span class="rf-title">Classify receipts</span>
+      </div>
+      <div class="scroll-area">
+        <div class="classify-banner" id="classify-banner"></div>
+        <div class="classify-list" id="classify-list"></div>
+      </div>
+      <div class="rf-actions">
+        <button class="rf-btn rf-btn-primary" type="button" id="classify-continue" onclick="continueToTripForm()" disabled>Continue</button>
+        <button class="rf-btn rf-btn-secondary" type="button" onclick="closeClassify()">Back</button>
+      </div>
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · RECEIPT PREVIEW (from classify list)
+    ════════════════════════════════════════════ -->
+    <div class="overlay trip-overlay" id="overlay-receipt-preview">
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="rf-header">
+        <button class="rf-back" type="button" onclick="closeReceiptPreview()" aria-label="Back">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <span class="rf-title" id="rp-title">Receipt 1</span>
+      </div>
+      <div class="trip-subheader" id="rp-sub">1 photo</div>
+      <div class="scroll-area">
+        <div class="rp-classification">
+          <span class="rp-classification-label">Classification</span>
+          <div class="rp-classification-row" id="rp-cat-row">
+            <span class="rp-classification-value" id="rp-cat-value">Transportation</span>
+            <button type="button" class="rp-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>
+          </div>
+        </div>
+        <div class="rp-section-label">Photos</div>
+        <div class="rp-photos" id="rp-photos"></div>
+        <div class="rp-actions-group">
+          <button type="button" class="rp-action-row" onclick="addPhotoToReceipt()">
+            <span class="rp-action-icon add"><i class="ti ti-plus"></i></span>
+            <span class="rp-action-label">
+              <span>Add another photo</span>
+              <span class="rp-action-caption">Attach a second receipt to this claim</span>
+            </span>
+            <img src="assets/chevron-right.svg" alt="" class="rp-action-chevron">
+          </button>
+          <button type="button" class="rp-action-row" id="rp-split-btn" onclick="openSplitSheet()" style="display:none;">
+            <span class="rp-action-icon split"><i class="ti ti-arrows-split-2"></i></span>
+            <span class="rp-action-label">
+              <span>Split into separate claim</span>
+              <span class="rp-action-caption">Pick a photo to move to its own claim</span>
+            </span>
+            <img src="assets/chevron-right.svg" alt="" class="rp-action-chevron">
+          </button>
+        </div>
+      </div>
+      <div class="rf-actions">
+        <button class="rf-btn rf-btn-primary" type="button" onclick="closeReceiptPreview()">Done</button>
+      </div>
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · TRIP RECEIPT FORM (wizard)
+    ════════════════════════════════════════════ -->
+    <div class="overlay reimb-form-overlay" id="overlay-trip-form">
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+      <div class="rf-header">
+        <button class="rf-back" type="button" onclick="closeTripForm()" aria-label="Back">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <span class="rf-title" id="trip-form-title">Receipt 1 of 1</span>
+      </div>
+      <div class="trip-subheader" id="trip-form-sub">Transportation · Surabaya</div>
+      <div class="trip-progress" id="trip-progress"></div>
+      <div class="scroll-area">
+        <form class="rf-form" onsubmit="event.preventDefault();nextTripReceipt();">
+          <div class="rf-field">
+            <label class="rf-label">Claim category<span class="rf-req">*</span></label>
+            <div class="rf-select" id="tf-claim-cat" onclick="openTripClaimCatSheet()">
+              <span class="rf-select-value" id="tf-claim-cat-value">Select category</span>
+              <img src="assets/chevron-right.svg" alt="" class="rf-select-caret">
+            </div>
+          </div>
+          <div class="rf-field">
+            <label class="rf-label">Date<span class="rf-req">*</span></label>
+            <div class="rf-row">
+              <span class="rf-value" id="tf-date">Thu, 21 May 2026</span>
+              <i class="ti ti-calendar rf-trailing"></i>
+            </div>
+          </div>
+          <div class="rf-field">
+            <label class="rf-label" for="tf-vendor">Vendor<span class="rf-req">*</span></label>
+            <input class="rf-input" id="tf-vendor" type="text" placeholder="">
+          </div>
+          <div class="rf-field">
+            <label class="rf-label" for="tf-amount">Amount<span class="rf-req">*</span></label>
+            <input class="rf-input" id="tf-amount" type="text" inputmode="numeric" placeholder="">
+            <span class="rf-helper" id="tf-balance"></span>
+          </div>
+          <div class="rf-field">
+            <label class="rf-label">Attachment</label>
+            <div class="rf-attach" id="tf-attach"></div>
+          </div>
+          <div class="rf-field">
+            <label class="rf-label" for="tf-desc">Description</label>
+            <textarea class="rf-textarea" id="tf-desc" maxlength="600" rows="2" oninput="updateTfDescCount(event)"></textarea>
+            <span class="rf-helper rf-counter"><span id="tf-desc-count">0</span>/600</span>
+          </div>
+        </form>
+      </div>
+      <div class="rf-actions">
+        <button class="rf-btn rf-btn-primary" type="button" id="tf-next-btn" onclick="nextTripReceipt()">Next receipt</button>
+        <button class="rf-btn rf-btn-secondary" type="button" onclick="closeTripForm()">Cancel</button>
+      </div>
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · TRIP SUBMIT SUCCESS
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-trip-success" onclick="closeTripSuccess(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <div class="success-sheet-body">
+          <div class="success-sheet-icon">
+            <img src="assets/check.svg" alt="">
+          </div>
+          <div class="success-sheet-title" id="success-title">Trip expenses submitted</div>
+          <div class="success-sheet-desc" id="success-desc">3 expenses added to your Surabaya report.</div>
+        </div>
+        <div class="rf-actions" style="padding-top:0;">
+          <button class="rf-btn rf-btn-primary" type="button" onclick="viewTripReport()">View trip report</button>
+          <button class="rf-btn rf-btn-secondary" type="button" onclick="closeTripSuccess()">Done</button>
+        </div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · SPLIT PHOTO PICKER
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-split" onclick="closeSplitSheet(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 4px;letter-spacing:0.6px;text-transform:uppercase;">Split into separate claim</p>
+        <p style="font-size:13px;color:#8896A8;padding:0 20px 10px;">Choose which photo to move to its own claim.</p>
+        <div class="split-list" id="split-list"></div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · TRIP CATEGORY (classify picker)
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-trip-cat" onclick="closeTripCatSheet(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 10px;letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+        <div class="sheet-list" id="trip-cat-list"></div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · CLAIM CATEGORY
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-category" onclick="closeCategorySheet(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 10px;letter-spacing:0.6px;text-transform:uppercase;">Claim category</p>
+        <div style="padding:0 20px 12px;">
+          <label class="category-search">
+            <i class="ti ti-search"></i>
+            <input id="category-search-input" type="search" placeholder="Search category" oninput="filterCategoryList(event)" autocomplete="off">
+          </label>
+        </div>
+        <div class="sheet-list" id="category-list"></div>
+        <div class="sheet-empty" id="category-empty" style="display:none;">No matching category</div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · TRANSACTION DATE
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-date" onclick="closeDateSheet(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 10px;letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+        <div class="sheet-list" id="date-list"></div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         SHEET · DATE PICKER (calendar)
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-date-picker" onclick="closeDatePicker(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <p style="font-size:11px;font-weight:700;color:#8896A8;padding:2px 20px 10px;letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+        <div class="cal-header">
+          <button type="button" class="cal-nav" onclick="navMonth(-1)" aria-label="Previous month"><i class="ti ti-chevron-left"></i></button>
+          <span class="cal-title" id="cal-title">May 2026</span>
+          <button type="button" class="cal-nav" onclick="navMonth(1)" aria-label="Next month"><i class="ti ti-chevron-right"></i></button>
+        </div>
+        <div class="cal-weekdays">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <button type="button" class="cal-today-btn" onclick="goToToday()">Today</button>
+        <div class="cal-actions">
+          <button class="rf-btn rf-btn-secondary" type="button" onclick="closeDatePicker()">Cancel</button>
+          <button class="rf-btn rf-btn-primary" type="button" onclick="confirmDatePicker()">Confirm</button>
+        </div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         OVERLAY · EMPTY STATE (no claims)
+    ════════════════════════════════════════════ -->
+    <!-- (Not shown as a navigable overlay in this prototype — illustrated inline if needed) -->
+
+  </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">
+    Tap <strong>Home</strong> · <strong>My Requests</strong> · <strong>+</strong> to navigate. Tap the <strong>bell</strong> to open Inbox. Tap a trip card to see the trip detail and <em>Create report</em> flow.
+  </div>
+</div><!-- /prototype-wrap -->
+
+<script>
+/* ── Navigation ── */
+function setActiveNav(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + tab).classList.add('active');
+  // close any overlays
+  closeAllOverlays();
+}
+
+function closeAllOverlays() {
+  document.querySelectorAll('.overlay,.sheet-backdrop').forEach(o => o.classList.remove('active'));
+}
+
+/* ── Inbox ── */
+function openInbox() {
+  document.getElementById('overlay-inbox').classList.add('active');
+}
+function closeInbox() {
+  document.getElementById('overlay-inbox').classList.remove('active');
+}
+function switchInboxTab(tab) {
+  ['notif','approval'].forEach(t => {
+    document.getElementById('tab-' + t).classList.remove('active');
+    document.getElementById('panel-' + t).style.display = 'none';
+  });
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('panel-' + tab).style.display = 'block';
+}
+
+/* ── FAB sheet ── */
+let fabOriginTab = 'home';
+function openFab() {
+  const active = document.querySelector('.screen.active');
+  if (active) fabOriginTab = active.id.replace('screen-', '');
+  document.getElementById('sheet-fab').classList.add('active');
+}
+function closeFab(e) {
+  document.getElementById('sheet-fab').classList.remove('active');
+}
+
+/* ── Toast ── */
+function showToast(message, kind) {
+  let t = document.getElementById('app-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'app-toast';
+    t.className = 'app-toast';
+    document.querySelector('#phone').appendChild(t);
+  }
+  t.className = 'app-toast' + (kind ? ' ' + kind : '');
+  t.innerHTML = '<i class="ti ti-circle-check"></i><span>' + message + '</span>';
+  // restart animation
+  t.classList.remove('visible');
+  void t.offsetWidth;
+  t.classList.add('visible');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('visible'), 2600);
+}
+
+/* ── Scan receipt (Reimbursement entry) ── */
+const SCAN_CREDITS = 12; // change to 0 to preview zero-credit state
+let scanCaptures = [];
+let scanMode = 'reimb'; // 'reimb' | 'trip'
+function openReimbChoice() { openScan('reimb'); }
+function openTripCapture() { openScan('trip'); }
+function openScan(mode) {
+  scanMode = mode;
+  document.getElementById('sheet-fab').classList.remove('active');
+  const overlay = document.getElementById('overlay-reimb');
+  overlay.classList.add('active');
+  overlay.classList.remove('previewing');
+  const chip = document.getElementById('scan-credits-chip');
+  const label = document.getElementById('scan-credits-label');
+  const banner = document.getElementById('scan-banner');
+  if (SCAN_CREDITS <= 0) {
+    chip.classList.add('empty');
+    label.textContent = 'No AI credits left';
+    banner.classList.add('visible');
+  } else {
+    chip.classList.remove('empty');
+    label.textContent = SCAN_CREDITS + ' AI credits left';
+    banner.classList.remove('visible');
+  }
+  scanCaptures = [];
+}
+
+let currentPreviewIdx = 0;
+function captureReceipt() {
+  scanCaptures.push(Date.now());
+  currentPreviewIdx = scanCaptures.length - 1;
+  renderPreview();
+  document.getElementById('overlay-reimb').classList.add('previewing');
+}
+function renderPreview() {
+  const total = scanCaptures.length;
+  document.getElementById('scan-preview-badge').textContent =
+    total > 1 ? 'Receipt ' + (currentPreviewIdx + 1) + ' of ' + total : 'Receipt 1';
+  const strip = document.getElementById('scan-preview-thumbs');
+  strip.innerHTML = '';
+  if (total > 1) {
+    strip.classList.add('visible');
+    scanCaptures.forEach((_, i) => {
+      const t = document.createElement('div');
+      t.className = 'scan-pv-thumb' + (i === currentPreviewIdx ? ' active' : '');
+      t.innerHTML = '<span class="num">' + (i + 1) + '</span><button type="button" class="remove" aria-label="Remove"><i class="ti ti-x"></i></button>';
+      t.onclick = () => { currentPreviewIdx = i; renderPreview(); };
+      t.querySelector('.remove').onclick = (ev) => { ev.stopPropagation(); removePreview(i); };
+      strip.appendChild(t);
+    });
+  } else {
+    strip.classList.remove('visible');
+  }
+}
+function removePreview(idx) {
+  scanCaptures.splice(idx, 1);
+  if (scanCaptures.length === 0) {
+    document.getElementById('overlay-reimb').classList.remove('previewing');
+    return;
+  }
+  if (currentPreviewIdx >= scanCaptures.length) currentPreviewIdx = scanCaptures.length - 1;
+  renderPreview();
+}
+function addMoreReceipt() {
+  document.getElementById('overlay-reimb').classList.remove('previewing');
+}
+function confirmReceipts() {
+  document.getElementById('overlay-reimb').classList.remove('previewing');
+  if (scanMode === 'trip') {
+    document.getElementById('overlay-reimb').classList.remove('active');
+    openTripSelect('snap');
+  } else {
+    openReimbForm('snap');
+  }
+}
+function manualEntry() {
+  if (scanMode === 'trip') {
+    document.getElementById('overlay-reimb').classList.remove('active');
+    openTripSelect('manual');
+  } else {
+    openReimbForm('manual');
+  }
+}
+function closeReimbChoice() {
+  document.getElementById('overlay-reimb').classList.remove('active');
+}
+function toggleScanBanner() {
+  document.getElementById('scan-banner').classList.toggle('visible');
+}
+function toggleScanFlash() {
+  const btn = document.getElementById('scan-flash');
+  const on = btn.classList.toggle('on');
+  btn.querySelector('i').className = on ? 'ti ti-bolt' : 'ti ti-bolt-off';
+}
+
+/* ── Trip flow: data ── */
+const TRIPS = [
+  { id: 't1', name: 'Surabaya',     range: '12 Jun – 16 Jun 2026', status: 'warn',   statusLabel: 'Awaiting report'   },
+  { id: 't2', name: 'Singapore',    range: '02 May – 06 May 2026', status: 'danger', statusLabel: 'Awaiting revision' },
+  { id: 't3', name: 'Bandung',      range: '21 Apr – 23 Apr 2026', status: 'warn',   statusLabel: 'Awaiting report'   },
+];
+const TRIP_CATEGORIES = ['Transportation','Accommodation','Per diem','Unplanned expenses'];
+const TRIP_BALANCES = {
+  'Transportation':   'Remaining: Rp 2.500.000',
+  'Accommodation':    'Remaining: Rp 4.000.000',
+  'Per diem':         'Remaining: Rp   750.000',
+  'Unplanned expenses':'Remaining: Rp 1.000.000',
+};
+const CLAIM_CAT_BY_TRIP = {
+  'Transportation':    'Transport',
+  'Accommodation':     'Lodging',
+  'Per diem':          'Meals & Entertainment',
+  'Unplanned expenses':'Other',
+};
+// Photo N → mocked OCR result. Designed to demo grouping: photos 1 & 2 both Grab/Transportation.
+const AI_MOCKS = [
+  { vendor: 'Grab',        category: 'Transportation', amount: '120.000' },
+  { vendor: 'Grab',        category: 'Transportation', amount: '180.000' },
+  { vendor: 'Hotel Mulia', category: 'Accommodation',  amount: '950.000' },
+  { vendor: 'Indomaret',   category: 'Per diem',       amount:  '55.000' },
+];
+let tripCaptureMode = 'snap';
+let tripSelectedTrip = null;
+let tripReceipts = []; // [{ id, category, date, vendor, amount, desc }]
+let tripCurrentIdx = 0;
+let pendingCatRowId = null;
+
+/* ── Step 2: Select trip ── */
+function openTripSelect(captureMode) {
+  tripCaptureMode = captureMode;
+  const list = document.getElementById('trip-list');
+  list.innerHTML = '';
+  TRIPS.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'trip-card';
+    el.innerHTML =
+      '<div class="trip-card-icon"><img src="assets/business-trip.svg" alt="" style="width:24px;height:24px;"></div>' +
+      '<div class="trip-card-body">' +
+        '<span class="trip-card-name">' + t.name + '</span>' +
+        '<span class="trip-card-meta">' + t.range + '</span>' +
+        '<span class="trip-card-status ' + t.status + '">' + t.statusLabel + '</span>' +
+      '</div>' +
+      '<img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;flex-shrink:0;">';
+    el.onclick = () => selectTrip(t);
+    list.appendChild(el);
+  });
+  document.getElementById('sheet-trip-select').classList.add('active');
+}
+function closeTripSelect(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-trip-select').classList.remove('active');
+}
+function selectTrip(trip) {
+  tripSelectedTrip = trip;
+  closeTripSelect();
+  openClassify();
+}
+
+/* ── Step 3: Classify ── */
+function openClassify() {
+  const count = Math.max(1, scanCaptures.length);
+  const hasAi = SCAN_CREDITS > 0 && tripCaptureMode === 'snap';
+  tripReceipts = hasAi ? buildAiGroupedReceipts(count) : buildManualReceipts(count);
+  // Banner
+  const banner = document.getElementById('classify-banner');
+  if (hasAi) {
+    banner.className = 'classify-banner ai';
+    banner.innerHTML = '<i class="ti ti-sparkles"></i><span>AI grouped your receipts by category and vendor — tap any row to adjust.</span>';
+  } else {
+    banner.className = 'classify-banner manual';
+    banner.innerHTML = '<i class="ti ti-info-circle"></i><span>No AI credits — pick a category for each receipt before continuing.</span>';
+  }
+  renderClassifyList();
+  document.getElementById('overlay-classify').classList.add('active');
+}
+function buildAiGroupedReceipts(count) {
+  const out = [];
+  const byKey = new Map();
+  for (let i = 0; i < count; i++) {
+    const mock = AI_MOCKS[i % AI_MOCKS.length];
+    const key = mock.category + '|' + mock.vendor;
+    if (byKey.has(key)) {
+      byKey.get(key).attachments.push(i + 1);
+    } else {
+      const r = {
+        id: 'r' + out.length,
+        attachments: [i + 1],
+        category: mock.category,
+        claimCategory: CLAIM_CAT_BY_TRIP[mock.category] || null,
+        aiAssigned: true,
+        date: 'Thu, 21 May 2026',
+        vendor: mock.vendor,
+        amount: mock.amount,
+        desc: '',
+      };
+      out.push(r);
+      byKey.set(key, r);
+    }
+  }
+  return out;
+}
+function buildManualReceipts(count) {
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    out.push({
+      id: 'r' + i,
+      attachments: tripCaptureMode === 'snap' ? [i + 1] : [],
+      category: null,
+      claimCategory: null,
+      aiAssigned: false,
+      date: 'Thu, 21 May 2026',
+      vendor: '',
+      amount: '',
+      desc: '',
+    });
+  }
+  return out;
+}
+function renderClassifyList() {
+  const list = document.getElementById('classify-list');
+  list.innerHTML = '';
+  tripReceipts.forEach((r, i) => {
+    const row = document.createElement('div');
+    row.className = 'classify-row';
+    const photoCount = (r.attachments || []).length;
+    const hasMulti = photoCount > 1;
+    const attBadge = hasMulti ? '<span class="classify-thumb-badge">' + photoCount + '</span>' : '';
+    const meta = [
+      r.vendor || 'Receipt ' + (i + 1),
+      photoCount > 0 ? (photoCount === 1 ? '1 photo' : photoCount + ' photos') : null,
+    ].filter(Boolean).join(' · ');
+    const picker = r.category
+      ? '<span class="classify-picker-value">' + r.category + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '') + '</span>'
+      : '<span class="classify-picker-value placeholder">Tap to classify</span>';
+    row.innerHTML =
+      '<button type="button" class="classify-thumb-btn" aria-label="Preview"><div class="classify-thumb"><span class="num">' + (r.attachments[0] || (i + 1)) + '</span>' + attBadge + '</div></button>' +
+      '<div class="classify-body">' +
+        '<span class="classify-label">' + meta + '</span>' +
+        '<div class="classify-picker">' + picker + '</div>' +
+      '</div>' +
+      '<button type="button" class="classify-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>';
+    row.querySelector('.classify-thumb-btn').onclick = () => openReceiptPreview(r.id);
+    row.querySelector('.classify-picker').onclick = () => openTripCatSheet(r.id);
+    row.querySelector('.classify-edit').onclick = () => openReceiptPreview(r.id);
+    list.appendChild(row);
+  });
+  const cont = document.getElementById('classify-continue');
+  cont.disabled = tripReceipts.some(r => !r.category);
+}
+function closeClassify() {
+  document.getElementById('overlay-classify').classList.remove('active');
+}
+function openTripCatSheet(rowId) {
+  pendingCatRowId = rowId;
+  const current = (tripReceipts.find(r => r.id === rowId) || {}).category;
+  const list = document.getElementById('trip-cat-list');
+  list.innerHTML = '';
+  TRIP_CATEGORIES.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'sheet-list-item' + (c === current ? ' active' : '');
+    el.textContent = c;
+    el.onclick = () => pickTripCategory(c);
+    list.appendChild(el);
+  });
+  document.getElementById('sheet-trip-cat').classList.add('active');
+}
+function closeTripCatSheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-trip-cat').classList.remove('active');
+}
+function pickTripCategory(value) {
+  const r = tripReceipts.find(r => r.id === pendingCatRowId);
+  if (r) { r.category = value; r.aiAssigned = false; }
+  closeTripCatSheet();
+  renderClassifyList();
+  // If user changed category from inside the preview, reflect it
+  if (previewReceiptId === pendingCatRowId) renderReceiptPreview();
+}
+
+/* ── Receipt preview (from classify list) ── */
+let previewReceiptId = null;
+function openReceiptPreview(rowId) {
+  previewReceiptId = rowId;
+  renderReceiptPreview();
+  document.getElementById('overlay-receipt-preview').classList.add('active');
+}
+function closeReceiptPreview() {
+  previewReceiptId = null;
+  document.getElementById('overlay-receipt-preview').classList.remove('active');
+}
+function renderReceiptPreview() {
+  const r = tripReceipts.find(x => x.id === previewReceiptId);
+  if (!r) return;
+  const idx = tripReceipts.indexOf(r);
+  document.getElementById('rp-title').textContent = r.vendor || ('Receipt ' + (idx + 1));
+  const photoCount = (r.attachments || []).length;
+  document.getElementById('rp-sub').textContent =
+    (photoCount === 1 ? '1 photo' : photoCount + ' photos') +
+    (tripSelectedTrip ? ' · ' + tripSelectedTrip.name : '');
+  const catValue = document.getElementById('rp-cat-value');
+  catValue.classList.remove('placeholder');
+  if (r.category) {
+    catValue.innerHTML = '<span>' + r.category + '</span>' + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '');
+    catValue.style.color = '';
+  } else {
+    catValue.textContent = 'Tap to classify';
+    catValue.style.color = '#A6ACBE';
+  }
+  document.getElementById('rp-cat-row').onclick = () => openTripCatSheet(r.id);
+  // Photos
+  const photos = document.getElementById('rp-photos');
+  photos.innerHTML = '';
+  r.attachments.forEach((num, i) => {
+    const el = document.createElement('div');
+    el.className = 'rp-photo';
+    el.innerHTML = '<span class="num">Photo ' + num + '</span>' +
+      '<button type="button" class="remove" aria-label="Remove"><i class="ti ti-x"></i></button>';
+    el.querySelector('.remove').onclick = (ev) => { ev.stopPropagation(); removePreviewPhoto(i); };
+    photos.appendChild(el);
+  });
+  // Split button only when this claim has more than one photo
+  document.getElementById('rp-split-btn').style.display = photoCount > 1 ? 'inline-flex' : 'none';
+}
+function openSplitSheet() {
+  const r = tripReceipts.find(x => x.id === previewReceiptId);
+  if (!r || r.attachments.length < 2) return;
+  const list = document.getElementById('split-list');
+  list.innerHTML = '';
+  r.attachments.forEach((num, i) => {
+    const row = document.createElement('div');
+    row.className = 'split-row';
+    row.innerHTML =
+      '<div class="split-thumb"><span class="num">' + num + '</span></div>' +
+      '<span class="split-label">Photo ' + num + '</span>' +
+      '<img src="assets/chevron-right.svg" alt="">';
+    row.onclick = () => doSplit(i);
+    list.appendChild(row);
+  });
+  document.getElementById('sheet-split').classList.add('active');
+}
+function closeSplitSheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-split').classList.remove('active');
+}
+function doSplit(photoIdx) {
+  const r = tripReceipts.find(x => x.id === previewReceiptId);
+  if (!r || r.attachments.length < 2) { closeSplitSheet(); return; }
+  const [moved] = r.attachments.splice(photoIdx, 1);
+  tripReceipts.push({
+    id: 'r' + Date.now(),
+    attachments: [moved],
+    category: r.category,
+    claimCategory: r.claimCategory,
+    aiAssigned: false,
+    date: r.date,
+    vendor: r.vendor,
+    amount: '',
+    desc: '',
+  });
+  closeSplitSheet();
+  renderReceiptPreview();
+  renderClassifyList();
+  showToast('Photo ' + moved + ' split into a new claim', 'success');
+}
+function addPhotoToReceipt() {
+  const r = tripReceipts.find(x => x.id === previewReceiptId);
+  if (!r) return;
+  // Find next free photo number from the original capture pool
+  const used = new Set();
+  tripReceipts.forEach(x => x.attachments.forEach(n => used.add(n)));
+  let next = 1;
+  while (used.has(next)) next++;
+  r.attachments.push(next);
+  renderReceiptPreview();
+  renderClassifyList();
+}
+function removePreviewPhoto(idx) {
+  const r = tripReceipts.find(x => x.id === previewReceiptId);
+  if (!r) return;
+  r.attachments.splice(idx, 1);
+  renderReceiptPreview();
+  renderClassifyList();
+}
+
+/* ── Trip form Claim category sub-sheet (reuses sheet-category) ── */
+let tripFormPickingClaimCat = false;
+function openTripClaimCatSheet() {
+  tripFormPickingClaimCat = true;
+  document.getElementById('category-search-input').value = '';
+  // Render with current trip form's claim category as active
+  const list = document.getElementById('category-list');
+  const empty = document.getElementById('category-empty');
+  const current = (tripReceipts[tripCurrentIdx] || {}).claimCategory;
+  list.innerHTML = '';
+  CATEGORY_OPTIONS.forEach(value => {
+    const el = document.createElement('div');
+    el.className = 'sheet-list-item' + (value === current ? ' active' : '');
+    el.textContent = value;
+    el.onclick = () => selectTripClaimCategory(value);
+    list.appendChild(el);
+  });
+  empty.style.display = 'none';
+  document.getElementById('sheet-category').classList.add('active');
+}
+function selectTripClaimCategory(value) {
+  const r = tripReceipts[tripCurrentIdx];
+  if (r) r.claimCategory = value;
+  const label = document.getElementById('tf-claim-cat-value');
+  label.textContent = value;
+  label.classList.add('has-value');
+  tripFormPickingClaimCat = false;
+  closeCategorySheet();
+}
+
+/* ── Step 4: Per-receipt form ── */
+function continueToTripForm() {
+  if (tripReceipts.some(r => !r.category)) return;
+  closeClassify();
+  tripCurrentIdx = 0;
+  openTripForm();
+}
+function openTripForm() {
+  const r = tripReceipts[tripCurrentIdx];
+  const total = tripReceipts.length;
+  document.getElementById('trip-form-title').textContent = 'Receipt ' + (tripCurrentIdx + 1) + ' of ' + total;
+  document.getElementById('trip-form-sub').textContent = r.category + ' · ' + tripSelectedTrip.name;
+  document.getElementById('tf-date').textContent = r.date;
+  document.getElementById('tf-vendor').value = r.vendor || '';
+  document.getElementById('tf-amount').value = r.amount || '';
+  document.getElementById('tf-desc').value = r.desc || '';
+  document.getElementById('tf-desc-count').textContent = (r.desc || '').length;
+  document.getElementById('tf-balance').textContent = TRIP_BALANCES[r.category] || '';
+  const claimLabel = document.getElementById('tf-claim-cat-value');
+  if (r.claimCategory) {
+    claimLabel.textContent = r.claimCategory;
+    claimLabel.classList.add('has-value');
+  } else {
+    claimLabel.textContent = 'Select category';
+    claimLabel.classList.remove('has-value');
+  }
+  // Progress dots
+  const prog = document.getElementById('trip-progress');
+  prog.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < tripCurrentIdx ? ' done' : (i === tripCurrentIdx ? ' current' : ''));
+    prog.appendChild(d);
+  }
+  // Attachments — one thumb per photo on this receipt
+  const att = document.getElementById('tf-attach');
+  att.innerHTML = '';
+  (r.attachments || []).forEach(() => {
+    att.insertAdjacentHTML('beforeend',
+      '<div class="rf-attach-thumb"><button class="remove" type="button" aria-label="Remove"><i class="ti ti-x"></i></button></div>');
+  });
+  if (tripCaptureMode === 'manual' && (r.attachments || []).length === 0) {
+    att.innerHTML = '<button type="button" class="rf-attach-add" aria-label="Add attachment"><i class="ti ti-plus"></i></button>';
+  }
+  // Button label
+  document.getElementById('tf-next-btn').textContent =
+    tripCurrentIdx === total - 1 ? 'Submit all' : 'Next receipt';
+  document.getElementById('overlay-trip-form').classList.add('active');
+}
+function closeTripForm() {
+  document.getElementById('overlay-trip-form').classList.remove('active');
+}
+function updateTfDescCount(e) {
+  document.getElementById('tf-desc-count').textContent = (e.target.value || '').length;
+}
+function nextTripReceipt() {
+  const r = tripReceipts[tripCurrentIdx];
+  r.vendor = document.getElementById('tf-vendor').value;
+  r.amount = document.getElementById('tf-amount').value;
+  r.desc = document.getElementById('tf-desc').value;
+  if (tripCurrentIdx < tripReceipts.length - 1) {
+    tripCurrentIdx++;
+    openTripForm();
+  } else {
+    closeTripForm();
+    setActiveNav(fabOriginTab);
+    openTripSuccess();
+  }
+}
+function openTripSuccess() {
+  const count = tripReceipts.length;
+  document.getElementById('success-desc').textContent =
+    count + ' expense' + (count === 1 ? '' : 's') + ' added to your ' + tripSelectedTrip.name + ' report.';
+  document.getElementById('sheet-trip-success').classList.add('active');
+}
+function closeTripSuccess(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-trip-success').classList.remove('active');
+}
+function viewTripReport() {
+  closeTripSuccess();
+  openTripDetail();
+}
+
+/* ── Reimbursement form ── */
+function openReimbForm(mode) {
+  document.getElementById('overlay-reimb').classList.remove('active');
+  const form = document.getElementById('overlay-reimb-form');
+  form.classList.add('active');
+  // Reset
+  customDate = null;
+  document.getElementById('rf-date').textContent = formatDate(TODAY);
+  document.getElementById('rf-vendor').value = '';
+  document.getElementById('rf-amount').value = '';
+  document.getElementById('rf-desc').value = '';
+  document.getElementById('rf-desc-count').textContent = '0';
+  const catValue = document.getElementById('rf-category-value');
+  catValue.textContent = 'Select category';
+  catValue.classList.remove('has-value');
+  const attach = document.getElementById('rf-attach');
+  attach.innerHTML = '<button type="button" class="rf-attach-add" aria-label="Add attachment"><i class="ti ti-plus"></i></button>';
+
+  if (mode === 'snap' && SCAN_CREDITS > 0) {
+    document.getElementById('rf-vendor').value = 'Bluegrass Bar & Grill';
+    document.getElementById('rf-amount').value = '550.000';
+    catValue.innerHTML = '<span>Meals & Entertainment</span><span class="ai-tag" style="font-size:10px;font-weight:700;color:#3b4ec0;background:#E5EBFF;padding:2px 6px;border-radius:4px;margin-left:8px;letter-spacing:0.3px;">AI</span>';
+    catValue.classList.add('has-value');
+  }
+  if (mode === 'snap') {
+    const count = Math.max(1, scanCaptures.length);
+    let thumbsHtml = '';
+    for (let i = 0; i < count; i++) {
+      thumbsHtml += '<div class="rf-attach-thumb"><button class="remove" type="button" aria-label="Remove"><i class="ti ti-x"></i></button></div>';
+    }
+    attach.insertAdjacentHTML('afterbegin', thumbsHtml);
+  }
+}
+function closeReimbForm() {
+  document.getElementById('overlay-reimb-form').classList.remove('active');
+}
+function updateDescCount(e) {
+  document.getElementById('rf-desc-count').textContent = (e.target.value || '').length;
+}
+function submitReimb() {
+  closeReimbForm();
+  setActiveNav(fabOriginTab);
+  showToast('Reimbursement submitted', 'success');
+}
+
+/* ── Category sheet ── */
+const CATEGORY_OPTIONS = [
+  'Meals & Entertainment','Transport','Lodging','Subscription',
+  'Office Supplies','Communication','Training & Development',
+  'Client Entertainment','Marketing','Health & Wellness','Other'
+];
+function renderCategoryList(query) {
+  const q = (query || '').toLowerCase().trim();
+  const current = document.getElementById('rf-category-value').textContent.trim();
+  const list = document.getElementById('category-list');
+  const empty = document.getElementById('category-empty');
+  const filtered = CATEGORY_OPTIONS.filter(c => c.toLowerCase().includes(q));
+  list.innerHTML = '';
+  filtered.forEach(value => {
+    const el = document.createElement('div');
+    el.className = 'sheet-list-item' + (value === current ? ' active' : '');
+    el.textContent = value;
+    el.onclick = () => selectCategory(value);
+    list.appendChild(el);
+  });
+  empty.style.display = filtered.length === 0 ? 'block' : 'none';
+}
+function filterCategoryList(e) {
+  renderCategoryList(e.target.value);
+}
+function openCategorySheet() {
+  document.getElementById('category-search-input').value = '';
+  renderCategoryList('');
+  document.getElementById('sheet-category').classList.add('active');
+}
+function closeCategorySheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-category').classList.remove('active');
+}
+function selectCategory(value) {
+  const label = document.getElementById('rf-category-value');
+  label.textContent = value;
+  label.classList.add('has-value');
+  closeCategorySheet();
+}
+
+/* ── Date sheet ── */
+const TODAY = new Date(2026, 4, 21);
+let customDate = null;
+function formatDate(d) {
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+}
+function openDateSheet() {
+  const list = document.getElementById('date-list');
+  const current = document.getElementById('rf-date').textContent.trim();
+  const today = new Date(TODAY);
+  const yesterday = new Date(TODAY); yesterday.setDate(today.getDate() - 1);
+  const presets = [
+    { label: 'Today',     date: today,     value: formatDate(today) },
+    { label: 'Yesterday', date: yesterday, value: formatDate(yesterday) },
+  ];
+  list.innerHTML = '';
+  presets.forEach(opt => {
+    const el = document.createElement('div');
+    el.className = 'sheet-list-item';
+    if (opt.value === current) el.classList.add('active');
+    el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:var(--pxl-space-sm);"><span>' + opt.label + '</span><span style="font-size:var(--pxl-font-size-sm);color:var(--pxl-color-secondary);font-weight:var(--pxl-weight-regular);">' + opt.value + '</span></div>';
+    el.onclick = () => selectDate(opt.value);
+    list.appendChild(el);
+  });
+  const pick = document.createElement('div');
+  pick.className = 'sheet-list-item';
+  const hasCustom = customDate !== null;
+  const pickColor = hasCustom ? 'var(--pxl-color-link)' : 'var(--pxl-color-default)';
+  const pickWeight = hasCustom ? 'var(--pxl-weight-semibold)' : 'var(--pxl-weight-regular)';
+  const pickLabel = hasCustom ? formatDate(customDate) : 'Select date';
+  const iconHtml = hasCustom
+    ? '<span class="cal-day-icon" style="color:' + pickColor + ';"><span class="num">' + customDate.getDate() + '</span></span>'
+    : '<i class="ti ti-calendar" style="font-size:18px;color:' + pickColor + ';"></i>';
+  pick.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:var(--pxl-space-sm);"><span style="color:' + pickColor + ';font-weight:' + pickWeight + ';">' + pickLabel + '</span>' + iconHtml + '</div>';
+  pick.onclick = pickCustomDate;
+  list.appendChild(pick);
+  document.getElementById('sheet-date').classList.add('active');
+}
+function closeDateSheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-date').classList.remove('active');
+}
+function selectDate(formatted) {
+  document.getElementById('rf-date').textContent = formatted;
+  closeDateSheet();
+}
+function pickCustomDate() {
+  closeDateSheet();
+  openDatePicker();
+}
+
+/* ── Calendar date picker ── */
+let calViewYear = TODAY.getFullYear();
+let calViewMonth = TODAY.getMonth();
+let calSelectedDate = new Date(TODAY);
+
+function openDatePicker() {
+  // Initialize from current value if parseable; else today
+  calViewYear = TODAY.getFullYear();
+  calViewMonth = TODAY.getMonth();
+  calSelectedDate = new Date(TODAY);
+  renderCalendar();
+  document.getElementById('sheet-date-picker').classList.add('active');
+}
+function closeDatePicker(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-date-picker').classList.remove('active');
+}
+function confirmDatePicker() {
+  customDate = new Date(calSelectedDate);
+  selectDate(formatDate(calSelectedDate));
+  closeDatePicker();
+}
+function goToToday() {
+  calSelectedDate = new Date(TODAY);
+  calViewYear = TODAY.getFullYear();
+  calViewMonth = TODAY.getMonth();
+  renderCalendar();
+}
+function navMonth(delta) {
+  calViewMonth += delta;
+  if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+  if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+  renderCalendar();
+}
+function renderCalendar() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-title').textContent = months[calViewMonth] + ' ' + calViewYear;
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+  const firstOfMonth = new Date(calViewYear, calViewMonth, 1);
+  const startDow = firstOfMonth.getDay();
+  const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+  const daysInPrev = new Date(calViewYear, calViewMonth, 0).getDate();
+  const cells = [];
+  // Leading muted cells from previous month
+  for (let i = startDow - 1; i >= 0; i--) {
+    cells.push({ day: daysInPrev - i, muted: true, date: new Date(calViewYear, calViewMonth - 1, daysInPrev - i) });
+  }
+  // Current month
+  for (let d = 1; d <= daysInMonth; d++) {
+    cells.push({ day: d, muted: false, date: new Date(calViewYear, calViewMonth, d) });
+  }
+  // Trailing muted cells to fill to a multiple of 7
+  while (cells.length % 7 !== 0) {
+    const next = cells.length - startDow - daysInMonth + 1;
+    cells.push({ day: next, muted: true, date: new Date(calViewYear, calViewMonth + 1, next) });
+  }
+  cells.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'cal-cell' + (c.muted ? ' muted' : '');
+    if (!c.muted && sameDate(c.date, TODAY)) el.classList.add('today');
+    if (sameDate(c.date, calSelectedDate)) el.classList.add('selected');
+    el.textContent = c.day;
+    el.onclick = () => {
+      calSelectedDate = new Date(c.date);
+      // Pull view into selected month so prev/next muted clicks feel natural
+      calViewYear = calSelectedDate.getFullYear();
+      calViewMonth = calSelectedDate.getMonth();
+      renderCalendar();
+    };
+    grid.appendChild(el);
+  });
+}
+function sameDate(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+/* ── Trip detail ── */
+function openTripDetail() {
+  document.getElementById('overlay-trip').classList.add('active');
+}
+function closeTripDetail() {
+  document.getElementById('overlay-trip').classList.remove('active');
+}
+
+/* ── Create report ── */
+function openCreateReport() {
+  document.getElementById('overlay-create-report').classList.add('active');
+}
+function closeCreateReport() {
+  document.getElementById('overlay-create-report').classList.remove('active');
+  closeTripDetail();
+  setActiveNav('requests');
+}
+
+/* ── Request filter chips (type) ── */
+function switchReqFilter(type, el) {
+  document.querySelectorAll('#req-chips .tx-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── My Requests advanced filter sheet ── */
+const periodLabels = {
+  'this-month':'This month','last-month':'Last month','last-3':'Last 3 months',
+  'this-year':'This year','custom':'Custom'
+};
+const statusLabels = {
+  'awaiting-approval':'Awaiting approval','awaiting-payment':'Awaiting payment',
+  'awaiting-report':'Awaiting report','disbursed':'Disbursed',
+  'completed':'Completed','rejected':'Rejected'
+};
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function openFilterSheet() {
+  document.getElementById('sheet-filter').classList.add('active');
+}
+function closeFilterSheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-filter').classList.remove('active');
+}
+
+/* Single-select chip rows (period, amount mode) */
+function bindSingleSelect(rowId, onChange) {
+  const row = document.getElementById(rowId);
+  row.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      row.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      if (onChange) onChange(chip);
+    });
+  });
+}
+/* Multi-select chip row (status) */
+function bindMultiSelect(rowId) {
+  document.getElementById(rowId).querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  bindSingleSelect('filter-period', chip => {
+    const custom = document.getElementById('filter-period-custom');
+    custom.style.display = (chip.dataset.period === 'custom') ? '' : 'none';
+  });
+  bindMultiSelect('filter-status');
+  bindSingleSelect('filter-amount-mode', chip => {
+    const inputs = document.getElementById('filter-amount-inputs');
+    const single = document.getElementById('amount-single-wrap');
+    const min = document.getElementById('amount-min-wrap');
+    const max = document.getElementById('amount-max-wrap');
+    const mode = chip.dataset.amount;
+    if (mode === 'any') {
+      inputs.style.display = 'none';
+    } else if (mode === 'between') {
+      inputs.style.display = 'grid';
+      inputs.classList.add('between');
+      single.style.display = 'none';
+      min.style.display = '';
+      max.style.display = '';
+    } else {
+      inputs.style.display = 'flex';
+      inputs.classList.remove('between');
+      single.style.display = '';
+      min.style.display = 'none';
+      max.style.display = 'none';
+      document.getElementById('filter-amount-single').placeholder =
+        mode === 'gt' ? 'More than…' : 'Less than…';
+    }
+  });
+});
+
+function readFilters() {
+  const period = document.querySelector('#filter-period .filter-chip.active')?.dataset.period || 'this-month';
+  const month = document.getElementById('filter-month').value;
+  const year = document.getElementById('filter-year').value;
+  const statuses = Array.from(document.querySelectorAll('#filter-status .filter-chip.active')).map(c => c.dataset.status);
+  const amountMode = document.querySelector('#filter-amount-mode .filter-chip.active')?.dataset.amount || 'any';
+  const amount = document.getElementById('filter-amount-single').value;
+  const amountMin = document.getElementById('filter-amount-min').value;
+  const amountMax = document.getElementById('filter-amount-max').value;
+  return { period, month, year, statuses, amountMode, amount, amountMin, amountMax };
+}
+
+function formatRp(n) {
+  if (!n) return '';
+  return 'Rp' + Number(n).toLocaleString('id-ID');
+}
+
+function renderActiveFilters() {
+  const f = readFilters();
+  const row = document.getElementById('active-filters');
+  const pills = [];
+
+  if (f.period && f.period !== 'this-month') {
+    let label = periodLabels[f.period];
+    if (f.period === 'custom') {
+      const parts = [];
+      if (f.month) parts.push(f.month);
+      if (f.year) parts.push(f.year);
+      label = parts.join(' ') || 'Custom period';
+    }
+    pills.push({key:'period', label});
+  }
+  f.statuses.forEach(s => pills.push({key:'status:'+s, label:statusLabels[s]}));
+  if (f.amountMode !== 'any') {
+    let amountLabel = '';
+    if (f.amountMode === 'gt' && f.amount) amountLabel = '> '+formatRp(f.amount);
+    else if (f.amountMode === 'lt' && f.amount) amountLabel = '< '+formatRp(f.amount);
+    else if (f.amountMode === 'between' && (f.amountMin || f.amountMax))
+      amountLabel = formatRp(f.amountMin || 0) + ' – ' + formatRp(f.amountMax || 0);
+    if (amountLabel) pills.push({key:'amount', label:amountLabel});
+  }
+
+  row.innerHTML = '';
+  if (pills.length === 0) {
+    row.classList.remove('visible');
+    document.getElementById('filter-btn').classList.remove('has-filter');
+    return;
+  }
+  pills.forEach(p => {
+    const el = document.createElement('span');
+    el.className = 'active-filter-pill';
+    el.innerHTML = `${p.label} <span class="remove" data-key="${p.key}" aria-label="Remove"><i class="ti ti-x"></i></span>`;
+    row.appendChild(el);
+  });
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'clear-all';
+  clearBtn.type = 'button';
+  clearBtn.textContent = 'Clear all';
+  clearBtn.onclick = () => { resetFilters(); renderActiveFilters(); };
+  row.appendChild(clearBtn);
+  row.classList.add('visible');
+  document.getElementById('filter-btn').classList.add('has-filter');
+
+  // wire remove
+  row.querySelectorAll('.remove').forEach(r => {
+    r.addEventListener('click', () => {
+      removeFilter(r.dataset.key);
+      renderActiveFilters();
+    });
+  });
+}
+
+function removeFilter(key) {
+  if (key === 'period') {
+    document.querySelectorAll('#filter-period .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('#filter-period .filter-chip[data-period="this-month"]').classList.add('active');
+    document.getElementById('filter-period-custom').style.display = 'none';
+  } else if (key.startsWith('status:')) {
+    const s = key.split(':')[1];
+    document.querySelector(`#filter-status .filter-chip[data-status="${s}"]`)?.classList.remove('active');
+  } else if (key === 'amount') {
+    document.querySelectorAll('#filter-amount-mode .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('#filter-amount-mode .filter-chip[data-amount="any"]').classList.add('active');
+    document.getElementById('filter-amount-inputs').style.display = 'none';
+    document.getElementById('filter-amount-single').value = '';
+    document.getElementById('filter-amount-min').value = '';
+    document.getElementById('filter-amount-max').value = '';
+  }
+}
+
+function applyFilters() {
+  renderActiveFilters();
+  closeFilterSheet();
+}
+
+function resetFilters() {
+  // Period back to "This month"
+  document.querySelectorAll('#filter-period .filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('#filter-period .filter-chip[data-period="this-month"]').classList.add('active');
+  document.getElementById('filter-period-custom').style.display = 'none';
+  // Clear statuses
+  document.querySelectorAll('#filter-status .filter-chip').forEach(c => c.classList.remove('active'));
+  // Amount
+  document.querySelectorAll('#filter-amount-mode .filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('#filter-amount-mode .filter-chip[data-amount="any"]').classList.add('active');
+  document.getElementById('filter-amount-inputs').style.display = 'none';
+  document.getElementById('filter-amount-single').value = '';
+  document.getElementById('filter-amount-min').value = '';
+  document.getElementById('filter-amount-max').value = '';
+}
+
+/* ── Search bar (My Requests) ── */
+function onSearchInput(e) {
+  const q = (e.target.value || '').trim();
+  document.getElementById('search-clear').style.display = q ? 'inline-flex' : 'none';
+  applySearch(q);
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  input.value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  applySearch('');
+  input.focus();
+}
+
+function applySearch(q) {
+  const needle = q.toLowerCase();
+  // Find the My Requests tx-card (the one that follows #active-filters)
+  const af = document.getElementById('active-filters');
+  if (!af) return;
+  const card = af.nextElementSibling;
+  if (!card || !card.classList.contains('tx-card')) return;
+
+  const children = Array.from(card.children);
+  let matchCount = 0;
+  // First pass: filter rows
+  children.forEach(el => {
+    if (el.classList.contains('tx-row')) {
+      const text = el.textContent.toLowerCase();
+      const match = !needle || text.includes(needle);
+      el.style.display = match ? '' : 'none';
+      if (match) matchCount++;
+    }
+  });
+  // Second pass: hide date labels with no visible rows under them
+  for (let i = 0; i < children.length; i++) {
+    const el = children[i];
+    if (!el.classList.contains('tx-section-label')) continue;
+    let hasVisible = false;
+    for (let j = i + 1; j < children.length; j++) {
+      const next = children[j];
+      if (next.classList.contains('tx-section-label')) break;
+      if (next.classList.contains('tx-row') && next.style.display !== 'none') {
+        hasVisible = true;
+        break;
+      }
+    }
+    el.style.display = hasVisible ? '' : 'none';
+  }
+
+  // Empty state
+  let empty = document.getElementById('tx-empty');
+  if (needle && matchCount === 0) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.id = 'tx-empty';
+      empty.className = 'tx-empty';
+      empty.innerHTML = '<i class="ti ti-search-off"></i><p>No requests match your search.</p>';
+      card.appendChild(empty);
+    }
+    empty.style.display = '';
+  } else if (empty) {
+    empty.style.display = 'none';
+  }
+}
+
+/* ── Request detail (blank placeholder) ── */
+function openRequestDetail(title) {
+  document.getElementById('request-detail-title').textContent = title || 'Request';
+  document.getElementById('overlay-request-detail').classList.add('active');
+}
+function closeRequestDetail() {
+  document.getElementById('overlay-request-detail').classList.remove('active');
+}
+
+/* ── Infinite scroll for My Requests ── */
+const moreBatches = [
+  { label: '18 Jun', rows: [
+    { name:'Lazismu Donation', meta:'Charity', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp250.000' },
+    { name:'Coffee Meeting · Common Grounds', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp186.000' },
+    { name:'Gojek', meta:'Transport Claim', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp42.000' }
+  ]},
+  { label: '12 Jun', rows: [
+    { name:'Business trip · Bali', meta:'5–10 Jun 2023', status:'Trip', tone:'success', toneText:'Completed', amount:'Rp5.250.000', sub:'11 expenses' },
+    { name:'Tokopedia — Office Chair', meta:'Office Equipment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp1.450.000' }
+  ]},
+  { label: '5 Jun', rows: [
+    { name:'Anomali Coffee', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp82.000' },
+    { name:'Bluebird', meta:'Transport Claim', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp95.000' },
+    { name:'GoFood — Warung Bu Kris', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp124.000' }
+  ]}
+];
+let _batchIdx = 0;
+let _loading = false;
+
+function setupInfiniteScroll() {
+  const scroll = document.getElementById('requests-scroll');
+  if (!scroll) return;
+  scroll.addEventListener('scroll', function() {
+    if (_loading || _batchIdx >= moreBatches.length) return;
+    const remaining = scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight;
+    if (remaining < 120) loadMore();
+  });
+}
+
+function loadMore() {
+  if (_loading || _batchIdx >= moreBatches.length) return;
+  _loading = true;
+  const loader = document.getElementById('tx-loader');
+  const endEl = document.getElementById('tx-end');
+  loader.style.display = 'flex';
+  setTimeout(function() {
+    const card = document.querySelector('#screen-requests .tx-card');
+    const batch = moreBatches[_batchIdx];
+    const label = document.createElement('p');
+    label.className = 'tx-section-label';
+    label.textContent = batch.label;
+    card.insertBefore(label, loader);
+    const group = document.createElement('div');
+    group.className = 'tx-list-group';
+    batch.rows.forEach(function(r) {
+      const row = document.createElement('div');
+      row.className = 'tx-row';
+      const amountHtml = r.sub
+        ? `<div class="tx-row-amount-col"><span class="tx-row-amount">${r.amount}</span><span class="tx-row-sub">${r.sub}</span></div>`
+        : `<span class="tx-row-amount">${r.amount}</span>`;
+      row.innerHTML =
+        `<div class="tx-row-col">
+           <span class="tx-row-name">${r.name}</span>
+           <span class="tx-row-meta">${r.meta}</span>
+           <span class="tx-row-status">${r.status} - <span class="tx-status-${r.tone}">${r.toneText}</span></span>
+         </div>
+         ${amountHtml}`;
+      group.appendChild(row);
+    });
+    card.insertBefore(group, loader);
+    _batchIdx++;
+    _loading = false;
+    loader.style.display = 'none';
+    if (_batchIdx >= moreBatches.length) endEl.style.display = 'block';
+  }, 900);
+}
+
+/* ── Wire up tx-row clicks (delegated) + init infinite scroll ── */
+document.addEventListener('DOMContentLoaded', function() {
+  const card = document.querySelector('#screen-requests .tx-card');
+  if (card) {
+    card.addEventListener('click', function(e) {
+      // Ignore clicks on chip-row controls
+      if (e.target.closest('.tx-chip-row')) return;
+      const row = e.target.closest('.tx-row');
+      if (!row) return;
+      const name = row.querySelector('.tx-row-name');
+      openRequestDetail(name ? name.textContent : 'Request');
+    });
+  }
+  setupInfiniteScroll();
+});
+</script>
+</body>
+</html>
