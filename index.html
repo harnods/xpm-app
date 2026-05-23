@@ -69,6 +69,7 @@
   --MpColors-text-primary:#272B32;          /* pxl-color-text-primary        */
   --MpColors-text-secondary:#656F80;        /* pxl-color-text-secondary      */
   --MpColors-text-secondaryPressed:#4C5460;/* pxl-color-text-secondary-pressed */
+  --MpColors-text-placeholder:#758195;      /* pxl-color-text-placeholder    */
   --MpColors-text-link:#4B61DC;             /* pxl-color-text-link           */
   --MpColors-text-inverse:#ffffff;          /* pxl-color-text-inverse        */
   --MpColors-text-warning:#A14A0B;     /* pxl-color-text-warning        */
@@ -285,7 +286,7 @@ body{
 .content > .card{margin-bottom:0;}
 
 /* ── Section label ── */
-.section-label{font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#8896A8;letter-spacing:0.6px;text-transform:uppercase;margin:0 0 var(--MpSpacing-xSmall);}
+.section-label{font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:var(--MpColors-text-secondary);letter-spacing:0.6px;text-transform:uppercase;margin:0 0 var(--MpSpacing-xSmall);}
 
 /* ── This-month widget (Figma 1693:19289) ── */
 .month-card{background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-small);display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall);font-family:var(--MpFont-inter);}
@@ -1457,7 +1458,7 @@ body{
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Claim approved</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Grab · Transport claim · Rp 48.000</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Grab · Transport claim · Rp 48.000</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">2 minutes ago</p>
           </div>
           <div class="unread-dot"></div>
@@ -1469,7 +1470,7 @@ body{
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Payment processed</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Omah Sendok Restoran · Rp 754.000</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Omah Sendok Restoran · Rp 754.000</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">1 hour ago</p>
           </div>
           <div class="unread-dot"></div>
@@ -1481,7 +1482,7 @@ body{
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Claim rejected</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Notion · Subscription · Rp 149.000</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Notion · Subscription · Rp 149.000</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">3 hours ago</p>
           </div>
           <div class="unread-dot"></div>
@@ -1493,7 +1494,7 @@ body{
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Trip approved</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Business trip · Bandung · 20–25 May 2023</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Bandung · 20–25 May 2023</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">Yesterday</p>
           </div>
         </div>
@@ -1504,7 +1505,7 @@ body{
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">New comment on your claim</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">2 days ago</p>
           </div>
         </div>
@@ -1521,7 +1522,7 @@ body{
           <div class="avatar" style="background:#FEF3C7;color:#92400E;">RC</div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Rizal Candra</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Transport claim · Grab · Rp 150.000</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Transport claim · Grab · Rp 150.000</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">Submitted 1 hour ago</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:8px;">
@@ -1534,7 +1535,7 @@ body{
           <div class="avatar" style="background:#EEF2FF;color:#1E40AF;">OG</div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;margin-bottom:2px;">Octavia Gunawan</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Business trip · Surabaya · 12–16 Jun 2023</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Surabaya · 12–16 Jun 2023</p>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">Submitted 3 hours ago</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:8px;">
@@ -1579,7 +1580,7 @@ body{
           <span style="font-size:var(--MpTextStyles-md-fontSize);font-weight:700;color:#1A1A2E;flex:1;">Business trip · Surabaya</span>
         </div>
         <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);padding-left:30px;">
-          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">12 Jun – 16 Jun 2023</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">12 Jun – 16 Jun 2023</span>
           <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#D97706;background:#FFF8EE;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-xSmall);border-radius:var(--MpRadius-medium);">Awaiting report</span>
         </div>
       </div>
@@ -1591,18 +1592,18 @@ body{
           <div class="card">
             <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
               <div>
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-bottom:2px;">Total expenses</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:2px;">Total expenses</p>
                 <p style="font-size:var(--MpTextStyles-l-fontSize);font-weight:700;color:#1A1A2E;">Rp 1.203.000</p>
               </div>
               <div style="text-align:right;">
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-bottom:2px;">Approved budget</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:2px;">Approved budget</p>
                 <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#16A34A;">Rp 2.500.000</p>
               </div>
             </div>
             <div style="background:#F3F5F9;border-radius:var(--MpRadius-medium);height:6px;">
               <div style="background:#0050C8;border-radius:var(--MpRadius-medium);height:6px;width:48%;"></div>
             </div>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:5px;">48% of budget used</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:5px;">48% of budget used</p>
           </div>
 
           <!-- Expenses list -->
@@ -1612,28 +1613,28 @@ body{
             <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid #F0F2F8;">
               <div>
                 <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Garuda Indonesia</p>
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Transport · 12 Jun 2023</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Transport · 12 Jun 2023</p>
               </div>
               <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Rp 550.000</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid #F0F2F8;">
               <div>
                 <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Hotel Majapahit</p>
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Accommodation · 12–14 Jun 2023</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Accommodation · 12–14 Jun 2023</p>
               </div>
               <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Rp 480.000</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid #F0F2F8;">
               <div>
                 <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Ayam Goreng Surabaya</p>
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Meals · 13 Jun 2023</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Meals · 13 Jun 2023</p>
               </div>
               <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Rp 128.000</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;">
               <div>
                 <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Grab</p>
-                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Transport · 16 Jun 2023</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Transport · 16 Jun 2023</p>
               </div>
               <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Rp 45.000</span>
             </div>
@@ -1673,17 +1674,17 @@ body{
 
           <!-- Trip info -->
           <div style="background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-small) var(--MpSpacing-medium);margin-bottom:10px;">
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-bottom:4px;font-weight:600;">Trip</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:4px;font-weight:600;">Trip</p>
             <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);">
               <i class="ti ti-plane" style="font-size:var(--MpTextStyles-md-fontSize);color:#7C3AED;"></i>
               <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Business trip · Surabaya</p>
             </div>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:2px;padding-left:24px;">12–16 Jun 2023 · 4 expenses</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:2px;padding-left:24px;">12–16 Jun 2023 · 4 expenses</p>
           </div>
 
           <!-- Form fields -->
           <div style="background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-medium);margin-bottom:10px;">
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#8896A8;margin-bottom:12px;letter-spacing:0.4px;text-transform:uppercase;">Report details</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:var(--MpColors-text-secondary);margin-bottom:12px;letter-spacing:0.4px;text-transform:uppercase;">Report details</p>
 
             <div style="margin-bottom:14px;">
               <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#374151;margin-bottom:5px;">Report title</p>
@@ -1702,11 +1703,11 @@ body{
             <!-- Total summary -->
             <div style="background:#F8FAFC;border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);">
               <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Total expenses</span>
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Total expenses</span>
                 <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#1A1A2E;">Rp 1.203.000</span>
               </div>
               <div style="display:flex;justify-content:space-between;">
-                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;">Number of items</span>
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Number of items</span>
                 <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;color:#1A1A2E;">4 expenses</span>
               </div>
             </div>
@@ -1731,7 +1732,7 @@ body{
     <div class="sheet-backdrop" id="sheet-fab" onclick="closeFab(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">New request</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">New request</p>
 
         <div class="sheet-item" onclick="openReimbChoice()">
           <div style="width:40px;height:40px;background:#EEF2FF;border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -1739,7 +1740,7 @@ body{
           </div>
           <div>
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Reimbursement</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Snap, upload, or fill manually</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Snap, upload, or fill manually</p>
           </div>
           <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
         </div>
@@ -1750,7 +1751,7 @@ body{
           </div>
           <div>
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Business trip</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Plan a new trip and get approval before traveling</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Plan a new trip and get approval before traveling</p>
           </div>
           <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
         </div>
@@ -1761,7 +1762,7 @@ body{
           </div>
           <div>
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Trip expense</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Report expenses from a trip you've already taken</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Report expenses from a trip you've already taken</p>
           </div>
           <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
         </div>
@@ -1772,7 +1773,7 @@ body{
           </div>
           <div>
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Cash advance</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Request funds before your expense</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Request funds before your expense</p>
           </div>
           <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
         </div>
@@ -1783,7 +1784,7 @@ body{
           </div>
           <div>
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#1A1A2E;">Purchase request</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#8896A8;margin-top:1px;">Request approval before purchasing</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Request approval before purchasing</p>
           </div>
           <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
         </div>
@@ -2036,8 +2037,8 @@ body{
     <div class="sheet-backdrop" id="sheet-trip-select" onclick="closeTripSelect(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Select trip</p>
-        <p style="font-size:var(--MpTextStyles-sm-fontSize);color:#8896A8;padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which trip to report these receipts against.</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Select trip</p>
+        <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-secondary);padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which trip to report these receipts against.</p>
         <div class="trip-list" id="trip-list"></div>
         <div style="height:6px;"></div>
       </div>
@@ -2209,8 +2210,8 @@ body{
     <div class="sheet-backdrop" id="sheet-split" onclick="closeSplitSheet(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Split into separate claim</p>
-        <p style="font-size:var(--MpTextStyles-sm-fontSize);color:#8896A8;padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which photo to move to its own claim.</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Split into separate claim</p>
+        <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-secondary);padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which photo to move to its own claim.</p>
         <div class="split-list" id="split-list"></div>
         <div style="height:6px;"></div>
       </div>
@@ -2223,7 +2224,7 @@ body{
     <div class="sheet-backdrop" id="sheet-trip-cat" onclick="closeTripCatSheet(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
         <div class="sheet-list" id="trip-cat-list"></div>
         <div style="height:6px;"></div>
       </div>
@@ -2236,7 +2237,7 @@ body{
     <div class="sheet-backdrop" id="sheet-category" onclick="closeCategorySheet(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Claim category</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Claim category</p>
         <div style="padding:0 var(--MpSpacing-large) var(--MpSpacing-small);">
           <label class="category-search">
             <i class="ti ti-search"></i>
@@ -2256,7 +2257,7 @@ body{
     <div class="sheet-backdrop" id="sheet-date" onclick="closeDateSheet(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
         <div class="sheet-list" id="date-list"></div>
         <div style="height:6px;"></div>
       </div>
@@ -2269,7 +2270,7 @@ body{
     <div class="sheet-backdrop" id="sheet-date-picker" onclick="closeDatePicker(event)">
       <div class="bottom-sheet" onclick="event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:#8896A8;padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+        <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:700;color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
         <div class="cal-header">
           <button type="button" class="cal-nav" onclick="navMonth(-1)" aria-label="Previous month"><i class="ti ti-chevron-left"></i></button>
           <span class="cal-title" id="cal-title">May 2026</span>
