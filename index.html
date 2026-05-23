@@ -81,6 +81,7 @@
   --MpColors-border-primary:#DCDFE4;   /* pxl-color-border-primary      */
   --MpColors-border-subtle:#F0F1F3;    /* pxl-color-border-subtle       */
   --MpColors-border-bold:#758195;      /* pxl-color-border-bold         */
+  --MpColors-border-selected:#4B61DC;  /* pxl-color-border-selected     */
   --MpColors-border-success:#1C8459;   /* pxl-color-border-success      */
   --MpColors-border-warning:#F5CD47;   /* pxl-color-border-warning      */
   --MpColors-border-danger:#C33E35;    /* pxl-color-border-danger       */
@@ -786,8 +787,8 @@ body{
 /* ── Notification items ── */
 .notif-item{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;cursor:pointer;border-bottom:0.5px solid #F0F2F8;background:var(--MpColors-bg-stage);}
 .notif-item:last-child{border-bottom:none;}
-.notif-item.unread{border-left:3px solid #0050C8;background:#F8FAFF;}
-.unread-dot{width:8px;height:8px;background:#0050C8;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.notif-item.unread{border-left:3px solid var(--MpColors-border-selected);background:#F8FAFF;}
+.unread-dot{width:8px;height:8px;background:var(--MpColors-border-selected);border-radius:50%;flex-shrink:0;margin-top:5px;}
 
 /* ── OCR bar ── */
 .ocr-bar{margin:0 var(--MpSpacing-medium) var(--MpSpacing-xSmall);background:#EEF2FF;border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);display:flex;align-items:center;gap:var(--MpSpacing-xSmall);}
@@ -1434,7 +1435,7 @@ body{
         <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);margin-bottom:12px;">
           <i class="ti ti-arrow-left" onclick="closeInbox()" style="font-size:var(--MpTextStyles-l-fontSize);color:var(--MpColors-text-primary);cursor:pointer;"></i>
           <span style="font-size:var(--MpTextStyles-l-fontSize);font-weight:700;color:var(--MpColors-text-primary);flex:1;">Inbox</span>
-          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:#0050C8;font-weight:500;cursor:pointer;">Mark all as read</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-border-selected);font-weight:500;cursor:pointer;">Mark all as read</span>
         </div>
         <!-- Tabs -->
         <div class="tab-bar" style="padding:0;background:var(--MpColors-bg-stage);">
@@ -1501,7 +1502,7 @@ body{
 
         <div class="notif-item">
           <div class="icon-box" style="background:#EEF2FF;">
-            <i class="ti ti-message" style="font-size:var(--MpTextStyles-md-fontSize);color:#0050C8;"></i>
+            <i class="ti ti-message" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-border-selected);"></i>
           </div>
           <div style="flex:1;">
             <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:var(--MpColors-text-primary);margin-bottom:2px;">New comment on your claim</p>
@@ -1526,7 +1527,7 @@ body{
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">Submitted 1 hour ago</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:8px;">
-            <span style="background:#0050C8;color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:var(--MpColors-border-selected);color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
             <span style="background:#F3F5F9;color:#6B7280;border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;">Reject</span>
           </div>
         </div>
@@ -1539,7 +1540,7 @@ body{
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#B0BAC9;margin-top:3px;">Submitted 3 hours ago</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:8px;">
-            <span style="background:#0050C8;color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:var(--MpColors-border-selected);color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;white-space:nowrap;">Approve</span>
             <span style="background:#F3F5F9;color:#6B7280;border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;cursor:pointer;">Reject</span>
           </div>
         </div>
@@ -1601,7 +1602,7 @@ body{
               </div>
             </div>
             <div style="background:#F3F5F9;border-radius:var(--MpRadius-medium);height:6px;">
-              <div style="background:#0050C8;border-radius:var(--MpRadius-medium);height:6px;width:48%;"></div>
+              <div style="background:var(--MpColors-border-selected);border-radius:var(--MpRadius-medium);height:6px;width:48%;"></div>
             </div>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:5px;">48% of budget used</p>
           </div>
@@ -1641,7 +1642,7 @@ body{
           </div>
 
           <div style="background:#EEF2FF;border-radius:var(--MpRadius-xLarge);padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;margin-bottom:10px;">
-            <i class="ti ti-info-circle" style="font-size:15px;color:#0050C8;flex-shrink:0;margin-top:1px;"></i>
+            <i class="ti ti-info-circle" style="font-size:15px;color:var(--MpColors-border-selected);flex-shrink:0;margin-top:1px;"></i>
             <p style="font-size:var(--MpTextStyles-xs-fontSize);color:#1E40AF;line-height:1.5;">Your report is ready to submit. Review the expenses and create your report below.</p>
           </div>
 
@@ -1651,7 +1652,7 @@ body{
       <!-- Sticky CTA — "Create report" (not "Submit report") -->
       <div style="position:absolute;bottom:0;left:0;right:0;background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium) var(--MpSpacing-large);border-top:1px solid var(--XpmColors-bg-base);display:flex;gap:var(--MpSpacing-xSmall);">
         <button onclick="closeTripDetail()" style="flex:1;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:1.5px solid #C8D0E0;background:var(--MpColors-bg-stage);font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#6B7280;cursor:pointer;">Add expense</button>
-        <button onclick="openCreateReport()" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:#0050C8;font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:var(--MpColors-text-inverse);cursor:pointer;">Create report</button>
+        <button onclick="openCreateReport()" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:var(--MpColors-border-selected);font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:var(--MpColors-text-inverse);cursor:pointer;">Create report</button>
       </div>
 
       <div class="home-indicator"><div class="bar"></div></div>
@@ -1719,7 +1720,7 @@ body{
       <!-- CTA row -->
       <div style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-small) var(--MpSpacing-medium) var(--MpSpacing-large);border-top:0.5px solid var(--XpmColors-bg-base);display:flex;gap:var(--MpSpacing-xSmall);flex-shrink:0;">
         <button onclick="closeCreateReport()" style="flex:1;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:1.5px solid #C8D0E0;background:var(--MpColors-bg-stage);font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#6B7280;cursor:pointer;">Save as draft</button>
-        <button onclick="closeCreateReport()" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:#0050C8;font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:var(--MpColors-text-inverse);cursor:pointer;">Submit report</button>
+        <button onclick="closeCreateReport()" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:var(--MpColors-border-selected);font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:var(--MpColors-text-inverse);cursor:pointer;">Submit report</button>
       </div>
 
       <div class="home-indicator"><div class="bar"></div></div>
