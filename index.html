@@ -80,6 +80,9 @@
   --MpColors-border-primary:#DCDFE4;   /* pxl-color-border-primary      */
   --MpColors-border-subtle:#F0F1F3;    /* pxl-color-border-subtle       */
   --MpColors-border-bold:#758195;      /* pxl-color-border-bold         */
+  --MpColors-border-success:#1C8459;   /* pxl-color-border-success      */
+  --MpColors-border-warning:#F5CD47;   /* pxl-color-border-warning      */
+  --MpColors-border-danger:#C33E35;    /* pxl-color-border-danger       */
 
   /* Custom XPM project colors — not in Pixel Flutter tokens */
   --XpmColors-bg-base:#F2F3F9;                           /* page bg, separators, active states */
@@ -708,10 +711,12 @@ body{
 .cal-actions .rf-btn-secondary{background:#fff;color:var(--MpColors-text-link);border:1px solid #dcdfe4;}
 
 /* ── Toast ── */
-.app-toast{position:absolute;top:60px;left:50%;transform:translate(-50%,-12px);opacity:0;display:inline-flex;align-items:center;gap:var(--MpSpacing-xSmall);padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);border-radius:var(--MpRadius-xLarge);background:rgba(15,17,21,0.92);color:#fff;font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-sm-fontSize);line-height:var(--MpTextStyles-sm-lineHeight);font-weight:var(--MpTextStyles-semiBold);box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:200;pointer-events:none;transition:opacity 200ms ease,transform 200ms ease;white-space:nowrap;max-width:88%;}
-.app-toast i{font-size:var(--MpTextStyles-l-fontSize);color:#86EFAC;}
-.app-toast.success i{color:#86EFAC;}
-.app-toast.error i{color:#FCA5A5;}
+.app-toast{position:absolute;top:60px;left:50%;transform:translate(-50%,-12px);opacity:0;display:inline-flex;align-items:center;gap:var(--MpSpacing-xSmall);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);background:var(--MpColors-bg-stage);color:var(--MpColors-text-primary);font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-sm-fontSize);line-height:var(--MpTextStyles-sm-lineHeight);font-weight:var(--MpTextStyles-regular);border:1.5px solid var(--MpColors-border-primary);box-shadow:0 4px 3px rgba(0,0,0,0.05),0 10px 7.5px rgba(0,0,0,0.10);z-index:200;pointer-events:none;transition:opacity 200ms ease,transform 200ms ease;white-space:nowrap;max-width:88%;}
+.app-toast i{font-size:var(--MpTextStyles-l-fontSize);color:var(--MpColors-icon-success);}
+.app-toast.success{border-color:var(--MpColors-border-success);}
+.app-toast.success i{color:var(--MpColors-icon-success);}
+.app-toast.error{border-color:var(--MpColors-border-danger);}
+.app-toast.error i{color:var(--MpColors-text-danger);}
 .app-toast.visible{opacity:1;transform:translate(-50%,0);}
 
 /* ── Bottom sheet ── */
