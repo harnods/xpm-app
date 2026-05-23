@@ -445,7 +445,7 @@ body{
 .fab-pill span{font-size:var(--MpTextStyles-md-fontSize);line-height:var(--MpTextStyles-md-lineHeight);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-inverse);white-space:nowrap;}
 
 /* ── Badge ── */
-.badge{background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:var(--MpRadius-medium);padding:1px 5px;min-width:16px;text-align:center;line-height:14px;}
+.badge{background:var(--MpColors-bg-dangerBold);color:var(--MpColors-text-inverse);font-size:var(--MpTextStyles-xxs-fontSize);font-weight:var(--MpTextStyles-semiBold);border-radius:var(--MpRadius-full);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-xSmall);min-width:16px;text-align:center;line-height:var(--MpTextStyles-xxs-lineHeight);box-shadow:0 4px 6px -2px rgba(0,0,0,0.05),0 10px 15px -3px rgba(0,0,0,0.10);}
 
 /* ── Icon box & avatar ── */
 .icon-box{width:34px;height:34px;border-radius:var(--MpRadius-medium);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -583,9 +583,9 @@ body{
 .trip-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);font-family:var(--MpFont-inter);}
 .trip-card-name{font-size:var(--MpTextStyles-md-fontSize);line-height:var(--MpTextStyles-md-lineHeight);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);}
 .trip-card-meta{font-size:var(--MpTextStyles-xs-fontSize);line-height:var(--MpTextStyles-xs-lineHeight);color:var(--MpColors-text-secondary);}
-.trip-card-status{align-self:flex-start;font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);font-weight:600;padding:3px 8px;border-radius:var(--MpRadius-full);margin-top:2px;}
-.trip-card-status.warn{color:#a14a0b;background:#fff8ee;}
-.trip-card-status.danger{color:#a01010;background:#fdecec;}
+.trip-card-status{align-self:flex-start;font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-xSmall);border-radius:var(--MpRadius-full);margin-top:var(--MpSpacing-xSmall4);}
+.trip-card-status.warn{color:var(--MpColors-text-warning);background:var(--MpColors-bg-warning);}
+.trip-card-status.danger{color:var(--MpColors-text-danger);background:var(--MpColors-bg-danger);}
 
 /* Classify */
 .classify-banner{margin:0 var(--MpSpacing-medium) var(--MpSpacing-small);padding:var(--MpSpacing-small);border-radius:var(--MpRadius-medium);font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);line-height:1.5;display:flex;align-items:flex-start;gap:var(--MpSpacing-xSmall2);}
@@ -774,8 +774,8 @@ body{
 
 /* ── Tab bar ── */
 .tab-bar{display:flex;border-bottom:1.5px solid var(--MpColors-border-subtle);padding:0 var(--MpSpacing-medium);gap:0;flex-shrink:0;}
-.tab-btn{padding:11px 16px 9px;font-size:var(--MpTextStyles-sm-fontSize);font-weight:600;color:#8896A8;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;white-space:nowrap;}
-.tab-btn.active{color:#0050C8;border-bottom-color:#0050C8;}
+.tab-btn{padding:var(--MpSpacing-small) 0;font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;white-space:nowrap;}
+.tab-btn.active{color:var(--MpColors-text-link);border-bottom-color:var(--MpColors-text-link);}
 
 /* ── Notification items ── */
 .notif-item{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;cursor:pointer;border-bottom:0.5px solid #F0F2F8;background:white;}
@@ -1434,11 +1434,11 @@ body{
         <div class="tab-bar" style="padding:0;background:white;">
           <span class="tab-btn active" id="tab-notif" onclick="switchInboxTab('notif')">
             Notifications
-            <span style="background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:var(--MpRadius-medium);padding:1px 5px;margin-left:3px;vertical-align:middle;">3</span>
+            <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;">3</span>
           </span>
           <span class="tab-btn" id="tab-approval" onclick="switchInboxTab('approval')">
             Need my approval
-            <span style="background:#DC2626;color:white;font-size:9px;font-weight:700;border-radius:var(--MpRadius-medium);padding:1px 5px;margin-left:3px;vertical-align:middle;">2</span>
+            <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;">2</span>
           </span>
         </div>
       </div>
