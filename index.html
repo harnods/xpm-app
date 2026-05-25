@@ -394,7 +394,7 @@ body{
 .credits-card .credits-fill{background:var(--MpColors-text-link);height:4px;border-radius:var(--MpRadius-full);}
 
 /* ── Budget categories widget (Figma 1694:21302) ── */
-.budget-widget{display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall);padding:var(--MpSpacing-small) 0;font-family:var(--MpFont-inter);}
+.budget-widget{background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall);padding:var(--MpSpacing-small);font-family:var(--MpFont-inter);}
 .budget-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
 .budget-header-title{font-size:var(--MpTextStyles-md-fontSize);line-height:var(--MpTextStyles-md-lineHeight);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);}
 .budget-header-link{display:flex;align-items:center;gap:var(--MpSpacing-xSmall);cursor:pointer;}
@@ -641,6 +641,19 @@ body{
 .rp-edit{width:32px;height:32px;border:none;background:transparent;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--MpColors-text-link);cursor:pointer;}
 .rp-edit:active{background:var(--XpmColors-bg-base);}
 .rp-edit i{font-size:var(--MpTextStyles-l-fontSize);}
+
+/* ── Subcategory field in receipt preview ── */
+.rp-subcat{padding:0 var(--MpSpacing-medium) var(--MpSpacing-small);display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);background:var(--MpColors-bg-stage);border-top:1px solid var(--XpmColors-bg-base);}
+.rp-subcat-label{font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);padding-top:var(--MpSpacing-xSmall);}
+.rp-subcat-row{display:flex;align-items:center;justify-content:space-between;padding:var(--MpSpacing-small);border:1px solid var(--MpColors-border-primary);border-radius:var(--MpRadius-medium);cursor:pointer;}
+.rp-subcat-value{font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-md-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);}
+.rp-subcat-value.placeholder{color:var(--MpColors-text-placeholder);font-weight:var(--MpTextStyles-regular);}
+
+/* ── Two-step sheet nav (back button) ── */
+.sheet-nav-header{display:flex;align-items:center;gap:var(--MpSpacing-xSmall);padding:var(--MpSpacing-xSmall2) var(--MpSpacing-medium) 0;}
+.sheet-nav-back{width:36px;height:36px;border:none;background:transparent;color:var(--MpColors-text-link);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:var(--MpRadius-full);flex-shrink:0;margin-left:-8px;}
+.sheet-nav-back i{font-size:var(--MpTextStyles-l-fontSize);}
+.sheet-nav-title{font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);text-transform:uppercase;letter-spacing:0.6px;}
 .rp-photos{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:grid;grid-template-columns:repeat(2,1fr);gap:var(--MpSpacing-xSmall2);background:var(--MpColors-bg-stage);}
 .rp-photo{aspect-ratio:3 / 4;border-radius:var(--MpRadius-medium);background:#1E2230;background-image:repeating-linear-gradient(to bottom,#F5F1E6 0,#F5F1E6 16px,#E8E2D2 16px,#E8E2D2 17px);position:relative;border:1px solid rgba(0,0,0,0.08);overflow:hidden;}
 .rp-photo .num{position:absolute;top:6px;left:8px;font-family:var(--MpFont-inter);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:#8a7a4b;}
@@ -799,10 +812,16 @@ body{
 .tab-btn.active{color:var(--MpColors-text-link);border-bottom-color:var(--MpColors-text-link);}
 
 /* ── Notification items ── */
-.notif-item{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;cursor:pointer;border-bottom:0.5px solid var(--MpColors-border-subtle);background:var(--MpColors-bg-stage);}
+.notif-item{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;cursor:pointer;border-bottom:0.5px solid var(--MpColors-border-subtle);background:var(--MpColors-bg-stage);transition:transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);user-select:none;width:100%;box-sizing:border-box;position:relative;z-index:1;}
 .notif-item:last-child{border-bottom:none;}
 .notif-item.unread{border-left:3px solid var(--MpColors-border-selected);background:var(--MpColors-bg-subtle);}
 .unread-dot{width:8px;height:8px;background:var(--MpColors-bg-brandBold);border-radius:50%;flex-shrink:0;margin-top:5px;}
+
+/* ── Swipe-to-mark-as-read ── */
+.notif-swipe-wrap{position:relative;overflow:hidden;}
+.notif-swipe-action{position:absolute;right:0;top:0;bottom:0;width:120px;background:var(--MpColors-bg-successBold);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;}
+.notif-swipe-action i{font-size:20px;color:var(--MpColors-text-inverse);}
+.notif-swipe-action span{font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-inverse);text-align:center;}
 
 /* ── OCR bar ── */
 .ocr-bar{margin:0 var(--MpSpacing-medium) var(--MpSpacing-xSmall);background:var(--MpColors-bg-brand);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);display:flex;align-items:center;gap:var(--MpSpacing-xSmall);}
@@ -914,9 +933,9 @@ body{
           <!-- ── Budget categories (Figma 1694:21302) ── -->
           <div class="budget-widget">
             <div class="budget-header">
-              <span class="budget-header-title">Budget categories</span>
+              <span class="budget-header-title">Categories limit</span>
               <div class="budget-header-link">
-                <span>View all limits</span>
+                <span>View all</span>
                 <div class="chevron-box"><img src="assets/chevron-right.svg" alt=""></div>
               </div>
             </div>
@@ -1444,12 +1463,17 @@ body{
          OVERLAY · INBOX
     ════════════════════════════════════════════ -->
     <div class="overlay" id="overlay-inbox" style="background:var(--MpColors-bg-stage);">
+      <!-- iOS Status Bar -->
+      <div class="status-bar" style="background:var(--MpColors-bg-stage);">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
       <!-- Header -->
-      <div style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium) 0;flex-shrink:0;">
+      <div style="background:var(--MpColors-bg-stage);padding:0 var(--MpSpacing-medium) 0;flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);margin-bottom:var(--MpSpacing-small);">
           <i class="ti ti-arrow-left" onclick="closeInbox()" style="font-size:var(--MpTextStyles-l-fontSize);color:var(--MpColors-text-primary);cursor:pointer;"></i>
           <span style="font-size:var(--MpTextStyles-l-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);flex:1;">Inbox</span>
-          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-link);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;">Mark all as read</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-link);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;" onclick="markAllAsRead()">Mark all as read</span>
         </div>
         <!-- Tabs -->
         <div class="tab-bar" style="padding:0;background:var(--MpColors-bg-stage);">
@@ -1467,63 +1491,95 @@ body{
 
       <!-- Notifications panel -->
       <div class="scroll-area" id="panel-notif" style="flex:1;background:var(--XpmColors-bg-base);">
-        <div class="notif-item unread">
-          <div class="icon-box" style="background:var(--MpColors-bg-success);">
-            <i class="ti ti-circle-check" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
-          </div>
-          <div style="flex:1;">
-            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim approved</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Grab · Transport claim · Rp 48.000</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 minutes ago</p>
-          </div>
-          <div class="unread-dot"></div>
-        </div>
 
-        <div class="notif-item unread">
-          <div class="icon-box" style="background:var(--MpColors-bg-success);">
-            <i class="ti ti-cash" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
           </div>
-          <div style="flex:1;">
-            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Payment processed</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Omah Sendok Restoran · Rp 754.000</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">1 hour ago</p>
-          </div>
-          <div class="unread-dot"></div>
-        </div>
-
-        <div class="notif-item unread">
-          <div class="icon-box" style="background:var(--MpColors-bg-danger);">
-            <i class="ti ti-circle-x" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-danger);"></i>
-          </div>
-          <div style="flex:1;">
-            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim rejected</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Notion · Subscription · Rp 149.000</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">3 hours ago</p>
-          </div>
-          <div class="unread-dot"></div>
-        </div>
-
-        <div class="notif-item">
-          <div class="icon-box" style="background:var(--MpColors-bg-success);">
-            <i class="ti ti-plane" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
-          </div>
-          <div style="flex:1;">
-            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Trip approved</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Bandung · 20–25 May 2023</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">Yesterday</p>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-circle-check" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim approved</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Grab · Transport claim · Rp 48.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 minutes ago</p>
+            </div>
+            <div class="unread-dot"></div>
           </div>
         </div>
 
-        <div class="notif-item">
-          <div class="icon-box" style="background:var(--MpColors-bg-brand);">
-            <i class="ti ti-message" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-link);"></i>
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
           </div>
-          <div style="flex:1;">
-            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">New comment on your claim</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
-            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 days ago</p>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-cash" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Payment processed</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Omah Sendok Restoran · Rp 754.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">1 hour ago</p>
+            </div>
+            <div class="unread-dot"></div>
           </div>
         </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-danger);">
+              <i class="ti ti-circle-x" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-danger);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim rejected</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Notion · Subscription · Rp 149.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">3 hours ago</p>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-plane" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Trip approved</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Bandung · 20–25 May 2023</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">Yesterday</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item">
+            <div class="icon-box" style="background:var(--MpColors-bg-brand);">
+              <i class="ti ti-message" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-link);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">New comment on your claim</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 days ago</p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Need my approval panel -->
@@ -2103,10 +2159,17 @@ body{
       <div class="trip-subheader" id="rp-sub">1 photo</div>
       <div class="scroll-area">
         <div class="rp-classification">
-          <span class="rp-classification-label">Classification</span>
+          <span class="rp-classification-label">Category</span>
           <div class="rp-classification-row" id="rp-cat-row">
             <span class="rp-classification-value" id="rp-cat-value">Transportation</span>
             <button type="button" class="rp-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>
+          </div>
+        </div>
+        <div class="rp-subcat" id="rp-subcat-wrap" style="display:none;">
+          <span class="rp-subcat-label">Subcategory</span>
+          <div class="rp-subcat-row" id="rp-subcat-row">
+            <span class="rp-subcat-value" id="rp-subcat-value">Select subcategory</span>
+            <button type="button" class="rp-edit" aria-label="Edit subcategory"><i class="ti ti-pencil"></i></button>
           </div>
         </div>
         <div class="rp-section-label">Photos</div>
@@ -2247,6 +2310,30 @@ body{
 
 
     <!-- ═══════════════════════════════════════════
+         SHEET · REIMB CATEGORY + SUBCATEGORY (two-step)
+    ════════════════════════════════════════════ -->
+    <div class="sheet-backdrop" id="sheet-reimb-cat" onclick="closeReimbCatSheet(event)">
+      <div class="bottom-sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <!-- Step 1: Category -->
+        <div id="reimb-cat-step1">
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+          <div class="sheet-list" id="reimb-cat-list"></div>
+        </div>
+        <!-- Step 2: Subcategory -->
+        <div id="reimb-cat-step2" style="display:none;">
+          <div class="sheet-nav-header">
+            <button class="sheet-nav-back" type="button" onclick="showReimbCatStep1()"><i class="ti ti-arrow-left"></i></button>
+            <span class="sheet-nav-title">Subcategory</span>
+          </div>
+          <div class="sheet-list" id="reimb-subcat-list"></div>
+        </div>
+        <div style="height:6px;"></div>
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
          SHEET · CLAIM CATEGORY
     ════════════════════════════════════════════ -->
     <div class="sheet-backdrop" id="sheet-category" onclick="closeCategorySheet(event)">
@@ -2334,6 +2421,7 @@ function closeAllOverlays() {
 /* ── Inbox ── */
 function openInbox() {
   document.getElementById('overlay-inbox').classList.add('active');
+  initNotifSwipe();
 }
 function closeInbox() {
   document.getElementById('overlay-inbox').classList.remove('active');
@@ -2345,6 +2433,70 @@ function switchInboxTab(tab) {
   });
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('panel-' + tab).style.display = 'block';
+}
+
+/* ── Swipe-to-mark-as-read ── */
+function initNotifSwipe() {
+  document.querySelectorAll('#panel-notif .notif-swipe-wrap').forEach(wrap => {
+    if (wrap._swipeInit) return;
+    wrap._swipeInit = true;
+    const item = wrap.querySelector('.notif-item');
+    const ACTION_W = 120, THRESHOLD = 60;
+    let startX = 0, startY = 0, currentX = 0, tracking = false, opened = false, mouseDown = false;
+
+    function onStart(x, y) { startX = x; startY = y; tracking = true; item.style.transition = 'none'; }
+    function onMove(x, y) {
+      if (!tracking) return;
+      const dx = x - startX, dy = y - startY;
+      if (!opened && Math.abs(dy) > Math.abs(dx) && Math.abs(dx) < 10) { tracking = false; return; }
+      currentX = opened ? Math.min(0, dx - ACTION_W) : Math.min(0, dx);
+      currentX = Math.max(currentX, -ACTION_W);
+      item.style.transform = `translateX(${currentX}px)`;
+    }
+    function onEnd() {
+      if (!tracking && !mouseDown) return;
+      tracking = false; mouseDown = false;
+      item.style.transition = 'transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)';
+      const moved = opened ? currentX + ACTION_W : currentX;
+      if (moved < -THRESHOLD) { item.style.transform = `translateX(-${ACTION_W}px)`; opened = true; }
+      else { item.style.transform = 'translateX(0)'; opened = false; }
+    }
+
+    item.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+    item.addEventListener('touchmove', e => onMove(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+    item.addEventListener('touchend', onEnd);
+    item.addEventListener('mousedown', e => { mouseDown = true; onStart(e.clientX, e.clientY); e.preventDefault(); });
+    document.addEventListener('mousemove', e => { if (mouseDown) onMove(e.clientX, e.clientY); });
+    document.addEventListener('mouseup', () => { if (mouseDown) onEnd(); });
+  });
+}
+
+function markNotifAsRead(actionEl) {
+  const wrap = actionEl.closest('.notif-swipe-wrap');
+  const item = wrap.querySelector('.notif-item');
+  item.style.transition = 'transform 0.25s ease';
+  item.style.transform = 'translateX(0)';
+  setTimeout(() => {
+    item.classList.remove('unread');
+    const dot = item.querySelector('.unread-dot');
+    if (dot) dot.remove();
+    updateNotifBadge();
+  }, 260);
+}
+
+function markAllAsRead() {
+  document.querySelectorAll('#panel-notif .notif-item.unread').forEach(item => {
+    item.classList.remove('unread');
+    const dot = item.querySelector('.unread-dot');
+    if (dot) dot.remove();
+  });
+  updateNotifBadge();
+}
+
+function updateNotifBadge() {
+  const count = document.querySelectorAll('#panel-notif .notif-item.unread').length;
+  const tabBadge = document.querySelector('#tab-notif .badge');
+  if (tabBadge) { tabBadge.textContent = count; tabBadge.style.display = count > 0 ? '' : 'none'; }
 }
 
 /* ── FAB sheet ── */
@@ -2449,7 +2601,8 @@ function confirmReceipts() {
     document.getElementById('overlay-reimb').classList.remove('active');
     openTripSelect('snap');
   } else {
-    openReimbForm('snap');
+    document.getElementById('overlay-reimb').classList.remove('active');
+    openReimbClassify('snap');
   }
 }
 function manualEntry() {
@@ -2493,16 +2646,48 @@ const CLAIM_CAT_BY_TRIP = {
 };
 // Photo N → mocked OCR result. Designed to demo grouping: photos 1 & 2 both Grab/Transportation.
 const AI_MOCKS = [
-  { vendor: 'Grab',        category: 'Transportation', amount: '120.000' },
-  { vendor: 'Grab',        category: 'Transportation', amount: '180.000' },
-  { vendor: 'Hotel Mulia', category: 'Accommodation',  amount: '950.000' },
-  { vendor: 'Indomaret',   category: 'Per diem',       amount:  '55.000' },
+  { vendor: 'Grab',        category: 'Transportation', subCategory: 'Taxi',           amount: '120.000' },
+  { vendor: 'Grab',        category: 'Transportation', subCategory: 'Taxi',           amount: '180.000' },
+  { vendor: 'Hotel Mulia', category: 'Accommodation',  subCategory: 'Room Rate',      amount: '950.000' },
+  { vendor: 'Indomaret',   category: 'Per diem',       subCategory: 'Daily Allowance',amount:  '55.000' },
 ];
+
+/* ── Reimb expense categories with subcategories ── */
+const REIMB_CATEGORIES = {
+  'Transportation':       ['Parking', 'Public Transport', 'Taxi', 'Fuel', 'Toll'],
+  'Accommodation':        ['Room Rate', 'Service Charge', 'Meals at Hotel', 'Laundry'],
+  'Per diem':             ['Breakfast', 'Lunch', 'Dinner', 'Daily Allowance'],
+  'Meals & Entertainment':['Restaurant', 'Coffee & Drinks', 'Entertainment', 'Team Event'],
+  'Subscription':         [],
+  'Office Supplies':      [],
+  'Communication':        [],
+  'Other':                [],
+};
 let tripCaptureMode = 'snap';
 let tripSelectedTrip = null;
 let tripReceipts = []; // [{ id, category, date, vendor, amount, desc }]
 let tripCurrentIdx = 0;
 let pendingCatRowId = null;
+let classifyFlowMode = 'trip'; // 'trip' | 'reimb'
+
+/* ── Reimb classify entry point ── */
+function openReimbClassify(mode) {
+  classifyFlowMode = 'reimb';
+  tripCaptureMode = mode;
+  const count = Math.max(1, scanCaptures.length);
+  const hasAi = SCAN_CREDITS > 0 && mode === 'snap';
+  tripReceipts = hasAi ? buildAiGroupedReceipts(count) : buildManualReceipts(count);
+  const banner = document.getElementById('classify-banner');
+  if (hasAi) {
+    banner.className = 'classify-banner ai';
+    banner.innerHTML = '<i class="ti ti-sparkles"></i><span>AI grouped your receipts by category and vendor — tap any row to adjust.</span>';
+  } else {
+    banner.className = 'classify-banner manual';
+    banner.innerHTML = '<i class="ti ti-info-circle"></i><span>No AI credits — pick a category for each receipt before continuing.</span>';
+  }
+  renderClassifyList();
+  document.getElementById('overlay-classify').classList.add('active');
+}
 
 /* ── Step 2: Select trip ── */
 function openTripSelect(captureMode) {
@@ -2565,6 +2750,7 @@ function buildAiGroupedReceipts(count) {
         id: 'r' + out.length,
         attachments: [i + 1],
         category: mock.category,
+        subCategory: mock.subCategory || null,
         claimCategory: CLAIM_CAT_BY_TRIP[mock.category] || null,
         aiAssigned: true,
         date: 'Thu, 21 May 2026',
@@ -2608,8 +2794,11 @@ function renderClassifyList() {
       r.vendor || 'Receipt ' + (i + 1),
       photoCount > 0 ? (photoCount === 1 ? '1 photo' : photoCount + ' photos') : null,
     ].filter(Boolean).join(' · ');
-    const picker = r.category
-      ? '<span class="classify-picker-value">' + r.category + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '') + '</span>'
+    const catLabel = r.category
+      ? r.category + (r.subCategory ? ' · ' + r.subCategory : '')
+      : null;
+    const picker = catLabel
+      ? '<span class="classify-picker-value">' + catLabel + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '') + '</span>'
       : '<span class="classify-picker-value placeholder">Tap to classify</span>';
     row.innerHTML =
       '<button type="button" class="classify-thumb-btn" aria-label="Preview"><div class="classify-thumb"><span class="num">' + (r.attachments[0] || (i + 1)) + '</span>' + attBadge + '</div></button>' +
@@ -2619,7 +2808,7 @@ function renderClassifyList() {
       '</div>' +
       '<button type="button" class="classify-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>';
     row.querySelector('.classify-thumb-btn').onclick = () => openReceiptPreview(r.id);
-    row.querySelector('.classify-picker').onclick = () => openTripCatSheet(r.id);
+    row.querySelector('.classify-picker').onclick = () => classifyFlowMode === 'reimb' ? openReimbCatSheet(r.id) : openTripCatSheet(r.id);
     row.querySelector('.classify-edit').onclick = () => openReceiptPreview(r.id);
     list.appendChild(row);
   });
@@ -2629,6 +2818,60 @@ function renderClassifyList() {
 function closeClassify() {
   document.getElementById('overlay-classify').classList.remove('active');
 }
+
+/* ── Reimb category + subcategory picker ── */
+let pendingReimbCatRowId = null;
+function openReimbCatSheet(rowId) {
+  pendingReimbCatRowId = rowId;
+  showReimbCatStep1();
+  document.getElementById('sheet-reimb-cat').classList.add('active');
+}
+function showReimbCatStep1() {
+  document.getElementById('reimb-cat-step1').style.display = '';
+  document.getElementById('reimb-cat-step2').style.display = 'none';
+  const r = tripReceipts.find(x => x.id === pendingReimbCatRowId) || {};
+  const list = document.getElementById('reimb-cat-list');
+  list.innerHTML = '';
+  Object.keys(REIMB_CATEGORIES).forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'sheet-list-item' + (cat === r.category ? ' active' : '');
+    el.textContent = cat;
+    el.onclick = () => {
+      const subs = REIMB_CATEGORIES[cat] || [];
+      if (subs.length > 0) { showReimbSubcatStep(cat); }
+      else { pickReimbCategory(cat, null); }
+    };
+    list.appendChild(el);
+  });
+}
+function showReimbSubcatStep(category) {
+  document.getElementById('reimb-cat-step1').style.display = 'none';
+  document.getElementById('reimb-cat-step2').style.display = '';
+  const r = tripReceipts.find(x => x.id === pendingReimbCatRowId) || {};
+  const subs = REIMB_CATEGORIES[category] || [];
+  const list = document.getElementById('reimb-subcat-list');
+  list.innerHTML = '';
+  subs.forEach(sub => {
+    const el = document.createElement('div');
+    const isCurrent = sub === r.subCategory && r.category === category;
+    el.className = 'sheet-list-item' + (isCurrent ? ' active' : '');
+    el.textContent = sub;
+    el.onclick = () => pickReimbCategory(category, sub);
+    list.appendChild(el);
+  });
+}
+function pickReimbCategory(category, subCategory) {
+  const r = tripReceipts.find(x => x.id === pendingReimbCatRowId);
+  if (r) { r.category = category; r.subCategory = subCategory; r.aiAssigned = false; }
+  closeReimbCatSheet();
+  renderClassifyList();
+  if (previewReceiptId === pendingReimbCatRowId) renderReceiptPreview();
+}
+function closeReimbCatSheet(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('sheet-reimb-cat').classList.remove('active');
+}
+
 function openTripCatSheet(rowId) {
   pendingCatRowId = rowId;
   const current = (tripReceipts.find(r => r.id === rowId) || {}).category;
@@ -2682,10 +2925,37 @@ function renderReceiptPreview() {
     catValue.innerHTML = '<span>' + r.category + '</span>' + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '');
     catValue.style.color = '';
   } else {
-    catValue.textContent = 'Tap to classify';
+    catValue.textContent = 'Tap to select';
     catValue.style.color = 'var(--MpColors-text-placeholder)';
   }
-  document.getElementById('rp-cat-row').onclick = () => openTripCatSheet(r.id);
+  const openCatFn = classifyFlowMode === 'reimb'
+    ? () => openReimbCatSheet(r.id)
+    : () => openTripCatSheet(r.id);
+  document.getElementById('rp-cat-row').onclick = openCatFn;
+
+  // Subcategory field (reimb mode only)
+  const subcatWrap = document.getElementById('rp-subcat-wrap');
+  if (classifyFlowMode === 'reimb' && r.category) {
+    const subs = REIMB_CATEGORIES[r.category] || [];
+    subcatWrap.style.display = subs.length > 0 ? '' : 'none';
+    if (subs.length > 0) {
+      const subcatVal = document.getElementById('rp-subcat-value');
+      if (r.subCategory) {
+        subcatVal.textContent = r.subCategory;
+        subcatVal.classList.remove('placeholder');
+      } else {
+        subcatVal.textContent = 'Select subcategory';
+        subcatVal.classList.add('placeholder');
+      }
+      document.getElementById('rp-subcat-row').onclick = () => {
+        pendingReimbCatRowId = r.id;
+        showReimbSubcatStep(r.category);
+        document.getElementById('sheet-reimb-cat').classList.add('active');
+      };
+    }
+  } else {
+    subcatWrap.style.display = 'none';
+  }
   // Photos
   const photos = document.getElementById('rp-photos');
   photos.innerHTML = '';
@@ -2795,6 +3065,10 @@ function selectTripClaimCategory(value) {
 function continueToTripForm() {
   if (tripReceipts.some(r => !r.category)) return;
   closeClassify();
+  if (classifyFlowMode === 'reimb') {
+    openReimbForm('snap');
+    return;
+  }
   tripCurrentIdx = 0;
   openTripForm();
 }
