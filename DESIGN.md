@@ -3,8 +3,8 @@
 > **Purpose:** This document is the source-of-truth contract between the HTML prototype (`index.html`) and the future Flutter implementation. AI coding agents converting this prototype to Flutter MUST follow the token mappings and rules in this doc exactly. Do not infer or guess tokens — every CSS variable used in `index.html` has an explicit Flutter Dart equivalent listed below.
 >
 > **Target framework:** Flutter (Mekari Pixel 2.4 design system)
-> **Source of truth:** `index.html` (single-file HTML prototype, all screens/overlays/sheets in one file)
-> **Last updated:** keep this updated as `index.html` evolves — see [Changelog](#changelog) at bottom
+> **Source of truth:** Multi-page HTML prototype — each screen is its own `.html` file (see §8 for inventory). Shared design tokens in `styles.css`, shared JS utilities in `app.js`.
+> **Last updated:** keep this updated as prototype files evolve — see [Changelog](#changelog) at bottom
 
 ---
 
@@ -200,7 +200,7 @@ These are hard rules. Violating them produces visually-correct but semantically-
 
 ## 8. Screens & overlays inventory
 
-The prototype is a single-file SPA. Screens are switched by toggling `.screen.active`, overlays slide over the current screen, and sheets slide up from bottom.
+The prototype is a **multi-page HTML app (MPA)**. Each screen is a separate `.html` file; navigation uses plain `<a href>` links. Shared styles in `styles.css`, shared utilities in `app.js`. `index.html` redirects to `home.html`.
 
 ### 8.1 Screens (bottom-nav level)
 
@@ -400,6 +400,252 @@ This section maps every visible UI element in the prototype to its exact Pixel 2
 
 The "Auto-fill credits · 12 remaining" row with the sparkle icon and blue progress bar is **custom** — no direct Pixel component. Build as a `Container` with `MpColors.bg.brand` bg + `MpColors.text.link` text + custom progress indicator using `MpColors.bg.brandBold`.
 
+### 10.13 Form inputs
+
+All form fields use `MpTextField`. **Never use Flutter's raw `TextField` or `TextFormField`.**
+
+| Field type | Widget | Key constructor props |
+|---|---|---|
+| Plain text (vendor, name) | `MpTextField` | `label`, `hint`, `required: true`, `validator` |
+| Currency / amount | `MpTextField` | `prefix: Text('Rp')`, `textInputType: TextInputType.numberWithOptions(decimal: true)`, `inputFormatters: [CurrencyTextInputFormatter]` |
+| Date (read-only, opens picker) | `MpTextField` | `readOnly: true`, `suffixIcon: MpIcons.dateTime.calendar`, `onPressed: () => MpBottomSheet.show(MpFullDatePickerSheet(...))` |
+| Category / trip picker | `MpTextField` | `readOnly: true`, `suffixIcon: MpIcons.interfaceEssential.chevronRight`, `onPressed: openSheet` |
+| Multiline notes | `MpTextField` | `minLines: 3`, `maxLines: 5` |
+| Disabled field | `MpTextField` | `disable: true` |
+
+### 10.14 Banners
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| OCR info banner (after scan) | `MpBanner.info(message: 'Receipt scanned. Review and confirm.')` | Top of reimb-form |
+| AI classify suggestion | `MpBanner.info(title: 'AI suggestion', message: '...', actions: [MpBannerAction(text: 'Review', onTap: openClassify)])` | With action link |
+| Warning / over-budget banner | `MpBanner.warning(message: '...')` | `bg-warning` bg, `text-warning` text automatically |
+
+### 10.15 Progress indicators (budget bars)
+
+Budget category progress bars are **not** a Pixel component — use Flutter's built-in `LinearProgressIndicator`:
+
+```dart
+LinearProgressIndicator(
+  value: spentRatio,                                    // 0.0–1.0
+  backgroundColor: XpmColors.budgetTrackBg,
+  color: MpColors.chart.cat02Bold.resolve(context),     // pick by ratio — see §9.5
+  borderRadius: BorderRadius.circular(999),
+  minHeight: 6,
+)
+```
+
+---
+
+## 11. Per-screen component breakdown
+
+This section maps **every visible UI element per screen** to its exact Pixel 2.4 Flutter widget. Use this when building a screen — every row is one element with its Pixel class and key props.
+
+**Legend:**
+- `Custom` = no Pixel equivalent; build with standard Flutter primitives
+- `↑ §10.x` = additional detail in the referenced §10 sub-section
+
+---
+
+### 11.1 `home.html` — Home
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | `.prototype-wrap` | `MpBasicLayout` | `extendStageBottom: true`, `extendStageTop: true` |
+| App bar | `.app-header` | `MpBaseAppBar` | `backgroundColor: transparent`, `title: Column([greeting, name])`, `actions: [Stack(MpIconButton + MpBadge)]` |
+| Greeting text | `.greeting` | `Text` | `style: MpTextStyles.sm`, `color: MpColors.text.secondary` |
+| User name | `.user-name` | `Text` | `style: MpTextStyles.l.semiBold`, `color: MpColors.text.primary` |
+| Inbox icon button | header `<a>` | `MpIconButton(icon: MpIcons.alert.bell)` | Inside `Stack` with `MpBadge` |
+| Inbox unread badge | `.badge` on icon | `MpBadge.negative(text: '3', size: MpBadgeSize.small)` | `Positioned` inside `Stack` over inbox icon |
+| User avatar | `.avatar` | `MpAvatar.image(path: photoUrl)` | Wrap in `Stack` + `Positioned(MpAvatarVariationIcon.available)` for online dot |
+| "This month" summary card | `.card` | `Custom Container` | `color: MpColors.bg.stage`, `borderRadius: MpRadius.xLarge`, `padding: MpSpacing.medium` |
+| Stat cell (Pending / Awaiting / Disbursed) | `.stat-cell` | `Custom Column` in `Row` | Dividers: `VerticalDivider(color: MpColors.border.subtle)` |
+| Disbursed amount text | disbursed `.stat-amount` | `Text` | `color: MpColors.icon.success`, `style: MpTextStyles.md.semiBold` |
+| Awaiting payment amount | awaiting `.stat-amount` | `Text` | `color: MpColors.text.warning` |
+| "Needs your attention" card | `.attn-card` | `Custom Container` | Same card style as "This month" |
+| Attention tile (Claims / Trips / Purchases) | `.attn-tile` | `InkWell` + `Column(MpIconAvatar, count Text, label Text)` | `onTap: navigate to my-requests.html` |
+| "Categories limit" section header | `.budget-header` | `MpHeaderListTileX.double(label: 'Categories limit', caption: 'View all')` | `trailing: Icon(chevron_right, color: MpColors.text.link)` |
+| Budget card wrapper | `.budget-widget` | `Custom Container` | `color: MpColors.bg.stage`, `borderRadius: MpRadius.medium` |
+| Individual budget card | `.budget-card` | `Custom Container` | `color: XpmColors.budgetCardBg`, `borderRadius: MpRadius.xLarge`, `padding: MpSpacing.small` |
+| Budget card title | `.budget-card-title` | `Text` | `style: MpTextStyles.xs.semiBold`, `color: MpColors.text.inverse` |
+| Budget amount | `.budget-card-amount` | `Text` | `style: MpTextStyles.md.semiBold`, `color: MpColors.text.inverse` |
+| Budget "No limit set" | `.budget-card-amount.muted` | `Text` | `color: MpColors.text.secondary` (NOT italic) |
+| Budget progress track | `.budget-progress-track` | `LinearProgressIndicator` (Flutter built-in) | `backgroundColor: XpmColors.budgetTrackBg`, `minHeight: 6`, `borderRadius: BorderRadius.circular(999)` |
+| Budget progress fill | `.budget-progress-fill` | — (part of `LinearProgressIndicator`) | `color: MpColors.chart.cat*Bold` — pick by spent ratio ↑ §9.5 |
+| "Recent transactions" header | `.tx-header` | `MpHeaderListTileX.double(label: 'Recent transactions', caption: 'View all')` | — |
+| Transaction date header | `.tx-date-label` | `MpHeaderListTileX.single(label: 'May 2026')` | `backgroundColor: MpColors.bg.subtle` |
+| Type filter strip (All / Disbursed / Awaiting approval) | `.tab-btn` row | `MpSingleFilter(tags: [MpSingleFilterTagData(label: 'All'), ...], selectedIndex: 0, onTapTag: filterList)` | — |
+| Transaction list item | `.tx-item` | `MpListTileX(leading: MpIconAvatar, content: MpListTileXContent.double(label: vendor, caption: category), trailing: Column(amount, MpBadge.*Status), onTap: navigate)` | — |
+| Transaction status badge | `.tx-status` | `MpBadge.*Status` ↑ §10.7 | positiveStatus / noticeStatus / negativeStatus / neutralStatus |
+| FAB "+ Request" | `.fab-pill` | `MpFloatingActionButton(label: 'Request', icon: MpIcons.interfaceEssential.add.toIcon(), onPressed: openFabSheet)` | Use `MpFloatingActionButtonStack` for scroll-aware collapse |
+| Bottom nav | `.bottom-nav` | `MpBottomNavBar(items: [...], currentIndex: 0, onTap: navigate)` | 4 items: Home (`currentIndex: 0`), My requests, Purchases, My cards |
+
+---
+
+### 11.2 `my-requests.html` — My Requests
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | `extendStageBottom: true` |
+| App bar | `.app-header` | `MpTextAppBar(title: 'My requests', backgroundColor: transparent)` | — |
+| Search bar | `.search-row input` | `MpSearch(hintText: 'Search vendor, type, or amount', onFilterPressed: openFilterSheet)` | Built-in filter icon on right triggers filter sheet |
+| "This month" summary card | `.card` | Same `Custom Container` as Home | — |
+| AI credits row | `.credits-row` | `Custom Container` | `backgroundColor: MpColors.bg.brand`, sparkle icon, `text: MpColors.text.link`, credits `LinearProgressIndicator` — **no Pixel equivalent** ↑ §10.12 |
+| Type tab strip (All / Claims / Trips) | `.tab-btn` row | `MpSingleFilter(tags: [...], selectedIndex: 0, onTapTag: filterList)` | — |
+| Active filter chips | `.active-filters` | `MpFilter(tags: [MpFilterTagData(label: 'May 2026')], onTapFilter: openFilterSheet, onTapTag: removeFilter)` | Shows removable chip per active filter |
+| Date section header | `.tx-date-label` | `MpHeaderListTileX.single(label: '13 JUL')` | — |
+| Claim list item | `.tx-item` (claim) | `MpListTileX(leading: MpIconAvatar, content: MpListTileXContent.triple(label: vendor, caption: category, description: 'Reimbursement · Status'), trailing: amount Text, onTap: navigate)` | — |
+| Trip list item | `.tx-item` (trip) | `MpListTileX.overline(label: tripName, caption: dateRange, leading: MpIconAvatar, trailing: Column(amount, expense-count Text), onTap: navigate)` | — |
+| Status badge | `.tx-status` | `MpBadge.positiveStatus` / `.noticeStatus` / `.negativeStatus` / `.neutralStatus` | Map: Disbursed→positive, Awaiting approval→notice, Rejected→negative, Awaiting report→neutral |
+| FAB | `.fab-pill` | `MpFloatingActionButton(label: 'Request', ...)` | Same as Home |
+| Bottom nav | `.bottom-nav` | `MpBottomNavBar` | `currentIndex: 1` (My requests active) |
+
+---
+
+### 11.3 `inbox.html` — Inbox / Notifications
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No `bottomNavigationBar` |
+| App bar | `.app-header` | `MpTextAppBar(title: 'Inbox', leading: back MpIconButton, actions: [MpButton.ghost(label: 'Mark all as read')])` | — |
+| Tab strip | `.tab-btn` row | `MpSingleFilter(tags: [MpSingleFilterTagData(label: 'Notifications'), MpSingleFilterTagData(label: 'Need my approval')], ...)` | — |
+| Tab unread badge | `.badge` on tab | `MpBadge.negative(text: '3', size: MpBadgeSize.small)` | Pass as `MpSingleFilterTagData(icon: MpBadge(...))` |
+| **Unread** notification item | `.notif-item.unread` | Wrap `MpListTileX` in `Container(decoration: BoxDecoration(border: Border(left: BorderSide(color: MpColors.border.selected, width: 2))))` | `MpListTileX(backgroundColor: MpColors.bg.subtle, leading: MpIconAvatar, content: double-line, trailing: unread dot)` |
+| Unread dot indicator | `.action-dot` | `Custom Container(8×8, decoration: circle, color: MpColors.bg.brandBold)` | Trailing widget of `MpListTileX` |
+| **Read** notification item | `.notif-item` | `MpListTileX(backgroundColor: MpColors.bg.stage, leading: MpIconAvatar, content: double-line)` | No left border, no trailing dot |
+| Notification icon avatar | `.notif-icon` | `MpIconAvatar(icon: MpIcons.*, backgroundColor: MpColors.bg.*)` | success=bg-success, danger=bg-danger, warning=bg-warning, info=bg-brand |
+| Swipe-to-dismiss | `.notif-swipe-wrap` | Flutter `Dismissible(direction: DismissDirection.endToStart, background: Container(color: MpColors.bg.successBold, child: Row([Icon(check, white), Text('Mark as read', white)])))` | **No Pixel swipe component** — use Flutter built-in |
+
+---
+
+### 11.4 `reimb.html` — Receipt Scan (Camera)
+
+> ⚠️ This screen is mostly **prototype chrome** (§6). The camera viewfinder is OS-provided in Flutter (`CameraPreview`).
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | `.scan-overlay` | `Scaffold` (not `MpBasicLayout`) | `backgroundColor: Color(0xFF0F1115)` (full dark) |
+| Close button (top-left) | `.close-btn` | `MpIconButton(icon: MpIcons.interfaceEssential.x, iconColor: MpColors.text.inverse)` | — |
+| AI credits chip (top-right) | `.credits-chip` | `Custom Container` pill | `bg-inverse`, `text-inverse`, `borderRadius: MpRadius.full` — **no Pixel equivalent** |
+| Camera viewfinder | — | `CameraPreview` (camera package) | Full-screen; OS-provided |
+| Scan frame corners | `.scan-frame` | `Custom CustomPaint` | Draw 4 white corner brackets only |
+| "Fill manually instead" button | `.manual-btn` | `MpButton.ghost(label: 'Fill manually instead')` | Override text color to `MpColors.text.inverse` |
+| Shutter (capture) button | `.shutter-btn` | `Custom GestureDetector` + `Container` | 64×64 white circle, `border-radius: full`, `onTap: capture` |
+| Gallery browse button | `.browse-btn` | `MpIconButton(icon: MpIcons.file.image)` + `Text('Browse')` | Column layout: icon above label |
+| Flash toggle | `.flash-btn` | `MpIconButton(icon: MpIcons.weather.lightning)` | Toggle between on/off state |
+
+---
+
+### 11.5 `reimb-form.html` — Reimbursement Form
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No bottom nav |
+| App bar | `.app-header` | `MpTextAppBar(title: 'New expense', leading: back MpIconButton, actions: [MpIconButton(close)])` | — |
+| OCR info banner | `.ocr-banner` | `MpBanner.info(message: 'Receipt scanned. Review and confirm the details.')` | Shown when arriving from camera scan |
+| Vendor name field | `.field-vendor` | `MpTextField(label: 'Vendor', hint: 'e.g. Grab, Starbucks', required: true)` | — |
+| Amount field | `.field-amount` | `MpTextField(label: 'Amount', hint: 'Rp 0', prefix: Text('Rp'), textInputType: TextInputType.numberWithOptions(decimal: true), inputFormatters: [CurrencyTextInputFormatter])` | — |
+| Date field | `.field-date` | `MpTextField(label: 'Date', readOnly: true, suffixIcon: MpIcons.dateTime.calendar, onPressed: showDatePicker)` | Triggers `MpFullDatePickerSheet` via `MpBottomSheet.show()` |
+| Category field | `.field-category` | `MpTextField(label: 'Category', readOnly: true, suffixIcon: MpIcons.interfaceEssential.chevronRight, onPressed: openCategorySheet)` | Opens category `MpBottomSheet` |
+| Notes field | `.field-notes` | `MpTextField(label: 'Notes', hint: 'Optional description', minLines: 3, maxLines: 5)` | — |
+| Receipt upload area | `.receipt-upload` | `Custom GestureDetector` + dashed-border `Container` | `border: DashedBorder(color: MpColors.border.form)`, `backgroundColor: MpColors.bg.subtle` — **no Pixel dropzone** |
+| Uploaded receipt thumbnail | `.receipt-thumb` | `Custom Stack(ClipRRect(Image.file) + Positioned(delete MpIconButton))` | — |
+| AI classify banner | `.classify-banner.ai` | `MpBanner.info(title: 'AI suggestion', actions: [MpBannerAction(text: 'Review', onTap: openClassify)])` | Shown after OCR detects category |
+| AI tag chip | `.ai-tag` | `Custom Container` chip ↑ §9.6 | `bg-brand`, `text-highlight`, `borderRadius: MpRadius.small` |
+| Submit button | `.filter-btn.primary` | `MpButton.primary(label: 'Submit')` | Full-width |
+| Cancel / close | — | `MpButton.ghost(label: 'Cancel')` | — |
+
+---
+
+### 11.6 `classify.html` — AI Category Classification
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No bottom nav |
+| App bar | `.app-header` | `MpTextAppBar(title: 'Classify expense', leading: back MpIconButton)` | — |
+| AI suggestion banner | `.classify-banner.ai` | `MpBanner.info(title: 'AI suggestion', message: 'We detected this as Transport. Is that correct?')` | — |
+| Receipt thumbnail | `.classify-thumb` | `ClipRRect(borderRadius: MpRadius.medium, child: Image.file(...))` | — |
+| Thumbnail page count | `.classify-thumb-badge` | `Custom Container` chip with `Text('1/3')` | Small label overlay on image |
+| "Edit" button on thumb | `.classify-thumb-btn` | `MpButton.ghost(label: 'Edit')` or `MpIconButton` | Small, positioned over thumbnail |
+| Category item — **selected** | `.classify-list .selected` | `MpListTileX(backgroundColor: MpColors.bg.brand, leading: MpIconAvatar, content: category label, trailing: Radio(value: true), onTap: ...)` | — |
+| Category item — **unselected** | `.classify-list .item` | `MpListTileX(leading: MpIconAvatar, content: category label, trailing: Radio(value: false), onTap: ...)` | — |
+| Category icon avatar | `.classify-label i` | `MpIconAvatar(icon: MpIcons.*, backgroundColor: MpColors.bg.*)` | Color per category type |
+| Confirm button | `.confirm-btn` | `MpButton.primary(label: 'Confirm')` | Full-width |
+| Edit / back button | `.classify-edit` | `MpButton.ghost(label: 'Edit manually')` | — |
+
+---
+
+### 11.7 `receipt-preview.html` — Receipt Image Preview
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `Scaffold` (not `MpBasicLayout`) | Dark/transparent overlay; `backgroundColor: Colors.black87` |
+| App bar | — | `MpBaseAppBar(backgroundColor: transparent, leading: MpIconButton(close, color: MpColors.text.inverse))` | — |
+| Receipt image viewer | `.receipt-preview-img` | `InteractiveViewer(child: Image.network(...))` | Pinch-to-zoom; **no Pixel equivalent** |
+| Page indicator ("1/3") | `.preview-indicator` | `Custom Row` of dots or `Text('1/3', style: inverse)` | — |
+| Thumbnail strip | `.preview-thumbs` | `ListView.builder(scrollDirection: Axis.horizontal, itemBuilder: thumb)` | `GestureDetector` per thumb to switch page |
+
+---
+
+### 11.8 `trip-form.html` — Trip Expense Form
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No bottom nav |
+| App bar | `.app-header` | `MpTextAppBar(title: 'New trip expense', leading: back MpIconButton)` | — |
+| Trip selector field | `.field-trip` | `MpTextField(label: 'Trip', readOnly: true, suffixIcon: chevron, onPressed: openTripSelectSheet)` | Opens trip-select `MpBottomSheet` |
+| Category field | `.field-category` | `MpTextField(label: 'Category', readOnly: true, suffixIcon: chevron, onPressed: openCategorySheet)` | — |
+| Vendor field | `.field-vendor` | `MpTextField(label: 'Vendor', required: true)` | — |
+| Amount field | `.field-amount` | `MpTextField(label: 'Amount', prefix: Text('Rp'), textInputType: TextInputType.numberWithOptions(decimal: true))` | — |
+| Date field | `.field-date` | `MpTextField(label: 'Date', readOnly: true, suffixIcon: MpIcons.dateTime.calendar, onPressed: showDatePicker)` | → `MpFullDatePickerSheet` |
+| Notes field | `.field-notes` | `MpTextField(label: 'Notes', minLines: 3, maxLines: 5)` | — |
+| Receipt upload area | `.receipt-upload` | Same `Custom` dashed-border `Container` as §11.5 | — |
+| Save expense button | `.submit-btn` | `MpButton.primary(label: 'Save expense')` | Full-width |
+| Cancel button | `.cancel-btn` | `MpButton.ghost(label: 'Cancel')` | — |
+
+---
+
+### 11.9 `trip-detail.html` — Trip Detail
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No bottom nav |
+| App bar | `.app-header` | `MpTextAppBar(title: tripName, leading: back MpIconButton)` | e.g. `'Business trip · Surabaya'` |
+| Trip status pill | `.trip-card-status` | `MpBadge.noticeStatus` / `.neutralStatus` / `.positiveStatus` / `.negativeStatus` | Map: Awaiting report→neutral, Awaiting approval→notice, Approved→positive, Rejected→negative |
+| Trip summary info row | `.trip-summary` | `MpListTileX(leading: MpIconAvatar(trip icon, bg-highlight), content: MpListTileXContent.double(label: dates, caption: budget summary))` | — |
+| Expense item in trip | `.tx-item` | `MpListTileX` | Same structure as §11.2 claim item |
+| "Add expense" button | `.add-expense-btn` | `MpButton.secondary(label: '+ Add expense')` | Navigates to `trip-form.html` |
+| "Create report" CTA | `.create-report-btn` | `MpButton.primary(label: 'Create report')` | Full-width; navigates to `create-report.html` |
+
+---
+
+### 11.10 `create-report.html` — Create Expense Report
+
+| Element | CSS class | Pixel widget | Key props / notes |
+|---|---|---|---|
+| Screen scaffold | — | `MpBasicLayout` | No bottom nav |
+| App bar | `.app-header` | `MpTextAppBar(title: 'Create report', leading: back MpIconButton)` | — |
+| Trip summary tile | `.trip-summary` | `MpListTileX(leading: MpIconAvatar, content: MpListTileXContent.double(label: tripName, caption: dateRange), trailing: total-amount Text)` | — |
+| Expense count summary | `.expense-count` | `MpHeaderListTileX.double(label: 'Expenses', caption: 'N items')` or `Custom Text` | — |
+| Report name field | `.field-name` | `MpTextField(label: 'Report name', required: true)` | — |
+| Notes / purpose field | `.field-notes` | `MpTextField(label: 'Notes / purpose', minLines: 3, maxLines: 5)` | — |
+| Submit report button | `.submit-btn` | `MpButton.primary(label: 'Submit report')` | Full-width |
+| Cancel button | `.cancel-btn` | `MpButton.ghost(label: 'Cancel')` | — |
+
+---
+
+### 11.11 Bottom sheets (all screens)
+
+| Sheet | Trigger | Pixel widget | Content structure |
+|---|---|---|---|
+| FAB menu | FAB tap | `MpBottomSheet.show() + MpBottomSheetContent` | `header: MpBottomSheetHeader(title: Text('New'))`, `body: Column([MpListTileX(icon, 'New expense'), MpListTileX(icon, 'New trip'), MpListTileX(icon, 'Scan receipt')])` |
+| Filter | `MpSearch.onFilterPressed` | `MpBottomSheet.show() + MpBottomSheetContent` | `header: MpBottomSheetHeader('Filter')`, `body: Column([period MpSingleFilter, status MpSingleFilter, Row([MpTextField(min), MpTextField(max)])])`, `footer: MpActionGroup([MpButton.ghost('Reset'), MpButton.primary('Apply')])` |
+| Category picker | Category field `onPressed` | `MpBottomSheet.show() + MpBottomSheetContent` | `header: MpSearch(hint: 'Search category')`, `body: ListView.builder(MpListTileX per category, trailing: Radio)` |
+| Trip selector | Trip field `onPressed` | `MpBottomSheet.show() + MpBottomSheetContent` | `body: ListView.builder(MpListTileX per trip)` |
+| Split expense | Split button | `MpBottomSheet.show() + MpBottomSheetContent` | `body: Column(split-allocation rows with MpTextField per category)`, `footer: MpActionGroup([MpButton.primary('Confirm split')])` |
+| Success confirmation | After trip submit | `MpBottomSheet.show() + MpBottomSheetContent` | `body: Column(success icon, title Text, subtitle Text)`, `footer: MpActionGroup([MpButton.primary('Done')])` |
+| Date picker | Date field `onPressed` | `MpBottomSheet.show(builder: (_) => MpFullDatePickerSheet(onDateSelected: onSelected))` | `MpFullDatePickerSheet` used directly as the sheet body |
+
 ---
 
 ## 12. Layout constants
@@ -416,7 +662,8 @@ Add a row each time tokens change or this doc is updated. Newest first.
 
 | Date | Change | By |
 |---|---|---|
-| 2026-05-25 | Added §10 Pixel Flutter component map — explicit mapping of every UI element to its exact Pixel 2.4 widget class (`MpBasicLayout`, `MpBottomNavBar`, `MpFloatingActionButton`, `MpBottomSheet`, `MpListTileX`, `MpButton`, `MpBadge`, `MpSearch`, `MpSingleFilter`, `MpAvatar`, `MpToast`, `MpFullDatePickerSheet`). Renumbered §10–14. | Claude + ds@mekari.com |
+| 2026-05-25 | Added §10.13–10.15 (form inputs via `MpTextField`, banners via `MpBanner`, budget progress via `LinearProgressIndicator`) and new §11 per-screen component breakdown — every UI element on all 10 HTML screens mapped to its exact Pixel 2.4 widget, constructor variant, and key props. Updated intro and §8 for MPA architecture. | Claude + ds@mekari.com |
+| 2026-05-25 | Added §10 Pixel Flutter component map — explicit mapping of every UI element to its exact Pixel 2.4 widget class (`MpBasicLayout`, `MpBottomNavBar`, `MpFloatingActionButton`, `MpBottomSheet`, `MpListTileX`, `MpButton`, `MpBadge`, `MpSearch`, `MpSingleFilter`, `MpAvatar`, `MpToast`, `MpFullDatePickerSheet`). | Claude + ds@mekari.com |
 | 2026-05-25 | Prototype refactored from SPA to multi-page (`multi-page` branch). `index.html` splits into `home.html`, `my-requests.html`, `inbox.html`, etc. Shared CSS in `styles.css`, shared JS in `app.js`. | Claude + ds@mekari.com |
 | 2026-05-23 | Initial doc. Captures complete token system after full tokenization pass: all colors, typography, spacing, and radius in app UI use design tokens. Prototype chrome (iPhone frame, scan overlay, receipt texture) intentionally hardcoded. | Claude + ds@mekari.com |
 
