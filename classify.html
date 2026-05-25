@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Classify Receipts</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div class="overlay-page trip-overlay">
+        <div class="status-bar">
+          <span class="ios-time">9:41</span>
+          <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+        </div>
+        <div class="rf-header">
+          <a href="reimb.html" class="rf-back" aria-label="Back" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+            <i class="ti ti-arrow-left"></i>
+          </a>
+          <span class="rf-title">Classify receipts</span>
+        </div>
+
+        <div class="scroll-area">
+          <div class="classify-banner ai" id="classify-banner">
+            <i class="ti ti-sparkles"></i>
+            <span>AI grouped your receipts by category and vendor — tap any row to adjust.</span>
+          </div>
+          <div class="classify-list" id="classify-list"></div>
+        </div>
+
+        <div class="rf-actions">
+          <button class="rf-btn rf-btn-primary" type="button" id="classify-continue" onclick="continueFlow()">Continue</button>
+          <a href="reimb.html" class="rf-btn rf-btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Back</a>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+      <!-- Sheet: Trip category (classify picker) -->
+      <div class="sheet-backdrop" id="sheet-trip-cat" onclick="closeTripCatSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+          <div class="sheet-list" id="trip-cat-list"></div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Sheet: Reimb category + subcategory (two-step) -->
+      <div class="sheet-backdrop" id="sheet-reimb-cat" onclick="closeReimbCatSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <div id="reimb-cat-step1">
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+            <div class="sheet-list" id="reimb-cat-list"></div>
+          </div>
+          <div id="reimb-cat-step2" style="display:none;">
+            <div class="sheet-nav-header">
+              <button class="sheet-nav-back" type="button" onclick="showReimbCatStep1()"><i class="ti ti-arrow-left"></i></button>
+              <span class="sheet-nav-title">Subcategory</span>
+            </div>
+            <div class="sheet-list" id="reimb-subcat-list"></div>
+          </div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Sheet: Select trip -->
+      <div class="sheet-backdrop" id="sheet-trip-select" onclick="closeTripSelect(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Select trip</p>
+          <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-secondary);padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which trip to report these receipts against.</p>
+          <div class="trip-list" id="trip-list"></div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Tap a row to change its category. Tap <strong>Continue</strong> to proceed.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  const TRIPS = [
+    { id: 't1', name: 'Surabaya',  range: '12 Jun – 16 Jun 2026', status: 'warn',   statusLabel: 'Awaiting report' },
+    { id: 't2', name: 'Singapore', range: '02 May – 06 May 2026', status: 'danger', statusLabel: 'Awaiting revision' },
+    { id: 't3', name: 'Bandung',   range: '21 Apr – 23 Apr 2026', status: 'warn',   statusLabel: 'Awaiting report' },
+  ];
+  const TRIP_CATEGORIES = ['Transportation','Accommodation','Per diem','Unplanned expenses'];
+  const REIMB_CATEGORIES = {
+    'Transportation':       ['Parking', 'Public Transport', 'Taxi', 'Fuel', 'Toll'],
+    'Accommodation':        ['Room Rate', 'Service Charge', 'Meals at Hotel', 'Laundry'],
+    'Per diem':             ['Breakfast', 'Lunch', 'Dinner', 'Daily Allowance'],
+    'Meals & Entertainment':['Restaurant', 'Coffee & Drinks', 'Entertainment', 'Team Event'],
+    'Subscription':         [],
+    'Office Supplies':      [],
+    'Communication':        [],
+    'Other':                [],
+  };
+  const AI_MOCKS = [
+    { vendor: 'Grab',        category: 'Transportation',  subCategory: 'Taxi',            amount: '120.000' },
+    { vendor: 'Grab',        category: 'Transportation',  subCategory: 'Taxi',            amount: '180.000' },
+    { vendor: 'Hotel Mulia', category: 'Accommodation',   subCategory: 'Room Rate',       amount: '950.000' },
+    { vendor: 'Indomaret',   category: 'Per diem',        subCategory: 'Daily Allowance', amount:  '55.000' },
+  ];
+
+  // In the MPA we start with 1 capture (from reimb.html confirm)
+  const SCAN_CREDITS = 12;
+  const CAPTURE_COUNT = 1;
+
+  let tripReceipts = [];
+  let pendingCatRowId = null;
+  let pendingReimbCatRowId = null;
+  let tripSelectedTrip = null;
+  // Classify mode: this page is always reached via reimbursement scan or trip scan.
+  // We detect from URL param ?mode=trip if present, else default to 'reimb'.
+  const urlMode = new URLSearchParams(location.search).get('mode') || 'reimb';
+
+  function init() {
+    const hasAi = SCAN_CREDITS > 0;
+    tripReceipts = hasAi ? buildAiGroupedReceipts(CAPTURE_COUNT) : buildManualReceipts(CAPTURE_COUNT);
+    const banner = document.getElementById('classify-banner');
+    if (hasAi) {
+      banner.className = 'classify-banner ai';
+      banner.innerHTML = '<i class="ti ti-sparkles"></i><span>AI grouped your receipts by category and vendor — tap any row to adjust.</span>';
+    } else {
+      banner.className = 'classify-banner manual';
+      banner.innerHTML = '<i class="ti ti-info-circle"></i><span>No AI credits — pick a category for each receipt before continuing.</span>';
+    }
+    renderClassifyList();
+
+    if (urlMode === 'trip') {
+      renderTripSelect();
+      document.getElementById('sheet-trip-select').classList.add('active');
+    }
+  }
+
+  function buildAiGroupedReceipts(count) {
+    const out = [];
+    const byKey = new Map();
+    for (let i = 0; i < count; i++) {
+      const mock = AI_MOCKS[i % AI_MOCKS.length];
+      const key = mock.category + '|' + mock.vendor;
+      if (byKey.has(key)) {
+        byKey.get(key).attachments.push(i + 1);
+      } else {
+        const r = {
+          id: 'r' + out.length,
+          attachments: [i + 1],
+          category: mock.category,
+          subCategory: mock.subCategory || null,
+          aiAssigned: true,
+          date: 'Thu, 21 May 2026',
+          vendor: mock.vendor,
+          amount: mock.amount,
+          desc: '',
+        };
+        out.push(r);
+        byKey.set(key, r);
+      }
+    }
+    return out;
+  }
+
+  function buildManualReceipts(count) {
+    const out = [];
+    for (let i = 0; i < count; i++) {
+      out.push({ id: 'r' + i, attachments: [i + 1], category: null, aiAssigned: false, date: 'Thu, 21 May 2026', vendor: '', amount: '', desc: '' });
+    }
+    return out;
+  }
+
+  function renderClassifyList() {
+    const list = document.getElementById('classify-list');
+    list.innerHTML = '';
+    tripReceipts.forEach((r, i) => {
+      const row = document.createElement('div');
+      row.className = 'classify-row';
+      const photoCount = (r.attachments || []).length;
+      const hasMulti = photoCount > 1;
+      const attBadge = hasMulti ? '<span class="classify-thumb-badge">' + photoCount + '</span>' : '';
+      const meta = [r.vendor || 'Receipt ' + (i + 1), photoCount > 0 ? (photoCount === 1 ? '1 photo' : photoCount + ' photos') : null].filter(Boolean).join(' · ');
+      const catLabel = r.category ? r.category + (r.subCategory ? ' · ' + r.subCategory : '') : null;
+      const picker = catLabel
+        ? '<span class="classify-picker-value">' + catLabel + (r.aiAssigned ? '<span class="ai-tag">AI</span>' : '') + '</span>'
+        : '<span class="classify-picker-value placeholder">Tap to classify</span>';
+      row.innerHTML =
+        '<button type="button" class="classify-thumb-btn" aria-label="Preview"><div class="classify-thumb"><span class="num">' + (r.attachments[0] || (i + 1)) + '</span>' + attBadge + '</div></button>' +
+        '<div class="classify-body"><span class="classify-label">' + meta + '</span><div class="classify-picker">' + picker + '</div></div>' +
+        '<button type="button" class="classify-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>';
+      row.querySelector('.classify-thumb-btn').onclick = () => window.location.href = 'receipt-preview.html';
+      row.querySelector('.classify-picker').onclick = () => urlMode === 'reimb' ? openReimbCatSheet(r.id) : openTripCatSheet(r.id);
+      row.querySelector('.classify-edit').onclick = () => window.location.href = 'receipt-preview.html';
+      list.appendChild(row);
+    });
+    const cont = document.getElementById('classify-continue');
+    cont.disabled = tripReceipts.some(r => !r.category);
+  }
+
+  function continueFlow() {
+    if (tripReceipts.some(r => !r.category)) return;
+    window.location.href = 'trip-form.html';
+  }
+
+  /* Trip select sheet */
+  function renderTripSelect() {
+    const list = document.getElementById('trip-list');
+    list.innerHTML = '';
+    TRIPS.forEach(t => {
+      const el = document.createElement('div');
+      el.className = 'trip-card';
+      el.innerHTML =
+        '<div class="trip-card-icon"><img src="assets/business-trip.svg" alt="" style="width:24px;height:24px;"></div>' +
+        '<div class="trip-card-body"><span class="trip-card-name">' + t.name + '</span><span class="trip-card-meta">' + t.range + '</span><span class="trip-card-status ' + t.status + '">' + t.statusLabel + '</span></div>' +
+        '<img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;flex-shrink:0;">';
+      el.onclick = () => {
+        tripSelectedTrip = t;
+        closeTripSelect();
+      };
+      list.appendChild(el);
+    });
+  }
+  function closeTripSelect(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-trip-select').classList.remove('active');
+  }
+
+  /* Trip category sheet */
+  function openTripCatSheet(rowId) {
+    pendingCatRowId = rowId;
+    const current = (tripReceipts.find(r => r.id === rowId) || {}).category;
+    const list = document.getElementById('trip-cat-list');
+    list.innerHTML = '';
+    TRIP_CATEGORIES.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (c === current ? ' active' : '');
+      el.textContent = c;
+      el.onclick = () => {
+        const r = tripReceipts.find(r => r.id === pendingCatRowId);
+        if (r) { r.category = c; r.aiAssigned = false; }
+        closeTripCatSheet();
+        renderClassifyList();
+      };
+      list.appendChild(el);
+    });
+    document.getElementById('sheet-trip-cat').classList.add('active');
+  }
+  function closeTripCatSheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-trip-cat').classList.remove('active');
+  }
+
+  /* Reimb category sheet (two-step) */
+  function openReimbCatSheet(rowId) {
+    pendingReimbCatRowId = rowId;
+    showReimbCatStep1();
+    document.getElementById('sheet-reimb-cat').classList.add('active');
+  }
+  function showReimbCatStep1() {
+    document.getElementById('reimb-cat-step1').style.display = '';
+    document.getElementById('reimb-cat-step2').style.display = 'none';
+    const r = tripReceipts.find(x => x.id === pendingReimbCatRowId) || {};
+    const list = document.getElementById('reimb-cat-list');
+    list.innerHTML = '';
+    Object.keys(REIMB_CATEGORIES).forEach(cat => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (cat === r.category ? ' active' : '');
+      el.textContent = cat;
+      el.onclick = () => {
+        const subs = REIMB_CATEGORIES[cat] || [];
+        if (subs.length > 0) { showReimbSubcatStep(cat); }
+        else { pickReimbCategory(cat, null); }
+      };
+      list.appendChild(el);
+    });
+  }
+  function showReimbSubcatStep(category) {
+    document.getElementById('reimb-cat-step1').style.display = 'none';
+    document.getElementById('reimb-cat-step2').style.display = '';
+    const r = tripReceipts.find(x => x.id === pendingReimbCatRowId) || {};
+    const subs = REIMB_CATEGORIES[category] || [];
+    const list = document.getElementById('reimb-subcat-list');
+    list.innerHTML = '';
+    subs.forEach(sub => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (sub === r.subCategory && r.category === category ? ' active' : '');
+      el.textContent = sub;
+      el.onclick = () => pickReimbCategory(category, sub);
+      list.appendChild(el);
+    });
+  }
+  function pickReimbCategory(category, subCategory) {
+    const r = tripReceipts.find(x => x.id === pendingReimbCatRowId);
+    if (r) { r.category = category; r.subCategory = subCategory; r.aiAssigned = false; }
+    closeReimbCatSheet();
+    renderClassifyList();
+  }
+  function closeReimbCatSheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-reimb-cat').classList.remove('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Inbox</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <!-- Status bar -->
+      <div class="status-bar" style="background:var(--MpColors-bg-stage);">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+
+      <!-- Header -->
+      <div style="background:var(--MpColors-bg-stage);padding:0 var(--MpSpacing-medium) 0;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);margin-bottom:var(--MpSpacing-small);">
+          <a href="home.html" style="color:var(--MpColors-text-primary);display:inline-flex;align-items:center;">
+            <i class="ti ti-arrow-left" style="font-size:var(--MpTextStyles-l-fontSize);"></i>
+          </a>
+          <span style="font-size:var(--MpTextStyles-l-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);flex:1;">Inbox</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-link);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;" onclick="markAllAsRead()">Mark all as read</span>
+        </div>
+        <!-- Tabs -->
+        <div class="tab-bar" style="padding:0;background:var(--MpColors-bg-stage);">
+          <span class="tab-btn active" id="tab-notif" onclick="switchInboxTab('notif')">
+            Notifications
+            <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;" id="notif-badge">3</span>
+          </span>
+          <span class="tab-btn" id="tab-approval" onclick="switchInboxTab('approval')">
+            Need my approval
+            <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;">2</span>
+          </span>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--XpmColors-bg-base);flex-shrink:0;"></div>
+
+      <!-- Notifications panel -->
+      <div class="scroll-area" id="panel-notif" style="flex:1;background:var(--XpmColors-bg-base);">
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-circle-check" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim approved</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Grab · Transport claim · Rp 48.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 minutes ago</p>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-cash" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Payment processed</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Omah Sendok Restoran · Rp 754.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">1 hour ago</p>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item unread">
+            <div class="icon-box" style="background:var(--MpColors-bg-danger);">
+              <i class="ti ti-circle-x" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-danger);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Claim rejected</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Notion · Subscription · Rp 149.000</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">3 hours ago</p>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item">
+            <div class="icon-box" style="background:var(--MpColors-bg-success);">
+              <i class="ti ti-plane" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-success);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Trip approved</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Bandung · 20–25 May 2023</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">Yesterday</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-swipe-wrap">
+          <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
+            <i class="ti ti-check"></i>
+            <span>Mark as read</span>
+          </div>
+          <div class="notif-item">
+            <div class="icon-box" style="background:var(--MpColors-bg-brand);">
+              <i class="ti ti-message" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-link);"></i>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">New comment on your claim</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Bluegrass Bar &amp; Grill · "Please attach the itemised receipt"</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">2 days ago</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /panel-notif -->
+
+      <!-- Need my approval panel -->
+      <div class="scroll-area" id="panel-approval" style="flex:1;background:var(--XpmColors-bg-base);display:none;">
+        <div style="background:var(--MpColors-bg-warning);border-bottom:1px solid var(--MpColors-border-warning);padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);display:flex;align-items:center;gap:var(--MpSpacing-xSmall);flex-shrink:0;">
+          <i class="ti ti-clock" style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-warning);flex-shrink:0;"></i>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-warning);font-weight:var(--MpTextStyles-semiBold);">2 items need your review</span>
+        </div>
+
+        <div class="notif-item" style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium);">
+          <div class="avatar" style="background:var(--MpColors-bg-warning);color:var(--MpColors-text-warning);">RC</div>
+          <div style="flex:1;">
+            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Rizal Candra</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Transport claim · Grab · Rp 150.000</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">Submitted 1 hour ago</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:var(--MpSpacing-xSmall);">
+            <span style="background:var(--MpColors-bg-brandBold);color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:var(--XpmColors-bg-base);color:var(--MpColors-text-secondary);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;">Reject</span>
+          </div>
+        </div>
+
+        <div class="notif-item" style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium);">
+          <div class="avatar" style="background:var(--MpColors-bg-brand);color:var(--MpColors-text-primary);">OG</div>
+          <div style="flex:1;">
+            <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:var(--MpSpacing-xSmall4);">Octavia Gunawan</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Business trip · Surabaya · 12–16 Jun 2023</p>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:3px;">Submitted 3 hours ago</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--MpSpacing-xSmall3);align-items:flex-end;margin-left:var(--MpSpacing-xSmall);">
+            <span style="background:var(--MpColors-bg-brandBold);color:var(--MpColors-text-inverse);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;white-space:nowrap;">Approve</span>
+            <span style="background:var(--XpmColors-bg-base);color:var(--MpColors-text-secondary);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall3) var(--MpSpacing-small);font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;">Reject</span>
+          </div>
+        </div>
+      </div><!-- /panel-approval -->
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Tap the back arrow to return to Home. Swipe notifications left to mark as read.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  function switchInboxTab(tab) {
+    ['notif','approval'].forEach(t => {
+      document.getElementById('tab-' + t).classList.remove('active');
+      document.getElementById('panel-' + t).style.display = 'none';
+    });
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).style.display = '';
+  }
+
+  function markNotifAsRead(actionEl) {
+    const wrap = actionEl.closest('.notif-swipe-wrap');
+    const item = wrap.querySelector('.notif-item');
+    item.style.transition = 'transform 0.25s ease';
+    item.style.transform = 'translateX(0)';
+    setTimeout(() => {
+      item.classList.remove('unread');
+      const dot = item.querySelector('.unread-dot');
+      if (dot) dot.remove();
+      updateNotifBadge();
+    }, 260);
+  }
+
+  function markAllAsRead() {
+    document.querySelectorAll('#panel-notif .notif-item.unread').forEach(item => {
+      item.classList.remove('unread');
+      const dot = item.querySelector('.unread-dot');
+      if (dot) dot.remove();
+    });
+    updateNotifBadge();
+  }
+
+  function updateNotifBadge() {
+    const count = document.querySelectorAll('#panel-notif .notif-item.unread').length;
+    const badge = document.getElementById('notif-badge');
+    if (badge) { badge.textContent = count; badge.style.display = count > 0 ? '' : 'none'; }
+  }
+
+  // Swipe to read
+  document.querySelectorAll('#panel-notif .notif-swipe-wrap').forEach(wrap => {
+    const item = wrap.querySelector('.notif-item');
+    const ACTION_W = 120, THRESHOLD = 60;
+    let startX = 0, startY = 0, currentX = 0, tracking = false, opened = false, mouseDown = false;
+    function onStart(x, y) { startX = x; startY = y; tracking = true; item.style.transition = 'none'; }
+    function onMove(x, y) {
+      if (!tracking) return;
+      const dx = x - startX, dy = y - startY;
+      if (!opened && Math.abs(dy) > Math.abs(dx) && Math.abs(dx) < 10) { tracking = false; return; }
+      currentX = opened ? Math.min(0, dx - ACTION_W) : Math.min(0, dx);
+      currentX = Math.max(currentX, -ACTION_W);
+      item.style.transform = `translateX(${currentX}px)`;
+    }
+    function onEnd() {
+      if (!tracking && !mouseDown) return;
+      tracking = false; mouseDown = false;
+      item.style.transition = 'transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)';
+      const moved = opened ? currentX + ACTION_W : currentX;
+      if (moved < -THRESHOLD) { item.style.transform = `translateX(-${ACTION_W}px)`; opened = true; }
+      else { item.style.transform = 'translateX(0)'; opened = false; }
+    }
+    item.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+    item.addEventListener('touchmove', e => onMove(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+    item.addEventListener('touchend', onEnd);
+    item.addEventListener('mousedown', e => { mouseDown = true; onStart(e.clientX, e.clientY); e.preventDefault(); });
+    document.addEventListener('mousemove', e => { if (mouseDown) onMove(e.clientX, e.clientY); });
+    document.addEventListener('mouseup', () => { if (mouseDown) onEnd(); });
+  });
+</script>
+</body>
+</html>
