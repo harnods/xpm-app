@@ -423,17 +423,36 @@ All form fields use `MpTextField`. **Never use Flutter's raw `TextField` or `Tex
 
 ### 10.15 Progress indicators (budget bars)
 
-Budget category progress bars are **not** a Pixel component — use Flutter's built-in `LinearProgressIndicator`:
+Pixel has **`MpProgressIndicator`** — use it instead of Flutter's raw `LinearProgressIndicator`.
+
+Two constructor variants:
 
 ```dart
-LinearProgressIndicator(
-  value: spentRatio,                                    // 0.0–1.0
+// Percentage variant — value: 0–100
+MpProgressIndicator.percentage(
+  title: 'Transport claim',
+  value: 75,                                            // spent %
+  color: MpColors.chart.cat04Bold.resolve(context),     // pick by ratio — see §9.5
   backgroundColor: XpmColors.budgetTrackBg,
-  color: MpColors.chart.cat02Bold.resolve(context),     // pick by ratio — see §9.5
-  borderRadius: BorderRadius.circular(999),
-  minHeight: 6,
+  titleColor: MpColors.text.inverse,
+  valueColor: MpColors.text.inverse,
+)
+
+// Step variant — value: spent amount, maxValue: limit
+MpProgressIndicator.step(
+  title: 'Transport claim',
+  value: 11250000,
+  maxValue: 15000000,
+  color: MpColors.chart.cat02Bold.resolve(context),
+  backgroundColor: XpmColors.budgetTrackBg,
 )
 ```
+
+**When to use which:**
+- Budget cards (home screen) → `MpProgressIndicator.percentage` — fills the card bottom, title is the category name already shown above so pass `title: ''` or just use the `value` prop for the bar.
+- If `MpProgressIndicator` layout (title + bar stacked) doesn't fit inside the dark navy card design, fall back to `LinearProgressIndicator` with `backgroundColor: XpmColors.budgetTrackBg`, `color: MpColors.chart.cat*Bold`, `minHeight: 6`, `borderRadius: BorderRadius.circular(999)`.
+
+> **Figma ref:** Pixel 2.4 — `MpProgressIndicator` node `17829-50116`
 
 ---
 
@@ -470,8 +489,7 @@ This section maps **every visible UI element per screen** to its exact Pixel 2.4
 | Budget card title | `.budget-card-title` | `Text` | `style: MpTextStyles.xs.semiBold`, `color: MpColors.text.inverse` |
 | Budget amount | `.budget-card-amount` | `Text` | `style: MpTextStyles.md.semiBold`, `color: MpColors.text.inverse` |
 | Budget "No limit set" | `.budget-card-amount.muted` | `Text` | `color: MpColors.text.secondary` (NOT italic) |
-| Budget progress track | `.budget-progress-track` | `LinearProgressIndicator` (Flutter built-in) | `backgroundColor: XpmColors.budgetTrackBg`, `minHeight: 6`, `borderRadius: BorderRadius.circular(999)` |
-| Budget progress fill | `.budget-progress-fill` | — (part of `LinearProgressIndicator`) | `color: MpColors.chart.cat*Bold` — pick by spent ratio ↑ §9.5 |
+| Budget progress track + fill | `.budget-progress-track` + `.budget-progress-fill` | `MpProgressIndicator.percentage(title: '', value: spentPct, color: MpColors.chart.cat*Bold, backgroundColor: XpmColors.budgetTrackBg)` | Pick `cat*Bold` by spent ratio ↑ §9.5. If layout doesn't fit dark card, fall back to `LinearProgressIndicator` — see §10.15 |
 | "Recent transactions" header | `.tx-header` | `MpHeaderListTileX.double(label: 'Recent transactions', caption: 'View all')` | — |
 | Transaction date header | `.tx-date-label` | `MpHeaderListTileX.single(label: 'May 2026')` | `backgroundColor: MpColors.bg.subtle` |
 | Type filter strip (All / Disbursed / Awaiting approval) | `.tab-btn` row | `MpSingleFilter(tags: [MpSingleFilterTagData(label: 'All'), ...], selectedIndex: 0, onTapTag: filterList)` | — |
