@@ -300,7 +300,109 @@ These patterns repeat across screens. Implement them as reusable Flutter widgets
 
 ---
 
-## 10. Layout constants
+## 10. Pixel Flutter component map
+
+This section maps every visible UI element in the prototype to its exact Pixel 2.4 Flutter widget class. **Use these exact class names** — do not use Flutter's built-in Material widgets if a Pixel equivalent exists.
+
+### 10.1 Screen scaffold
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| Every screen (Home, My Requests, Inbox, etc.) | `MpBasicLayout` | Wraps `appBar` + `stage` + `bottomNavigationBar`. Set `extendStageBottom: true` so content flows behind bottom nav |
+| Bottom navigation bar | `MpBottomNavBar` | 4 tabs: Home, My requests, Purchases, My cards |
+| Each bottom nav item | `MpBottomNavBarItemData(label:, icon:)` | `icon` is a Tabler icon path from `MpIcons.*` |
+| Notification badge on nav item | `MpBadge.negativeMenu(text: '3')` | Pass via `MpBottomNavBarItemData(badge:)` |
+
+### 10.2 App bar variants
+
+| Screen | Pixel widget | Key props |
+|---|---|---|
+| Home (greeting + avatar + inbox icon) | `MpBaseAppBar` with custom `title` widget | `backgroundColor: transparent`, `elevation: 0`. Title widget = `Column(Good morning / name)`. Actions = inbox `MpIconButton` |
+| Non-home screens (title only — My Requests, Purchases, My Cards) | `MpTextAppBar` | `title: 'My requests'`, `backgroundColor: transparent` |
+| Overlay screens with back arrow (Inbox, Trip detail, etc.) | `MpTextAppBar` | `leading: MpIconButton(back)`, title text |
+| Overlay screens with no title (form flows) | `MpBaseAppBar` or `MpEmptyAppBar` | Transparent bg, just back arrow |
+
+### 10.3 FAB (floating action button)
+
+| Element | Pixel widget | Notes |
+|---|---|---|
+| "+ Request" pill button | `MpFloatingActionButton(label: 'Request', icon: …)` | Use inside `MpFloatingActionButtonStack` when `Scaffold.floatingActionButton` can't be used (e.g. screens with custom scroll). Icon = `MpIcons.interfaceEssential.add` |
+| FAB menu sheet (New expense / New trip / etc.) | `MpBottomSheet.show()` + `MpBottomSheetContent` | Body = list of `MpListTileX` items. Sheet is triggered on FAB tap; no Pixel FAB menu component — implement as a standard `MpBottomSheet` |
+
+### 10.4 Bottom sheets
+
+| Prototype sheet | Pixel widget | Notes |
+|---|---|---|
+| All bottom sheets (FAB menu, filter, category, date, split, success) | `MpBottomSheet.show(context, builder: (_) => MpBottomSheetContent(…))` | `MpBottomSheetContent` accepts `header`, `body`, `footer` |
+| Sheet header (with title + optional close button) | `MpBottomSheetHeader(title: Text('…'), implyCloseable: true)` | Pass to `MpBottomSheetContent(header:)` |
+| Sheet drag handle | `MpBottomSheetHandler` | Auto-included in `MpBottomSheetContent` by default (`showHandlerIndicator: true`) |
+| Sheet footer with CTA buttons | `MpActionGroup(actions: [MpButton.primary(…), MpButton.secondary(…)])` | Pass to `MpBottomSheetContent(footer:)` |
+
+### 10.5 List tiles
+
+| Prototype element | Pixel widget | Variant / notes |
+|---|---|---|
+| Transaction list item (vendor + category + status + amount) | `MpListTileX` | `leading` = `MpIconAvatar`, `content` = double-line text, `trailing` = amount + status badge |
+| FAB menu item (New expense / New trip row) | `MpListTileX` | `leading` = icon, `content` = label text |
+| Inbox notification item | `MpListTileX` | `leading` = `MpIconAvatar` (colored), `content` = title + subtitle + timestamp, `trailing` = unread dot |
+| Section header in request list (date "13 JUL") | `MpHeaderListTileX` | `content` = date label, no leading/trailing |
+| Category pick row (in category sheet) | `MpListTileX` | `trailing` = chevron or radio |
+
+### 10.6 Buttons
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| Primary CTA (Submit, Approve, Create report) | `MpButton.primary(label: '…', onPressed: …)` | Full-width in forms |
+| Secondary CTA (Cancel, Reject, Back) | `MpButton.secondary(label: '…', onPressed: …)` | Border uses `MpColors.border.form` automatically |
+| Ghost / text-only action (e.g. "Mark all as read") | `MpButton.ghost(label: '…')` or `MpActionText` | Check context — use `MpActionText` for inline link-style buttons |
+
+### 10.7 Badges & status pills
+
+| Prototype element | Pixel widget | Variant |
+|---|---|---|
+| Notification count dot on inbox icon | `MpBadge.negative(text: '3', size: MpBadgeSize.small)` | Red negative badge |
+| "Pending" / "Awaiting approval" status text | `MpBadge.noticeStatus(text: 'Awaiting approval')` | Notice = amber/yellow |
+| "Rejected" status text | `MpBadge.negativeStatus(text: 'Rejected')` | Negative = red |
+| "Disbursed" / "Completed" status text | `MpBadge.positiveStatus(text: 'Disbursed')` | Positive = green |
+| "Awaiting report" (trip) | `MpBadge.neutralStatus(text: 'Awaiting report')` | Neutral = gray |
+
+### 10.8 Search & filter
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| Search bar in My Requests | `MpSearch(hintText: 'Search vendor, type, or amount', onFilterPressed: …)` | Has built-in filter icon button; `onFilterPressed` opens the filter sheet |
+| All / Claims / Trips tab strip | `MpSingleFilter(tags: […], selectedIndex: 0, onTapTag: …)` | Single-select pill tabs |
+| Active filter chips (below search, e.g. "May 2026") | `MpFilter(tags: […], onTapFilter: …, onTapTag: …)` | Shows active filter chips + filter button with count badge |
+
+### 10.9 Avatar
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| User photo avatar (top-right home header) | `MpAvatar.image(path: photoUrl)` | With online indicator: use `MpAvatarVariationIcon` |
+| Initials avatar fallback | `MpAvatar.text(text: 'Rizal Chandra')` | Pixel auto-generates initials and bg color |
+| Icon avatar (colored circle with icon — inbox, transaction) | `MpIconAvatar` | `icon`, `backgroundColor` props |
+
+### 10.10 Toast
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| Success toast (claim submitted, approved) | `MpToast.done('Claim submitted').show(context)` | Green border, check icon |
+| Error toast (action failed) | `MpToast.error('Something went wrong').show(context)` | Red border |
+| Info toast | `MpToast.info('…').show(context)` | Blue border |
+
+### 10.11 Date picker
+
+| Prototype element | Pixel widget | Notes |
+|---|---|---|
+| Date field in reimbursement / trip form | `MpFullDatePickerSheet` | Show via `MpBottomSheet.show()`. Returns selected `DateTime` |
+
+### 10.12 AI credits chip (custom — no Pixel equivalent)
+
+The "Auto-fill credits · 12 remaining" row with the sparkle icon and blue progress bar is **custom** — no direct Pixel component. Build as a `Container` with `MpColors.bg.brand` bg + `MpColors.text.link` text + custom progress indicator using `MpColors.bg.brandBold`.
+
+---
+
+## 12. Layout constants
 
 - **App max width:** Flutter implementation should size to the actual device viewport. The HTML prototype's 390px width is a Pixel-mobile design canvas — match the design's logical pixel dimensions (390 width baseline).
 - **Bottom nav height:** check `.bottom-nav` in `index.html` — usually 64px including safe area.
@@ -308,17 +410,19 @@ These patterns repeat across screens. Implement them as reusable Flutter widgets
 
 ---
 
-## 11. Changelog
+## 13. Changelog
 
 Add a row each time tokens change or this doc is updated. Newest first.
 
 | Date | Change | By |
 |---|---|---|
+| 2026-05-25 | Added §10 Pixel Flutter component map — explicit mapping of every UI element to its exact Pixel 2.4 widget class (`MpBasicLayout`, `MpBottomNavBar`, `MpFloatingActionButton`, `MpBottomSheet`, `MpListTileX`, `MpButton`, `MpBadge`, `MpSearch`, `MpSingleFilter`, `MpAvatar`, `MpToast`, `MpFullDatePickerSheet`). Renumbered §10–14. | Claude + ds@mekari.com |
+| 2026-05-25 | Prototype refactored from SPA to multi-page (`multi-page` branch). `index.html` splits into `home.html`, `my-requests.html`, `inbox.html`, etc. Shared CSS in `styles.css`, shared JS in `app.js`. | Claude + ds@mekari.com |
 | 2026-05-23 | Initial doc. Captures complete token system after full tokenization pass: all colors, typography, spacing, and radius in app UI use design tokens. Prototype chrome (iPhone frame, scan overlay, receipt texture) intentionally hardcoded. | Claude + ds@mekari.com |
 
 ---
 
-## 12. Open questions / TODO
+## 14. Open questions / TODO
 
 Things not yet resolved — update as decisions are made.
 
