@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Trip Detail</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div style="background:var(--XpmColors-bg-base);padding:var(--MpSpacing-medium) var(--MpSpacing-medium) var(--MpSpacing-xSmall);flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);margin-bottom:var(--MpSpacing-xSmall3);">
+          <a href="my-requests.html" style="color:var(--MpColors-text-primary);display:inline-flex;align-items:center;">
+            <i class="ti ti-arrow-left" style="font-size:var(--MpTextStyles-l-fontSize);"></i>
+          </a>
+          <span style="font-size:var(--MpTextStyles-md-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);flex:1;">Business trip · Surabaya</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);padding-left:30px;">
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">12 Jun – 16 Jun 2023</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-warning);background:var(--MpColors-bg-warning);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-xSmall);border-radius:var(--MpRadius-medium);">Awaiting report</span>
+        </div>
+      </div>
+
+      <div class="scroll-area" style="flex:1;">
+        <div style="padding:0 var(--MpSpacing-medium) 100px;">
+
+          <!-- Summary card -->
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+              <div>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:var(--MpSpacing-xSmall4);">Total expenses</p>
+                <p style="font-size:var(--MpTextStyles-l-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 1.203.000</p>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:var(--MpSpacing-xSmall4);">Approved budget</p>
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-icon-success);">Rp 2.500.000</p>
+              </div>
+            </div>
+            <div style="background:var(--XpmColors-bg-base);border-radius:var(--MpRadius-medium);height:6px;">
+              <div style="background:var(--MpColors-bg-brandBold);border-radius:var(--MpRadius-medium);height:6px;width:48%;"></div>
+            </div>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:5px;">48% of budget used</p>
+          </div>
+
+          <!-- Expenses list -->
+          <p class="section-label">Expenses (4)</p>
+
+          <div class="card" style="padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid var(--MpColors-border-subtle);">
+              <div>
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Garuda Indonesia</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Transport · 12 Jun 2023</p>
+              </div>
+              <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 550.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid var(--MpColors-border-subtle);">
+              <div>
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Hotel Majapahit</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Accommodation · 12–14 Jun 2023</p>
+              </div>
+              <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 480.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;border-bottom:0.5px solid var(--MpColors-border-subtle);">
+              <div>
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Ayam Goreng Surabaya</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Meals · 13 Jun 2023</p>
+              </div>
+              <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 128.000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--MpSpacing-xSmall) 0;">
+              <div>
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Grab</p>
+                <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Transport · 16 Jun 2023</p>
+              </div>
+              <span style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 45.000</span>
+            </div>
+          </div>
+
+          <div style="background:var(--MpColors-bg-brand);border-radius:var(--MpRadius-xLarge);padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;margin-bottom:10px;">
+            <i class="ti ti-info-circle" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-text-link);flex-shrink:0;margin-top:1px;"></i>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-primary);line-height:1.5;">Your report is ready to submit. Review the expenses and create your report below.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sticky CTA -->
+      <div style="position:absolute;bottom:0;left:0;right:0;background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium) var(--MpSpacing-large);border-top:1px solid var(--XpmColors-bg-base);display:flex;gap:var(--MpSpacing-xSmall);">
+        <a href="my-requests.html" style="flex:1;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:1.5px solid var(--MpColors-border-form);background:var(--MpColors-bg-stage);font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Add expense</a>
+        <a href="create-report.html" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:var(--MpColors-bg-brandBold);font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-inverse);cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Create report</a>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Tap <strong>Create report</strong> to continue the flow.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Request Detail</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+
+      <div class="app-header app-header--title" style="gap:var(--MpSpacing-xSmall2);">
+        <a href="my-requests.html"
+           style="width:36px;height:36px;border:none;background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-8px;text-decoration:none;">
+          <i class="ti ti-chevron-left" style="font-size:var(--MpTextStyles-xl-fontSize);color:var(--MpColors-text-primary);"></i>
+        </a>
+        <span class="page-title">Request Detail</span>
+      </div>
+
+      <div class="content-area">
+        <div class="scroll-area">
+          <div class="content">
+            <!-- Placeholder — this page intentionally empty in prototype -->
+            <div class="tx-empty" style="padding-top:var(--MpSpacing-xLarge3);">
+              <i class="ti ti-file-description" style="font-size:40px;color:var(--MpColors-text-placeholder);"></i>
+              <p>Request detail coming soon</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Tap back to return to My Requests.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+</body>
+</html>

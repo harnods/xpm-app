@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — My Requests</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <!-- ── Status bar ── -->
+      <div class="status-bar">
+        <span class="ios-time">9:41</span>
+        <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+      </div>
+
+      <!-- ── App header ── -->
+      <div class="app-header app-header--title">
+        <span class="page-title">My requests</span>
+      </div>
+
+      <div class="content-area">
+        <div class="scroll-area" id="requests-scroll">
+          <div class="content">
+
+            <!-- ── Search + filter ── -->
+            <div class="search-row">
+              <label class="search-field" for="search-input">
+                <i class="ti ti-search search-icon"></i>
+                <input id="search-input" type="search" class="search-input" placeholder="Search vendor, type, or amount" oninput="onSearchInput(event)" autocomplete="off">
+                <button type="button" class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear" style="display:none;"><i class="ti ti-x"></i></button>
+              </label>
+              <button class="search-filter-btn" id="filter-btn" type="button" onclick="openFilterSheet()" aria-label="Filter">
+                <img src="assets/funnel.svg" alt="" style="width:24px;height:24px;display:block;">
+                <span class="action-dot"></span>
+              </button>
+            </div>
+
+            <!-- ── This month stats + AI credits ── -->
+            <div class="month-card">
+              <div class="month-header">
+                <span class="month-label">This month</span>
+                <span class="month-amount">Rp1.511.000</span>
+              </div>
+              <div class="month-cells">
+                <div class="month-cell cell-pending">
+                  <span class="cell-label">Pending</span>
+                  <span class="cell-value">3 claims</span>
+                </div>
+                <div class="month-cell cell-awaiting">
+                  <span class="cell-label">Awaiting payment</span>
+                  <span class="cell-value">Rp150.000</span>
+                </div>
+                <div class="month-cell cell-disbursed">
+                  <span class="cell-label">Disbursed</span>
+                  <span class="cell-value">Rp1.300.000</span>
+                </div>
+              </div>
+              <div class="month-credits">
+                <div class="credits-icon"><i class="ti ti-sparkles"></i></div>
+                <div class="credits-body">
+                  <div class="credits-row">
+                    <span class="credits-label">Auto-fill credits</span>
+                    <span class="credits-count">12 remaining</span>
+                  </div>
+                  <div class="credits-track">
+                    <div class="credits-fill" style="width:40%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Active filters ── -->
+            <div class="active-filters" id="active-filters"></div>
+
+            <!-- ── Requests list ── -->
+            <div class="tx-card">
+              <div class="tx-chip-row" id="req-chips">
+                <button class="tx-chip active" type="button" onclick="switchReqFilter('all',this)">All</button>
+                <button class="tx-chip" type="button" onclick="switchReqFilter('claims',this)">Claims</button>
+                <button class="tx-chip" type="button" onclick="switchReqFilter('trips',this)">Trips</button>
+              </div>
+
+              <p class="tx-section-label">13 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Bluegrass Bar &amp; Grill</span>
+                    <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting approval</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp550.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Business trip · Surabaya</span>
+                    <span class="tx-row-meta">12 Jun – 16 Jun 2023</span>
+                    <span class="tx-row-status">Trip - <span class="tx-status-warn">Awaiting report</span></span>
+                  </div>
+                  <div class="tx-row-amount-col">
+                    <span class="tx-row-amount">Rp1.200.000</span>
+                    <span class="tx-row-sub">4 expenses</span>
+                  </div>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Grab</span>
+                    <span class="tx-row-meta">Transport Claim</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting payment</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp48.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Notion</span>
+                    <span class="tx-row-meta">Subscription</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-danger">Rejected</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp149.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">12 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Business trip · Bandung</span>
+                    <span class="tx-row-meta">20–25 May 2023</span>
+                    <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                  </div>
+                  <div class="tx-row-amount-col">
+                    <span class="tx-row-amount">Rp3.500.000</span>
+                    <span class="tx-row-sub">7 expenses</span>
+                  </div>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Grab</span>
+                    <span class="tx-row-meta">Transport Claim</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp14.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">10 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Starbucks Senayan</span>
+                    <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp135.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Gojek</span>
+                    <span class="tx-row-meta">Transport Claim</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp32.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">GoFood — Sate Khas Senayan</span>
+                    <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-warn">Awaiting payment</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp178.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">8 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Figma Professional</span>
+                    <span class="tx-row-meta">Subscription</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp225.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Zoom Pro</span>
+                    <span class="tx-row-meta">Subscription</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp215.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Bluebird</span>
+                    <span class="tx-row-meta">Transport Claim</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-danger">Rejected</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp62.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">5 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Business trip · Yogyakarta</span>
+                    <span class="tx-row-meta">28 Jun – 2 Jul 2023</span>
+                    <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                  </div>
+                  <div class="tx-row-amount-col">
+                    <span class="tx-row-amount">Rp2.850.000</span>
+                    <span class="tx-row-sub">6 expenses</span>
+                  </div>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Toko Buku Gramedia</span>
+                    <span class="tx-row-meta">Office Supplies</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp95.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Pos Indonesia</span>
+                    <span class="tx-row-meta">Postage &amp; Courier</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp48.500</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">2 Jul</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Hotel Tentrem Yogyakarta</span>
+                    <span class="tx-row-meta">Accommodation</span>
+                    <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp1.450.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Garuda Indonesia</span>
+                    <span class="tx-row-meta">Transport · Flight</span>
+                    <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp1.180.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Sate Klathak Pak Pong</span>
+                    <span class="tx-row-meta">Meals &amp; Entertainment</span>
+                    <span class="tx-row-status">Trip expense - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp95.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">28 Jun</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Apple iCloud+ 200GB</span>
+                    <span class="tx-row-meta">Subscription</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp45.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Telkomsel Postpaid</span>
+                    <span class="tx-row-meta">Telecom</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp325.000</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Indomaret</span>
+                    <span class="tx-row-meta">Office Supplies</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp78.500</span>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Tokopedia — Logitech Mouse</span>
+                    <span class="tx-row-meta">Office Equipment</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp499.000</span>
+                </div>
+              </div>
+
+              <p class="tx-section-label">22 Jun</p>
+              <div class="tx-list-group">
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Business trip · Medan</span>
+                    <span class="tx-row-meta">15–20 Jun 2023</span>
+                    <span class="tx-row-status">Trip - <span class="tx-status-success">Completed</span></span>
+                  </div>
+                  <div class="tx-row-amount-col">
+                    <span class="tx-row-amount">Rp4.120.000</span>
+                    <span class="tx-row-sub">9 expenses</span>
+                  </div>
+                </div>
+                <div class="tx-row">
+                  <div class="tx-row-col">
+                    <span class="tx-row-name">Notion Team</span>
+                    <span class="tx-row-meta">Subscription</span>
+                    <span class="tx-row-status">Reimbursement - <span class="tx-status-success">Disbursed</span></span>
+                  </div>
+                  <span class="tx-row-amount">Rp145.000</span>
+                </div>
+              </div>
+
+              <!-- ── Infinite scroll anchor ── -->
+              <div class="tx-loader" id="tx-loader" aria-hidden="true">
+                <div class="tx-skel"><div class="tx-skel-line w70"></div><div class="tx-skel-line w40"></div></div>
+                <div class="tx-skel"><div class="tx-skel-line w55"></div><div class="tx-skel-line w35"></div></div>
+                <div class="tx-skel"><div class="tx-skel-line w65"></div><div class="tx-skel-line w45"></div></div>
+              </div>
+              <p class="tx-end" id="tx-end" style="display:none;">You've reached the end</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FAB -->
+        <button class="fab-pill" id="fab-btn">
+          <img src="assets/fab-plus.svg" alt="">
+          <span>Request</span>
+        </button>
+      </div><!-- /content-area -->
+
+      <!-- Bottom nav — My Requests active -->
+      <div class="bottom-nav-wrap">
+        <div class="bottom-nav">
+          <a class="nav-item" href="home.html">
+            <img src="assets/nav-home.svg" alt="">
+            <span class="nav-label">Home</span>
+          </a>
+          <a class="nav-item active" href="my-requests.html">
+            <img src="assets/nav-requests-active.svg" alt="">
+            <span class="nav-label">My requests</span>
+          </a>
+          <a class="nav-item" href="#">
+            <img src="assets/nav-purchases.svg" alt="">
+            <span class="nav-label">Purchases</span>
+          </a>
+          <a class="nav-item" href="#">
+            <img src="assets/nav-cards.svg" alt="">
+            <span class="nav-label">My cards</span>
+          </a>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+      <!-- ── SHEET · FAB ── -->
+      <div class="sheet-backdrop" id="sheet-fab">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">New request</p>
+
+          <a class="sheet-item" href="reimb.html" style="text-decoration:none;">
+            <div style="width:40px;height:40px;background:var(--MpColors-bg-brand);border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="assets/reimbursement.svg" alt="" style="width:24px;height:24px;display:block;">
+            </div>
+            <div>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Reimbursement</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Snap, upload, or fill manually</p>
+            </div>
+            <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+          </a>
+
+          <div class="sheet-item">
+            <div style="width:40px;height:40px;background:var(--MpColors-bg-success);border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="assets/add-trip.svg" alt="" style="width:24px;height:24px;display:block;">
+            </div>
+            <div>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Business trip</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Plan a new trip and get approval before traveling</p>
+            </div>
+            <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+          </div>
+
+          <a class="sheet-item" href="reimb.html" style="text-decoration:none;">
+            <div style="width:40px;height:40px;background:var(--MpColors-bg-highlight);border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="assets/business-trip.svg" alt="" style="width:24px;height:24px;display:block;">
+            </div>
+            <div>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Trip expense</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Report expenses from a trip you've already taken</p>
+            </div>
+            <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+          </a>
+
+          <div class="sheet-item">
+            <div style="width:40px;height:40px;background:var(--MpColors-bg-success);border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="assets/cash-advance.svg" alt="" style="width:24px;height:24px;display:block;">
+            </div>
+            <div>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Cash advance</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Request funds before your expense</p>
+            </div>
+            <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+          </div>
+
+          <div class="sheet-item">
+            <div style="width:40px;height:40px;background:var(--MpColors-bg-warning);border-radius:var(--MpRadius-xLarge);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="assets/loan.svg" alt="" style="width:24px;height:24px;display:block;">
+            </div>
+            <div>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Purchase request</p>
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:1px;">Request approval before purchasing</p>
+            </div>
+            <img src="assets/chevron-right.svg" alt="" style="width:20px;height:20px;display:block;margin-left:auto;flex-shrink:0;">
+          </div>
+
+          <div style="height:6px;"></div>
+        </div>
+      </div><!-- /sheet-fab -->
+
+      <!-- ── SHEET · FILTER ── -->
+      <div class="sheet-backdrop" id="sheet-filter">
+        <div class="bottom-sheet filter-sheet">
+          <div class="sheet-handle"></div>
+          <div class="filter-sheet-header">
+            <span class="title">Filter requests</span>
+            <button class="close-btn" type="button" id="filter-close" aria-label="Close">
+              <i class="ti ti-x"></i>
+            </button>
+          </div>
+
+          <div class="filter-sheet-body">
+            <!-- Period -->
+            <div class="filter-section">
+              <span class="filter-section-label">Period</span>
+              <div class="filter-chip-row" id="filter-period">
+                <button class="filter-chip active" type="button" data-period="this-month">This month</button>
+                <button class="filter-chip" type="button" data-period="last-month">Last month</button>
+                <button class="filter-chip" type="button" data-period="last-3">Last 3 months</button>
+                <button class="filter-chip" type="button" data-period="this-year">This year</button>
+                <button class="filter-chip" type="button" data-period="custom">Custom</button>
+              </div>
+              <div class="filter-row-2" id="filter-period-custom" style="display:none;">
+                <div>
+                  <label class="field-label">Month</label>
+                  <select class="filter-select" id="filter-month">
+                    <option value="">All months</option>
+                    <option>January</option><option>February</option><option>March</option>
+                    <option>April</option><option>May</option><option>June</option>
+                    <option selected>July</option><option>August</option><option>September</option>
+                    <option>October</option><option>November</option><option>December</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Year</label>
+                  <select class="filter-select" id="filter-year">
+                    <option>2026</option>
+                    <option selected>2025</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div class="filter-section">
+              <span class="filter-section-label">Status</span>
+              <div class="filter-chip-row" id="filter-status">
+                <button class="filter-chip" type="button" data-status="awaiting-approval"><span class="check"><i class="ti ti-check"></i></span>Awaiting approval</button>
+                <button class="filter-chip" type="button" data-status="awaiting-payment"><span class="check"><i class="ti ti-check"></i></span>Awaiting payment</button>
+                <button class="filter-chip" type="button" data-status="awaiting-report"><span class="check"><i class="ti ti-check"></i></span>Awaiting report</button>
+                <button class="filter-chip" type="button" data-status="disbursed"><span class="check"><i class="ti ti-check"></i></span>Disbursed</button>
+                <button class="filter-chip" type="button" data-status="completed"><span class="check"><i class="ti ti-check"></i></span>Completed</button>
+                <button class="filter-chip" type="button" data-status="rejected"><span class="check"><i class="ti ti-check"></i></span>Rejected</button>
+              </div>
+            </div>
+
+            <!-- Amount -->
+            <div class="filter-section">
+              <span class="filter-section-label">Amount (Rp)</span>
+              <div class="filter-chip-row" id="filter-amount-mode">
+                <button class="filter-chip active" type="button" data-amount="any">Any</button>
+                <button class="filter-chip" type="button" data-amount="gt">Greater than</button>
+                <button class="filter-chip" type="button" data-amount="between">Between</button>
+                <button class="filter-chip" type="button" data-amount="lt">Less than</button>
+              </div>
+              <div class="filter-amount-inputs" id="filter-amount-inputs" style="display:none;">
+                <div class="input-wrap" id="amount-single-wrap">
+                  <span class="input-prefix">Rp</span>
+                  <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-single" placeholder="0">
+                </div>
+                <div class="input-wrap" id="amount-min-wrap" style="display:none;">
+                  <span class="input-prefix">Rp</span>
+                  <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-min" placeholder="Min">
+                </div>
+                <div class="input-wrap" id="amount-max-wrap" style="display:none;">
+                  <span class="input-prefix">Rp</span>
+                  <input class="filter-input" type="number" inputmode="numeric" id="filter-amount-max" placeholder="Max">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-sheet-footer">
+            <button class="filter-btn secondary" type="button" id="filter-reset">Reset</button>
+            <button class="filter-btn primary" type="button" id="filter-apply">Apply</button>
+          </div>
+        </div>
+      </div><!-- /sheet-filter -->
+
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">
+    Tap <strong>+</strong> to create a new request. Use the filter to refine your list.
+  </div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  // FAB sheet
+  document.getElementById('fab-btn').addEventListener('click', function() {
+    document.getElementById('sheet-fab').classList.add('active');
+  });
+  document.getElementById('sheet-fab').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+
+  // Filter sheet
+  function openFilterSheet() {
+    document.getElementById('sheet-filter').classList.add('active');
+  }
+  function closeFilterSheet() {
+    document.getElementById('sheet-filter').classList.remove('active');
+  }
+  document.getElementById('sheet-filter').addEventListener('click', function(e) {
+    if (e.target === this) closeFilterSheet();
+  });
+  document.getElementById('filter-close').addEventListener('click', closeFilterSheet);
+  document.getElementById('filter-apply').addEventListener('click', function() {
+    renderActiveFilters();
+    closeFilterSheet();
+  });
+  document.getElementById('filter-reset').addEventListener('click', function() {
+    resetFilters();
+  });
+
+  // Filter chip bindings
+  function bindSingleSelect(rowId, onChange) {
+    const row = document.getElementById(rowId);
+    row.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        row.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        if (onChange) onChange(chip);
+      });
+    });
+  }
+  function bindMultiSelect(rowId) {
+    document.getElementById(rowId).querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => chip.classList.toggle('active'));
+    });
+  }
+  bindSingleSelect('filter-period', chip => {
+    const custom = document.getElementById('filter-period-custom');
+    custom.style.display = (chip.dataset.period === 'custom') ? '' : 'none';
+  });
+  bindMultiSelect('filter-status');
+  bindSingleSelect('filter-amount-mode', chip => {
+    const inputs = document.getElementById('filter-amount-inputs');
+    const single = document.getElementById('amount-single-wrap');
+    const min = document.getElementById('amount-min-wrap');
+    const max = document.getElementById('amount-max-wrap');
+    const mode = chip.dataset.amount;
+    if (mode === 'any') {
+      inputs.style.display = 'none';
+    } else if (mode === 'between') {
+      inputs.style.display = 'grid';
+      inputs.classList.add('between');
+      single.style.display = 'none';
+      min.style.display = '';
+      max.style.display = '';
+    } else {
+      inputs.style.display = 'flex';
+      inputs.classList.remove('between');
+      single.style.display = '';
+      min.style.display = 'none';
+      max.style.display = 'none';
+      document.getElementById('filter-amount-single').placeholder = mode === 'gt' ? 'More than…' : 'Less than…';
+    }
+  });
+
+  // Filter helpers
+  const periodLabels = {
+    'this-month':'This month','last-month':'Last month','last-3':'Last 3 months',
+    'this-year':'This year','custom':'Custom'
+  };
+  const statusLabels = {
+    'awaiting-approval':'Awaiting approval','awaiting-payment':'Awaiting payment',
+    'awaiting-report':'Awaiting report','disbursed':'Disbursed',
+    'completed':'Completed','rejected':'Rejected'
+  };
+  function formatRp(n) {
+    if (!n) return '';
+    return 'Rp' + Number(n).toLocaleString('id-ID');
+  }
+  function readFilters() {
+    const period = document.querySelector('#filter-period .filter-chip.active')?.dataset.period || 'this-month';
+    const month = document.getElementById('filter-month').value;
+    const year = document.getElementById('filter-year').value;
+    const statuses = Array.from(document.querySelectorAll('#filter-status .filter-chip.active')).map(c => c.dataset.status);
+    const amountMode = document.querySelector('#filter-amount-mode .filter-chip.active')?.dataset.amount || 'any';
+    const amount = document.getElementById('filter-amount-single').value;
+    const amountMin = document.getElementById('filter-amount-min').value;
+    const amountMax = document.getElementById('filter-amount-max').value;
+    return { period, month, year, statuses, amountMode, amount, amountMin, amountMax };
+  }
+  function renderActiveFilters() {
+    const f = readFilters();
+    const row = document.getElementById('active-filters');
+    const pills = [];
+    if (f.period && f.period !== 'this-month') {
+      let label = periodLabels[f.period];
+      if (f.period === 'custom') {
+        const parts = [];
+        if (f.month) parts.push(f.month);
+        if (f.year) parts.push(f.year);
+        label = parts.join(' ') || 'Custom period';
+      }
+      pills.push({key:'period', label});
+    }
+    f.statuses.forEach(s => pills.push({key:'status:'+s, label:statusLabels[s]}));
+    if (f.amountMode !== 'any') {
+      let amountLabel = '';
+      if (f.amountMode === 'gt' && f.amount) amountLabel = '> '+formatRp(f.amount);
+      else if (f.amountMode === 'lt' && f.amount) amountLabel = '< '+formatRp(f.amount);
+      else if (f.amountMode === 'between' && (f.amountMin || f.amountMax))
+        amountLabel = formatRp(f.amountMin || 0) + ' – ' + formatRp(f.amountMax || 0);
+      if (amountLabel) pills.push({key:'amount', label:amountLabel});
+    }
+    row.innerHTML = '';
+    if (pills.length === 0) {
+      row.classList.remove('visible');
+      document.getElementById('filter-btn').classList.remove('has-filter');
+      return;
+    }
+    pills.forEach(p => {
+      const el = document.createElement('span');
+      el.className = 'active-filter-pill';
+      el.innerHTML = `${p.label} <span class="remove" data-key="${p.key}" aria-label="Remove"><i class="ti ti-x"></i></span>`;
+      row.appendChild(el);
+    });
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'clear-all';
+    clearBtn.type = 'button';
+    clearBtn.textContent = 'Clear all';
+    clearBtn.onclick = () => { resetFilters(); renderActiveFilters(); };
+    row.appendChild(clearBtn);
+    row.classList.add('visible');
+    document.getElementById('filter-btn').classList.add('has-filter');
+    row.querySelectorAll('.remove').forEach(r => {
+      r.addEventListener('click', () => { removeFilter(r.dataset.key); renderActiveFilters(); });
+    });
+  }
+  function removeFilter(key) {
+    if (key === 'period') {
+      document.querySelectorAll('#filter-period .filter-chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('#filter-period .filter-chip[data-period="this-month"]').classList.add('active');
+      document.getElementById('filter-period-custom').style.display = 'none';
+    } else if (key.startsWith('status:')) {
+      const s = key.split(':')[1];
+      document.querySelector(`#filter-status .filter-chip[data-status="${s}"]`)?.classList.remove('active');
+    } else if (key === 'amount') {
+      document.querySelectorAll('#filter-amount-mode .filter-chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('#filter-amount-mode .filter-chip[data-amount="any"]').classList.add('active');
+      document.getElementById('filter-amount-inputs').style.display = 'none';
+      document.getElementById('filter-amount-single').value = '';
+      document.getElementById('filter-amount-min').value = '';
+      document.getElementById('filter-amount-max').value = '';
+    }
+  }
+  function resetFilters() {
+    document.querySelectorAll('#filter-period .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('#filter-period .filter-chip[data-period="this-month"]').classList.add('active');
+    document.getElementById('filter-period-custom').style.display = 'none';
+    document.querySelectorAll('#filter-status .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('#filter-amount-mode .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('#filter-amount-mode .filter-chip[data-amount="any"]').classList.add('active');
+    document.getElementById('filter-amount-inputs').style.display = 'none';
+    document.getElementById('filter-amount-single').value = '';
+    document.getElementById('filter-amount-min').value = '';
+    document.getElementById('filter-amount-max').value = '';
+    renderActiveFilters();
+  }
+
+  // Request type filter chips
+  function switchReqFilter(type, el) {
+    document.querySelectorAll('#req-chips .tx-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Search
+  function onSearchInput(e) {
+    const q = (e.target.value || '').trim();
+    document.getElementById('search-clear').style.display = q ? 'inline-flex' : 'none';
+    applySearch(q);
+  }
+  function clearSearch() {
+    const input = document.getElementById('search-input');
+    input.value = '';
+    document.getElementById('search-clear').style.display = 'none';
+    applySearch('');
+    input.focus();
+  }
+  function applySearch(q) {
+    const needle = q.toLowerCase();
+    const af = document.getElementById('active-filters');
+    if (!af) return;
+    const card = af.nextElementSibling;
+    if (!card || !card.classList.contains('tx-card')) return;
+    const children = Array.from(card.children);
+    let matchCount = 0;
+    children.forEach(el => {
+      if (el.classList.contains('tx-row')) {
+        const text = el.textContent.toLowerCase();
+        const match = !needle || text.includes(needle);
+        el.style.display = match ? '' : 'none';
+        if (match) matchCount++;
+      }
+    });
+    for (let i = 0; i < children.length; i++) {
+      const el = children[i];
+      if (!el.classList.contains('tx-section-label')) continue;
+      let hasVisible = false;
+      for (let j = i + 1; j < children.length; j++) {
+        const next = children[j];
+        if (next.classList.contains('tx-section-label')) break;
+        if (next.classList.contains('tx-row') && next.style.display !== 'none') { hasVisible = true; break; }
+      }
+      el.style.display = hasVisible ? '' : 'none';
+    }
+    let empty = document.getElementById('tx-empty');
+    if (needle && matchCount === 0) {
+      if (!empty) {
+        empty = document.createElement('div');
+        empty.id = 'tx-empty';
+        empty.className = 'tx-empty';
+        empty.innerHTML = '<i class="ti ti-search-off"></i><p>No requests match your search.</p>';
+        card.appendChild(empty);
+      }
+      empty.style.display = '';
+    } else if (empty) {
+      empty.style.display = 'none';
+    }
+  }
+
+  // Infinite scroll
+  const moreBatches = [
+    { label: '18 Jun', rows: [
+      { name:'Lazismu Donation', meta:'Charity', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp250.000' },
+      { name:'Coffee Meeting · Common Grounds', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp186.000' },
+      { name:'Gojek', meta:'Transport Claim', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp42.000' }
+    ]},
+    { label: '12 Jun', rows: [
+      { name:'Business trip · Bali', meta:'5–10 Jun 2023', status:'Trip', tone:'success', toneText:'Completed', amount:'Rp5.250.000', sub:'11 expenses' },
+      { name:'Tokopedia — Office Chair', meta:'Office Equipment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp1.450.000' }
+    ]},
+    { label: '5 Jun', rows: [
+      { name:'Anomali Coffee', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp82.000' },
+      { name:'Bluebird', meta:'Transport Claim', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp95.000' },
+      { name:'GoFood — Warung Bu Kris', meta:'Meals & Entertainment', status:'Reimbursement', tone:'success', toneText:'Disbursed', amount:'Rp124.000' }
+    ]}
+  ];
+  let _batchIdx = 0, _loading = false;
+  const scroll = document.getElementById('requests-scroll');
+  if (scroll) {
+    scroll.addEventListener('scroll', function() {
+      if (_loading || _batchIdx >= moreBatches.length) return;
+      const remaining = scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight;
+      if (remaining < 120) loadMore();
+    });
+  }
+  function loadMore() {
+    if (_loading || _batchIdx >= moreBatches.length) return;
+    _loading = true;
+    const loader = document.getElementById('tx-loader');
+    const endEl = document.getElementById('tx-end');
+    loader.style.display = 'flex';
+    setTimeout(function() {
+      const card = document.querySelector('.tx-card');
+      const batch = moreBatches[_batchIdx];
+      const label = document.createElement('p');
+      label.className = 'tx-section-label';
+      label.textContent = batch.label;
+      card.insertBefore(label, loader);
+      const group = document.createElement('div');
+      group.className = 'tx-list-group';
+      batch.rows.forEach(function(r) {
+        const row = document.createElement('div');
+        row.className = 'tx-row';
+        const amountHtml = r.sub
+          ? `<div class="tx-row-amount-col"><span class="tx-row-amount">${r.amount}</span><span class="tx-row-sub">${r.sub}</span></div>`
+          : `<span class="tx-row-amount">${r.amount}</span>`;
+        row.innerHTML = `<div class="tx-row-col">
+           <span class="tx-row-name">${r.name}</span>
+           <span class="tx-row-meta">${r.meta}</span>
+           <span class="tx-row-status">${r.status} - <span class="tx-status-${r.tone}">${r.toneText}</span></span>
+         </div>${amountHtml}`;
+        group.appendChild(row);
+      });
+      card.insertBefore(group, loader);
+      _batchIdx++;
+      _loading = false;
+      loader.style.display = 'none';
+      if (_batchIdx >= moreBatches.length) endEl.style.display = 'block';
+    }, 900);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Receipt Preview</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div class="overlay-page trip-overlay">
+        <div class="status-bar">
+          <span class="ios-time">9:41</span>
+          <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+        </div>
+        <div class="rf-header">
+          <a href="classify.html" class="rf-back" aria-label="Back" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+            <i class="ti ti-arrow-left"></i>
+          </a>
+          <span class="rf-title" id="rp-title">Grab</span>
+        </div>
+        <div class="trip-subheader" id="rp-sub">1 photo</div>
+
+        <div class="scroll-area">
+          <div class="rp-classification">
+            <span class="rp-classification-label">Category</span>
+            <div class="rp-classification-row" id="rp-cat-row" onclick="openCatSheet()">
+              <span class="rp-classification-value" id="rp-cat-value">Transportation</span>
+              <button type="button" class="rp-edit" aria-label="Edit"><i class="ti ti-pencil"></i></button>
+            </div>
+          </div>
+          <div class="rp-subcat" id="rp-subcat-wrap">
+            <span class="rp-subcat-label">Subcategory</span>
+            <div class="rp-subcat-row" id="rp-subcat-row" onclick="openSubcatSheet()">
+              <span class="rp-subcat-value" id="rp-subcat-value">Taxi</span>
+              <button type="button" class="rp-edit" aria-label="Edit subcategory"><i class="ti ti-pencil"></i></button>
+            </div>
+          </div>
+          <div class="rp-section-label">Photos</div>
+          <div class="rp-photos" id="rp-photos">
+            <div class="rp-photo">
+              <span class="num">Photo 1</span>
+              <button type="button" class="remove" aria-label="Remove"><i class="ti ti-x"></i></button>
+            </div>
+          </div>
+          <div class="rp-actions-group">
+            <button type="button" class="rp-action-row" onclick="addPhoto()">
+              <span class="rp-action-icon add"><i class="ti ti-plus"></i></span>
+              <span class="rp-action-label">
+                <span>Add another photo</span>
+                <span class="rp-action-caption">Attach a second receipt to this claim</span>
+              </span>
+              <img src="assets/chevron-right.svg" alt="" class="rp-action-chevron">
+            </button>
+            <button type="button" class="rp-action-row" id="rp-split-btn" onclick="openSplitSheet()" style="display:none;">
+              <span class="rp-action-icon split"><i class="ti ti-arrows-split-2"></i></span>
+              <span class="rp-action-label">
+                <span>Split into separate claim</span>
+                <span class="rp-action-caption">Pick a photo to move to its own claim</span>
+              </span>
+              <img src="assets/chevron-right.svg" alt="" class="rp-action-chevron">
+            </button>
+          </div>
+        </div>
+
+        <div class="rf-actions">
+          <a href="classify.html" class="rf-btn rf-btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Done</a>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+      <!-- Sheet: Category (reimb two-step) -->
+      <div class="sheet-backdrop" id="sheet-reimb-cat" onclick="closeReimbCatSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <div id="reimb-cat-step1">
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Category</p>
+            <div class="sheet-list" id="reimb-cat-list"></div>
+          </div>
+          <div id="reimb-cat-step2" style="display:none;">
+            <div class="sheet-nav-header">
+              <button class="sheet-nav-back" type="button" onclick="showCatStep1()"><i class="ti ti-arrow-left"></i></button>
+              <span class="sheet-nav-title">Subcategory</span>
+            </div>
+            <div class="sheet-list" id="reimb-subcat-list"></div>
+          </div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Sheet: Split picker -->
+      <div class="sheet-backdrop" id="sheet-split" onclick="closeSplitSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall3);letter-spacing:0.6px;text-transform:uppercase;">Split into separate claim</p>
+          <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-secondary);padding:0 var(--MpSpacing-large) var(--MpSpacing-xSmall);">Choose which photo to move to its own claim.</p>
+          <div class="split-list" id="split-list"></div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Adjust category or add photos. Tap <strong>Done</strong> to go back.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  const REIMB_CATEGORIES = {
+    'Transportation':       ['Parking', 'Public Transport', 'Taxi', 'Fuel', 'Toll'],
+    'Accommodation':        ['Room Rate', 'Service Charge', 'Meals at Hotel', 'Laundry'],
+    'Per diem':             ['Breakfast', 'Lunch', 'Dinner', 'Daily Allowance'],
+    'Meals & Entertainment':['Restaurant', 'Coffee & Drinks', 'Entertainment', 'Team Event'],
+    'Subscription':         [],
+    'Office Supplies':      [],
+    'Communication':        [],
+    'Other':                [],
+  };
+
+  // Mocked receipt state for this page
+  let receipt = {
+    vendor: 'Grab',
+    category: 'Transportation',
+    subCategory: 'Taxi',
+    photos: [1],
+  };
+  let pendingCat = null;
+
+  function renderPhotos() {
+    const photos = document.getElementById('rp-photos');
+    photos.innerHTML = '';
+    receipt.photos.forEach((num, i) => {
+      const el = document.createElement('div');
+      el.className = 'rp-photo';
+      el.innerHTML = '<span class="num">Photo ' + num + '</span><button type="button" class="remove" aria-label="Remove"><i class="ti ti-x"></i></button>';
+      el.querySelector('.remove').onclick = () => {
+        receipt.photos.splice(i, 1);
+        renderPhotos();
+      };
+      photos.appendChild(el);
+    });
+    document.getElementById('rp-split-btn').style.display = receipt.photos.length > 1 ? 'inline-flex' : 'none';
+  }
+
+  function addPhoto() {
+    receipt.photos.push(receipt.photos.length + 1);
+    renderPhotos();
+  }
+
+  /* Category sheet */
+  function openCatSheet() {
+    showCatStep1();
+    document.getElementById('sheet-reimb-cat').classList.add('active');
+  }
+  function showCatStep1() {
+    document.getElementById('reimb-cat-step1').style.display = '';
+    document.getElementById('reimb-cat-step2').style.display = 'none';
+    const list = document.getElementById('reimb-cat-list');
+    list.innerHTML = '';
+    Object.keys(REIMB_CATEGORIES).forEach(cat => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (cat === receipt.category ? ' active' : '');
+      el.textContent = cat;
+      el.onclick = () => {
+        const subs = REIMB_CATEGORIES[cat] || [];
+        if (subs.length > 0) { pendingCat = cat; showSubcatStep(cat); }
+        else { pickCategory(cat, null); }
+      };
+      list.appendChild(el);
+    });
+  }
+  function showSubcatStep(category) {
+    document.getElementById('reimb-cat-step1').style.display = 'none';
+    document.getElementById('reimb-cat-step2').style.display = '';
+    const subs = REIMB_CATEGORIES[category] || [];
+    const list = document.getElementById('reimb-subcat-list');
+    list.innerHTML = '';
+    subs.forEach(sub => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (sub === receipt.subCategory && category === receipt.category ? ' active' : '');
+      el.textContent = sub;
+      el.onclick = () => pickCategory(category, sub);
+      list.appendChild(el);
+    });
+  }
+  function pickCategory(category, subCategory) {
+    receipt.category = category;
+    receipt.subCategory = subCategory;
+    document.getElementById('rp-cat-value').textContent = category;
+    const subcatWrap = document.getElementById('rp-subcat-wrap');
+    const subs = REIMB_CATEGORIES[category] || [];
+    subcatWrap.style.display = subs.length > 0 ? '' : 'none';
+    if (subs.length > 0 && subCategory) {
+      document.getElementById('rp-subcat-value').textContent = subCategory;
+    }
+    closeReimbCatSheet();
+  }
+  function closeReimbCatSheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-reimb-cat').classList.remove('active');
+  }
+  function openSubcatSheet() {
+    showSubcatStep(receipt.category);
+    document.getElementById('sheet-reimb-cat').classList.add('active');
+  }
+
+  /* Split sheet */
+  function openSplitSheet() {
+    const list = document.getElementById('split-list');
+    list.innerHTML = '';
+    receipt.photos.forEach((num, i) => {
+      const row = document.createElement('div');
+      row.className = 'split-row';
+      row.innerHTML = '<div class="split-thumb"><span class="num">' + num + '</span></div><span class="split-label">Photo ' + num + '</span><img src="assets/chevron-right.svg" alt="">';
+      row.onclick = () => {
+        receipt.photos.splice(i, 1);
+        closeSplitSheet();
+        renderPhotos();
+      };
+      list.appendChild(row);
+    });
+    document.getElementById('sheet-split').classList.add('active');
+  }
+  function closeSplitSheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-split').classList.remove('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', renderPhotos);
+</script>
+</body>
+</html>

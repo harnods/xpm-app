@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Create Report</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-medium) var(--MpSpacing-medium) var(--MpSpacing-small);flex-shrink:0;border-bottom:0.5px solid var(--XpmColors-bg-base);">
+        <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);">
+          <a href="trip-detail.html" style="color:var(--MpColors-text-primary);display:inline-flex;align-items:center;">
+            <i class="ti ti-arrow-left" style="font-size:var(--MpTextStyles-l-fontSize);"></i>
+          </a>
+          <span style="font-size:var(--MpTextStyles-md-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Create report</span>
+        </div>
+      </div>
+
+      <div class="scroll-area" style="flex:1;background:var(--XpmColors-bg-base);">
+        <div style="padding:var(--MpSpacing-medium);">
+
+          <!-- Trip info -->
+          <div style="background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-small) var(--MpSpacing-medium);margin-bottom:10px;">
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-bottom:var(--MpSpacing-xSmall3);font-weight:var(--MpTextStyles-semiBold);">Trip</p>
+            <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);">
+              <i class="ti ti-plane" style="font-size:var(--MpTextStyles-md-fontSize);color:var(--MpColors-icon-highlight);"></i>
+              <p style="font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Business trip · Surabaya</p>
+            </div>
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);margin-top:var(--MpSpacing-xSmall4);padding-left:24px;">12–16 Jun 2023 · 4 expenses</p>
+          </div>
+
+          <!-- Form fields -->
+          <div style="background:var(--MpColors-bg-stage);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-medium);margin-bottom:10px;">
+            <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);margin-bottom:var(--MpSpacing-small);letter-spacing:0.4px;text-transform:uppercase;">Report details</p>
+
+            <div style="margin-bottom:14px;">
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:5px;">Report title</p>
+              <div style="border:1.5px solid var(--MpColors-border-form);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);">
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-primary);">Surabaya business trip — Jun 2023</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px;">
+              <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);margin-bottom:5px;">Description <span style="color:var(--MpColors-text-placeholder);font-weight:var(--MpTextStyles-regular);">(optional)</span></p>
+              <div style="border:1.5px solid var(--MpColors-border-form);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);min-height:60px;">
+                <p style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-placeholder);">Example: purpose of the trip</p>
+              </div>
+            </div>
+
+            <!-- Total summary -->
+            <div style="background:var(--XpmColors-bg-base);border-radius:var(--MpRadius-medium);padding:var(--MpSpacing-xSmall) var(--MpSpacing-small);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:var(--MpSpacing-xSmall3);">
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Total expenses</span>
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">Rp 1.203.000</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);">Number of items</span>
+                <span style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);">4 expenses</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CTA row -->
+      <div style="background:var(--MpColors-bg-stage);padding:var(--MpSpacing-small) var(--MpSpacing-medium) var(--MpSpacing-large);border-top:0.5px solid var(--XpmColors-bg-base);display:flex;gap:var(--MpSpacing-xSmall);flex-shrink:0;">
+        <a href="my-requests.html" style="flex:1;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:1.5px solid var(--MpColors-border-form);background:var(--MpColors-bg-stage);font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Save as draft</a>
+        <a href="my-requests.html" style="flex:2;padding:var(--MpSpacing-small);border-radius:var(--MpRadius-xLarge);border:none;background:var(--MpColors-bg-brandBold);font-size:var(--MpTextStyles-sm-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-inverse);cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Submit report</a>
+      </div>
+
+      <div class="home-indicator"><div class="bar"></div></div>
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Submit to return to My Requests.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+</body>
+</html>

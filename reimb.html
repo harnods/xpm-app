@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Scan Receipt</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone" style="background:#0F1115;">
+      <div class="dynamic-island"></div>
+
+      <!-- Scan overlay fills the phone -->
+      <div class="scan-overlay" id="scan-root">
+        <!-- Status bar dark -->
+        <div class="status-bar dark" style="flex-shrink:0;">
+          <span class="ios-time">9:41</span>
+          <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+        </div>
+
+        <div class="scan-stage">
+          <div class="scan-viewfinder">
+            <div class="scan-frame">
+              <span class="scan-corner tl"></span>
+              <span class="scan-corner tr"></span>
+              <span class="scan-corner bl"></span>
+              <span class="scan-corner br"></span>
+            </div>
+            <p class="scan-hint">Align the receipt inside the frame</p>
+          </div>
+
+          <div class="scan-topbar">
+            <a href="home.html" class="scan-close" aria-label="Close" style="text-decoration:none;">
+              <i class="ti ti-x"></i>
+            </a>
+            <button class="scan-credits" type="button" id="scan-credits-chip" onclick="toggleScanBanner()">
+              <i class="ti ti-sparkles"></i>
+              <span id="scan-credits-label">12 AI credits left</span>
+            </button>
+          </div>
+
+          <div class="scan-banner" id="scan-banner">
+            <div class="scan-banner-title">No credits? No problem</div>
+            <div class="scan-banner-body">Snap a photo — we'll attach it to your claim. Fill in the details manually after.</div>
+          </div>
+
+          <div class="scan-controls">
+            <button class="scan-gallery" type="button" onclick="captureReceipt()" aria-label="Browse gallery">
+              <span class="scan-gallery-thumb"><i class="ti ti-photo"></i></span>
+              <span class="scan-gallery-label">Browse</span>
+            </button>
+            <button class="scan-shutter" type="button" onclick="captureReceipt()" aria-label="Capture">
+              <span class="scan-shutter-inner"></span>
+            </button>
+            <button class="scan-flash" type="button" id="scan-flash" onclick="toggleScanFlash()" aria-label="Flash">
+              <i class="ti ti-bolt-off"></i>
+            </button>
+          </div>
+
+          <a href="reimb-form.html" class="scan-manual" style="text-decoration:none;">Fill manually instead</a>
+
+          <!-- Preview screen (after capture) -->
+          <div class="scan-preview" id="scan-preview">
+            <div class="scan-preview-photo">
+              <div class="scan-preview-receipt">
+                <span class="scan-preview-badge" id="scan-preview-badge">Receipt 1</span>
+              </div>
+            </div>
+            <div class="scan-preview-thumbs" id="scan-preview-thumbs"></div>
+            <button class="scan-preview-add" type="button" onclick="addMoreReceipt()">
+              <i class="ti ti-plus"></i>
+              <span>Add more</span>
+            </button>
+            <a href="reimb-form.html" class="scan-preview-confirm" aria-label="Confirm" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+              <img src="assets/check.svg" alt="">
+            </a>
+          </div>
+        </div>
+
+        <div class="home-indicator dark"><div class="bar"></div></div>
+      </div><!-- /scan-overlay -->
+
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Tap the shutter to capture, then confirm to fill the form.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  let scanCaptures = [];
+  let currentPreviewIdx = 0;
+
+  function captureReceipt() {
+    scanCaptures.push(Date.now());
+    currentPreviewIdx = scanCaptures.length - 1;
+    renderPreview();
+    document.getElementById('scan-root').classList.add('previewing');
+  }
+
+  function renderPreview() {
+    const total = scanCaptures.length;
+    document.getElementById('scan-preview-badge').textContent =
+      total > 1 ? 'Receipt ' + (currentPreviewIdx + 1) + ' of ' + total : 'Receipt 1';
+    const strip = document.getElementById('scan-preview-thumbs');
+    strip.innerHTML = '';
+    if (total > 1) {
+      strip.classList.add('visible');
+      scanCaptures.forEach((_, i) => {
+        const t = document.createElement('div');
+        t.className = 'scan-pv-thumb' + (i === currentPreviewIdx ? ' active' : '');
+        t.innerHTML = '<span class="num">' + (i + 1) + '</span><button type="button" class="remove" aria-label="Remove"><i class="ti ti-x"></i></button>';
+        t.onclick = () => { currentPreviewIdx = i; renderPreview(); };
+        t.querySelector('.remove').onclick = (ev) => { ev.stopPropagation(); removePreview(i); };
+        strip.appendChild(t);
+      });
+    } else {
+      strip.classList.remove('visible');
+    }
+  }
+
+  function removePreview(idx) {
+    scanCaptures.splice(idx, 1);
+    if (scanCaptures.length === 0) {
+      document.getElementById('scan-root').classList.remove('previewing');
+      return;
+    }
+    if (currentPreviewIdx >= scanCaptures.length) currentPreviewIdx = scanCaptures.length - 1;
+    renderPreview();
+  }
+
+  function addMoreReceipt() {
+    document.getElementById('scan-root').classList.remove('previewing');
+  }
+
+  function toggleScanBanner() {
+    document.getElementById('scan-banner').classList.toggle('visible');
+  }
+
+  function toggleScanFlash() {
+    const btn = document.getElementById('scan-flash');
+    const on = btn.classList.toggle('on');
+    btn.querySelector('i').className = on ? 'ti ti-bolt' : 'ti ti-bolt-off';
+  }
+</script>
+</body>
+</html>

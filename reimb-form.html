@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPM — Request Reimbursement</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="prototype-wrap">
+  <div class="proto-label">XPM Mobile Enhancement — Interactive Prototype</div>
+
+  <div class="iphone-frame">
+    <div class="btn-mute"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-dn"></div>
+    <div class="btn-power"></div>
+    <div class="phone" id="phone">
+      <div class="dynamic-island"></div>
+
+      <div class="overlay-page reimb-form-overlay">
+        <div class="status-bar">
+          <span class="ios-time">9:41</span>
+          <img class="ios-r-accessories" src="assets/ios-accessories.svg" alt="">
+        </div>
+        <div class="rf-header">
+          <a href="reimb.html" class="rf-back" aria-label="Back" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+            <i class="ti ti-arrow-left"></i>
+          </a>
+          <span class="rf-title">Request reimbursement</span>
+        </div>
+
+        <div class="scroll-area">
+          <form class="rf-form" onsubmit="event.preventDefault();submitReimb();">
+
+            <div class="rf-field">
+              <label class="rf-label">Claim category<span class="rf-req">*</span></label>
+              <div class="rf-select" id="rf-category" onclick="openCategorySheet()">
+                <span class="rf-select-value has-value" id="rf-category-value">Meals &amp; Entertainment <span class="ai-tag" style="font-size:var(--MpTextStyles-xxs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-highlight);background:var(--MpColors-bg-brand);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-xSmall2);border-radius:var(--MpRadius-small);margin-left:var(--MpSpacing-xSmall);letter-spacing:0.3px;">AI</span></span>
+                <img src="assets/chevron-right.svg" alt="" class="rf-select-caret">
+              </div>
+            </div>
+
+            <div class="rf-field">
+              <label class="rf-label">Transaction date<span class="rf-req">*</span></label>
+              <div class="rf-row" onclick="openDateSheet()" style="cursor:pointer;">
+                <span class="rf-value" id="rf-date">Thu, 21 May 2026</span>
+                <i class="ti ti-calendar rf-trailing"></i>
+              </div>
+            </div>
+
+            <div class="rf-field">
+              <label class="rf-label" for="rf-vendor">Vendor<span class="rf-req">*</span></label>
+              <input class="rf-input" id="rf-vendor" type="text" value="Bluegrass Bar &amp; Grill" placeholder="">
+            </div>
+
+            <div class="rf-field">
+              <label class="rf-label" for="rf-amount">Amount<span class="rf-req">*</span></label>
+              <input class="rf-input" id="rf-amount" type="text" inputmode="numeric" value="550.000" placeholder="">
+              <span class="rf-helper" id="rf-balance">Remaining balance for May 2026: Rp 1.500.000</span>
+            </div>
+
+            <div class="rf-field">
+              <label class="rf-label">Attachment<span class="rf-req">*</span></label>
+              <div class="rf-attach" id="rf-attach">
+                <div class="rf-attach-thumb"><button class="remove" type="button" aria-label="Remove"><i class="ti ti-x"></i></button></div>
+                <button type="button" class="rf-attach-add" onclick="event.stopPropagation();" aria-label="Add attachment">
+                  <i class="ti ti-plus"></i>
+                </button>
+              </div>
+              <span class="rf-helper">Files must be in JPG, JPEG, PNG, PDF, CSV, or XLSX with a maximum size of 20MB. You can upload up to 5 files.</span>
+            </div>
+
+            <div class="rf-field">
+              <label class="rf-label" for="rf-desc">Description</label>
+              <textarea class="rf-textarea" id="rf-desc" maxlength="600" rows="2" oninput="updateDescCount(event)"></textarea>
+              <span class="rf-helper rf-counter"><span id="rf-desc-count">0</span>/600</span>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="rf-actions">
+          <button class="rf-btn rf-btn-primary" type="button" onclick="submitReimb()">Submit</button>
+          <a href="home.html" class="rf-btn rf-btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Cancel</a>
+        </div>
+        <div class="home-indicator"><div class="bar"></div></div>
+      </div>
+
+      <!-- Sheet: Claim category -->
+      <div class="sheet-backdrop" id="sheet-category" onclick="closeCategorySheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Claim category</p>
+          <div style="padding:0 var(--MpSpacing-large) var(--MpSpacing-small);">
+            <label class="category-search">
+              <i class="ti ti-search"></i>
+              <input id="category-search-input" type="search" placeholder="Search category" oninput="filterCategoryList(event)" autocomplete="off">
+            </label>
+          </div>
+          <div class="sheet-list" id="category-list"></div>
+          <div class="sheet-empty" id="category-empty" style="display:none;">No matching category</div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Sheet: Transaction date -->
+      <div class="sheet-backdrop" id="sheet-date" onclick="closeDateSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+          <div class="sheet-list" id="date-list"></div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Sheet: Date picker (calendar) -->
+      <div class="sheet-backdrop" id="sheet-date-picker" onclick="closeDatePicker(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+          <div class="sheet-handle"></div>
+          <p style="font-size:var(--MpTextStyles-xs-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-secondary);padding:var(--MpSpacing-xSmall4) var(--MpSpacing-large) var(--MpSpacing-xSmall);letter-spacing:0.6px;text-transform:uppercase;">Transaction date</p>
+          <div class="cal-header">
+            <button type="button" class="cal-nav" onclick="navMonth(-1)" aria-label="Previous month"><i class="ti ti-chevron-left"></i></button>
+            <span class="cal-title" id="cal-title">May 2026</span>
+            <button type="button" class="cal-nav" onclick="navMonth(1)" aria-label="Next month"><i class="ti ti-chevron-right"></i></button>
+          </div>
+          <div class="cal-weekdays">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <button type="button" class="cal-today-btn" onclick="goToToday()">Today</button>
+          <div class="cal-actions">
+            <button class="rf-btn rf-btn-secondary" type="button" onclick="closeDatePicker()">Cancel</button>
+            <button class="rf-btn rf-btn-primary" type="button" onclick="confirmDatePicker()">Confirm</button>
+          </div>
+          <div style="height:6px;"></div>
+        </div>
+      </div>
+
+    </div><!-- /phone -->
+  </div><!-- /iphone-frame -->
+
+  <div class="proto-hint">Fill the form and tap <strong>Submit</strong> to complete.</div>
+</div><!-- /prototype-wrap -->
+
+<script src="app.js"></script>
+<script>
+  const CATEGORY_OPTIONS = [
+    'Meals & Entertainment','Transport','Lodging','Subscription',
+    'Office Supplies','Communication','Training & Development',
+    'Client Entertainment','Marketing','Health & Wellness','Other'
+  ];
+  const TODAY = new Date(2026, 4, 21);
+  let customDate = null;
+  let calViewYear = TODAY.getFullYear();
+  let calViewMonth = TODAY.getMonth();
+  let calSelectedDate = new Date(TODAY);
+
+  function formatDate(d) {
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  function sameDate(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  function updateDescCount(e) {
+    document.getElementById('rf-desc-count').textContent = (e.target.value || '').length;
+  }
+
+  function submitReimb() {
+    window.location.href = 'my-requests.html';
+  }
+
+  /* Category sheet */
+  function renderCategoryList(query) {
+    const q = (query || '').toLowerCase().trim();
+    const current = document.getElementById('rf-category-value').textContent.trim();
+    const list = document.getElementById('category-list');
+    const empty = document.getElementById('category-empty');
+    const filtered = CATEGORY_OPTIONS.filter(c => c.toLowerCase().includes(q));
+    list.innerHTML = '';
+    filtered.forEach(value => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (value === current ? ' active' : '');
+      el.textContent = value;
+      el.onclick = () => selectCategory(value);
+      list.appendChild(el);
+    });
+    empty.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+  function filterCategoryList(e) { renderCategoryList(e.target.value); }
+  function openCategorySheet() {
+    document.getElementById('category-search-input').value = '';
+    renderCategoryList('');
+    document.getElementById('sheet-category').classList.add('active');
+  }
+  function closeCategorySheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-category').classList.remove('active');
+  }
+  function selectCategory(value) {
+    const label = document.getElementById('rf-category-value');
+    label.textContent = value;
+    label.classList.add('has-value');
+    closeCategorySheet();
+  }
+
+  /* Date sheet */
+  function openDateSheet() {
+    const list = document.getElementById('date-list');
+    const current = document.getElementById('rf-date').textContent.trim();
+    const today = new Date(TODAY);
+    const yesterday = new Date(TODAY); yesterday.setDate(today.getDate() - 1);
+    const presets = [
+      { label: 'Today',     value: formatDate(today) },
+      { label: 'Yesterday', value: formatDate(yesterday) },
+    ];
+    list.innerHTML = '';
+    presets.forEach(opt => {
+      const el = document.createElement('div');
+      el.className = 'sheet-list-item' + (opt.value === current ? ' active' : '');
+      el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:var(--MpSpacing-small);"><span>' + opt.label + '</span><span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-secondary);font-weight:var(--MpTextStyles-regular);">' + opt.value + '</span></div>';
+      el.onclick = () => selectDate(opt.value);
+      list.appendChild(el);
+    });
+    const pick = document.createElement('div');
+    pick.className = 'sheet-list-item';
+    const hasCustom = customDate !== null;
+    const pickColor = hasCustom ? 'var(--MpColors-text-link)' : 'var(--MpColors-text-primary)';
+    const pickWeight = hasCustom ? 'var(--MpTextStyles-semiBold)' : 'var(--MpTextStyles-regular)';
+    const pickLabel = hasCustom ? formatDate(customDate) : 'Select date';
+    const iconHtml = hasCustom
+      ? '<span class="cal-day-icon" style="color:' + pickColor + ';"><span class="num">' + customDate.getDate() + '</span></span>'
+      : '<i class="ti ti-calendar" style="font-size:var(--MpTextStyles-l-fontSize);color:' + pickColor + ';"></i>';
+    pick.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:var(--MpSpacing-small);"><span style="color:' + pickColor + ';font-weight:' + pickWeight + ';">' + pickLabel + '</span>' + iconHtml + '</div>';
+    pick.onclick = pickCustomDate;
+    list.appendChild(pick);
+    document.getElementById('sheet-date').classList.add('active');
+  }
+  function closeDateSheet(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-date').classList.remove('active');
+  }
+  function selectDate(formatted) {
+    document.getElementById('rf-date').textContent = formatted;
+    closeDateSheet();
+  }
+  function pickCustomDate() {
+    closeDateSheet();
+    openDatePicker();
+  }
+
+  /* Calendar */
+  function openDatePicker() {
+    calViewYear = TODAY.getFullYear();
+    calViewMonth = TODAY.getMonth();
+    calSelectedDate = new Date(TODAY);
+    renderCalendar();
+    document.getElementById('sheet-date-picker').classList.add('active');
+  }
+  function closeDatePicker(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('sheet-date-picker').classList.remove('active');
+  }
+  function confirmDatePicker() {
+    customDate = new Date(calSelectedDate);
+    selectDate(formatDate(calSelectedDate));
+    closeDatePicker();
+  }
+  function goToToday() {
+    calSelectedDate = new Date(TODAY);
+    calViewYear = TODAY.getFullYear();
+    calViewMonth = TODAY.getMonth();
+    renderCalendar();
+  }
+  function navMonth(delta) {
+    calViewMonth += delta;
+    if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+    if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+    renderCalendar();
+  }
+  function renderCalendar() {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('cal-title').textContent = months[calViewMonth] + ' ' + calViewYear;
+    const grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+    const firstOfMonth = new Date(calViewYear, calViewMonth, 1);
+    const startDow = firstOfMonth.getDay();
+    const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+    const daysInPrev = new Date(calViewYear, calViewMonth, 0).getDate();
+    const cells = [];
+    for (let i = startDow - 1; i >= 0; i--) {
+      cells.push({ day: daysInPrev - i, muted: true, date: new Date(calViewYear, calViewMonth - 1, daysInPrev - i) });
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      cells.push({ day: d, muted: false, date: new Date(calViewYear, calViewMonth, d) });
+    }
+    while (cells.length % 7 !== 0) {
+      const next = cells.length - startDow - daysInMonth + 1;
+      cells.push({ day: next, muted: true, date: new Date(calViewYear, calViewMonth + 1, next) });
+    }
+    cells.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'cal-cell' + (c.muted ? ' muted' : '');
+      if (!c.muted && sameDate(c.date, TODAY)) el.classList.add('today');
+      if (sameDate(c.date, calSelectedDate)) el.classList.add('selected');
+      el.textContent = c.day;
+      el.onclick = () => {
+        calSelectedDate = new Date(c.date);
+        calViewYear = calSelectedDate.getFullYear();
+        calViewMonth = calSelectedDate.getMonth();
+        renderCalendar();
+      };
+      grid.appendChild(el);
+    });
+  }
+</script>
+</body>
+</html>
