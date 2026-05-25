@@ -1,4 +1,28 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : TripFormScreen (Trip Expense Form)
+@dart-file       : lib/screens/trip_form/trip_form_screen.dart
+@design-spec     : DESIGN.md §11.8
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar(title: 'New trip expense', leading: back)
+  └─ stage:
+      ├─ MpTextField  Trip (readOnly → trip-select MpBottomSheet)
+      ├─ MpTextField  Category (readOnly → CategorySheet)
+      ├─ MpTextField  Vendor (required)
+      ├─ MpTextField  Amount (prefix: Rp, number)
+      ├─ MpTextField  Date (readOnly → MpFullDatePickerSheet)
+      ├─ MpTextField  Notes (minLines: 3)
+      ├─ ReceiptUploadArea  Custom dashed-border — no Pixel dropzone
+      ├─ MpButton.primary   Save expense
+      └─ MpButton.ghost     Cancel
+navigation:
+  back / cancel → pop()
+  date field    → MpFullDatePickerSheet (MpBottomSheet)
+  category field→ CategorySheet (MpBottomSheet)
+  trip field    → trip-select MpBottomSheet
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

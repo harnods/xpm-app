@@ -1,4 +1,28 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : MyRequestsScreen
+@dart-file       : lib/screens/my_requests/my_requests_screen.dart
+@design-spec     : DESIGN.md §11.2
+@pixel-layout    : MpBasicLayout
+widget-tree:
+  MpBasicLayout
+  ├─ appBar   : MpTextAppBar (title: 'My requests', transparent)
+  ├─ stage:
+  │   ├─ MpSearch              (onFilterPressed → FilterSheet)
+  │   ├─ SummaryCard           Custom Container
+  │   ├─ AiCreditsRow          Custom Container (bg-brand) — no Pixel equivalent
+  │   ├─ MpSingleFilter        (All / Claims / Trips)
+  │   ├─ MpFilter              active filter chips
+  │   ├─ MpHeaderListTileX.single  date group header
+  │   └─ MpListTileX list      claim=triple-line / trip=overline + MpBadge.*Status
+  ├─ bottomNavigationBar: MpBottomNavBar (currentIndex: 1)
+  └─ floatingActionButton: MpFloatingActionButton (label: 'Request')
+navigation:
+  .tx-item (claim) → [TODO: request detail screen]
+  .tx-item (trip)  → TripDetailScreen (push)
+  .fab-pill        → FabMenuSheet
+  filter button    → FilterSheet
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

@@ -1,4 +1,32 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : ReimbFormScreen (Reimbursement Form)
+@dart-file       : lib/screens/reimb_form/reimb_form_screen.dart
+@design-spec     : DESIGN.md §11.5
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar(title: 'New expense')
+  │          leading → back MpIconButton
+  │          actions → [MpIconButton(close/X)]
+  └─ stage:
+      ├─ MpBanner.info          OCR confirmation (if fromScan: true)
+      ├─ MpTextField            Vendor (required)
+      ├─ MpTextField            Amount (prefix: Rp, number)
+      ├─ MpTextField            Date (readOnly → MpFullDatePickerSheet)
+      ├─ MpTextField            Category (readOnly → CategorySheet)
+      ├─ MpTextField            Notes (minLines: 3)
+      ├─ ReceiptUploadArea      Custom dashed-border — no Pixel dropzone
+      ├─ MpBanner.info          AI classify suggestion (conditional)
+      ├─ MpButton.primary       Submit
+      └─ MpButton.ghost         Cancel
+navigation:
+  back / cancel → pop()
+  close (X)     → popUntil(isFirst)
+  date field    → MpFullDatePickerSheet (MpBottomSheet)
+  category field→ CategorySheet (MpBottomSheet)
+  AI banner     → ClassifyScreen (push)
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

@@ -1,4 +1,27 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : TripDetailScreen
+@dart-file       : lib/screens/trip_detail/trip_detail_screen.dart
+@design-spec     : DESIGN.md §11.9
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar(title: tripName, leading: back)
+  └─ stage:
+      ├─ MpBadge.*Status      trip status pill
+      │   Awaiting report   → MpBadge.neutralStatus
+      │   Awaiting approval → MpBadge.noticeStatus
+      │   Approved          → MpBadge.positiveStatus
+      │   Rejected          → MpBadge.negativeStatus
+      ├─ MpListTileX          trip summary (MpIconAvatar, dates, budget)
+      ├─ MpListTileX list     expense items (same as My Requests claim item)
+      ├─ MpButton.secondary   + Add expense
+      └─ MpButton.primary     Create report
+navigation:
+  back           → pop()
+  Add expense    → TripFormScreen (push)
+  Create report  → CreateReportScreen (push)
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

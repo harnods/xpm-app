@@ -1,4 +1,25 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : ClassifyScreen (AI Category Classification)
+@dart-file       : lib/screens/classify/classify_screen.dart
+@design-spec     : DESIGN.md §11.6
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar(title: 'Classify expense', leading: back)
+  └─ stage:
+      ├─ MpBanner.info          AI suggestion banner
+      ├─ receipt thumb          ClipRRect(Image) + custom page-count badge overlay
+      ├─ category list:
+      │   selected → MpListTileX(bg: bg-brand, trailing: Radio selected)
+      │   default  → MpListTileX(trailing: Radio unselected)
+      │   icon     → MpIconAvatar(icon, backgroundColor: MpColors.bg.*)
+      ├─ MpButton.primary       Confirm
+      └─ MpButton.ghost         Edit manually
+navigation:
+  back / Edit manually → pop()
+  Confirm              → pop(selectedCategory) back to ReimbFormScreen
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

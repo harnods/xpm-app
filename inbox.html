@@ -1,4 +1,25 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : InboxScreen
+@dart-file       : lib/screens/inbox/inbox_screen.dart
+@design-spec     : DESIGN.md §11.3
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar
+  │          title   → 'Inbox'
+  │          leading → back MpIconButton
+  │          actions → [MpButton.ghost('Mark all as read')]
+  └─ stage:
+      ├─ MpSingleFilter  (Notifications [badge:3] / Need my approval [badge:2])
+      └─ notification list:
+          unread → Container(left-border: border-selected 2px)
+                   + MpListTileX(bg-subtle, MpIconAvatar, double-line, unread-dot)
+          read   → MpListTileX(bg-stage, MpIconAvatar, double-line)
+          swipe  → Dismissible(bg: bg-successBold) — no Pixel swipe component
+navigation:
+  back arrow → pop()
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

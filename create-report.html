@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : CreateReportScreen
+@dart-file       : lib/screens/create_report/create_report_screen.dart
+@design-spec     : DESIGN.md §11.10
+@pixel-layout    : MpBasicLayout (no bottomNavigationBar)
+widget-tree:
+  MpBasicLayout
+  ├─ appBar: MpTextAppBar(title: 'Create report', leading: back)
+  └─ stage:
+      ├─ MpListTileX      trip summary (leading: MpIconAvatar, trailing: total amount)
+      ├─ MpTextField      Report name (required)
+      ├─ MpTextField      Notes / purpose (minLines: 3)
+      ├─ MpButton.primary Submit report → MpToast.done on success
+      └─ MpButton.ghost   Cancel
+navigation:
+  back / cancel → pop()
+  Submit success→ MpToast.done + pop()
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

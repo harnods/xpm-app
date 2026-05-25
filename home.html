@@ -1,4 +1,28 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : HomeScreen
+@dart-file       : lib/screens/home/home_screen.dart
+@design-spec     : DESIGN.md §11.1
+@pixel-layout    : MpBasicLayout
+widget-tree:
+  MpBasicLayout
+  ├─ appBar   : MpBaseAppBar (transparent)
+  │              title   → Column(Text greeting, Text name)
+  │              actions → [Stack(MpIconButton(inbox) + MpBadge.negative), MpAvatar.image]
+  ├─ stage:
+  │   ├─ SummaryCard          Custom Container (bg-stage, MpRadius.xLarge)
+  │   ├─ AttentionSection     Custom Container (InkWell MpIconAvatar tiles)
+  │   ├─ BudgetWidget         MpHeaderListTileX.double + 2×2 BudgetCategoryCard grid
+  │   └─ RecentTransactions   MpHeaderListTileX.double + MpSingleFilter + MpListTileX list
+  ├─ bottomNavigationBar: MpBottomNavBar (currentIndex: 0)
+  └─ floatingActionButton: MpFloatingActionButton (label: 'Request')
+navigation:
+  inbox icon    → InboxScreen (push)
+  .attn-tile    → MyRequestsScreen (go)
+  .tx-item      → [TODO: transaction detail screen]
+  .fab-pill     → FabMenuSheet (MpBottomSheet)
+  .budget-link  → [TODO: budget limits screen]
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">

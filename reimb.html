@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+@flutter-screen  : ReimbScreen (Receipt Scan / Camera)
+@dart-file       : lib/screens/reimb/reimb_screen.dart
+@design-spec     : DESIGN.md §11.4
+@pixel-layout    : Scaffold (NOT MpBasicLayout — dark full-screen)
+⚠️  PROTOTYPE CHROME — camera viewfinder is OS-provided (DESIGN.md §6)
+widget-tree:
+  Scaffold (backgroundColor: #0F1115)
+  └─ body: Stack
+      ├─ CameraPreview (full-screen, camera package)
+      ├─ top-left  : MpIconButton(close, color: text-inverse)
+      ├─ top-right : Custom chip (bg-inverse, MpRadius.full) — no Pixel equivalent
+      ├─ center    : CustomPaint (4 corner brackets)
+      ├─ mid-bottom: MpButton.ghost('Fill manually instead')
+      └─ bottom row: [MpIconButton(gallery)+Text('Browse'), shutter GestureDetector, MpIconButton(flash)]
+navigation:
+  close button    → pop()
+  Fill manually   → ReimbFormScreen (push, fromScan: false)
+  shutter capture → ReimbFormScreen (push, fromScan: true)
+-->
 <html lang="id">
 <head>
   <meta charset="UTF-8">
