@@ -797,7 +797,7 @@ body{
 /* ── Notification items ── */
 .notif-item{padding:var(--MpSpacing-small) var(--MpSpacing-medium);display:flex;gap:var(--MpSpacing-xSmall);align-items:flex-start;cursor:pointer;border-bottom:0.5px solid var(--MpColors-border-subtle);background:var(--MpColors-bg-stage);transition:transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);user-select:none;width:100%;box-sizing:border-box;position:relative;z-index:1;}
 .notif-item:last-child{border-bottom:none;}
-.notif-item.unread{border-left:3px solid var(--MpColors-border-selected);background:var(--MpColors-bg-subtle);}
+.notif-item.unread{/* Indicator is the .unread-dot on the right — no bg, no left border */}
 .unread-dot{width:8px;height:8px;background:var(--MpColors-bg-brandBold);border-radius:50%;flex-shrink:0;margin-top:5px;}
 
 /* ── Swipe-to-mark-as-read ── */

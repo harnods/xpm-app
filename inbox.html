@@ -29,30 +29,30 @@
       </div>
 
       <!-- Header -->
-      <div style="background:var(--MpColors-bg-stage);padding:0 var(--MpSpacing-medium) 0;flex-shrink:0;">
-        <div style="display:flex;align-items:center;gap:var(--MpSpacing-xSmall);margin-bottom:var(--MpSpacing-small);">
-          <a href="home.html" style="color:var(--MpColors-text-primary);display:inline-flex;align-items:center;">
-            <i class="ti ti-arrow-left" style="font-size:var(--MpTextStyles-l-fontSize);"></i>
+      <div style="flex-shrink:0;background:var(--MpColors-bg-stage);">
+        <div class="app-header app-header--title" style="gap:var(--MpSpacing-xSmall2);">
+          <a href="home.html"
+             style="width:36px;height:36px;border:none;background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-8px;text-decoration:none;color:var(--MpColors-text-primary);">
+            <i class="ti ti-arrow-left" style="font-size:var(--MpTextStyles-xl-fontSize);color:var(--MpColors-text-primary);"></i>
           </a>
-          <span style="font-size:var(--MpTextStyles-l-fontSize);font-weight:var(--MpTextStyles-semiBold);color:var(--MpColors-text-primary);flex:1;">Inbox</span>
-          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-link);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;" onclick="markAllAsRead()">Mark all as read</span>
+          <span class="page-title">Inbox</span>
+          <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-link);font-weight:var(--MpTextStyles-semiBold);cursor:pointer;flex-shrink:0;" onclick="markAllAsRead()">Mark all as read</span>
         </div>
         <!-- Tabs -->
-        <div class="tab-bar" style="padding:0;background:var(--MpColors-bg-stage);">
-          <span class="tab-btn active" id="tab-notif" onclick="switchInboxTab('notif')">
+        <div class="tab-bar" style="background:transparent;border-bottom:none;">
+          <span class="tab-btn active" id="tab-notif" onclick="switchInboxTab('notif')" style="flex:1;text-align:center;">
             Notifications
             <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;" id="notif-badge">3</span>
           </span>
-          <span class="tab-btn" id="tab-approval" onclick="switchInboxTab('approval')">
+          <span class="tab-btn" id="tab-approval" onclick="switchInboxTab('approval')" style="flex:1;text-align:center;">
             Need my approval
             <span class="badge" style="margin-left:var(--MpSpacing-xSmall3);vertical-align:middle;">2</span>
           </span>
         </div>
       </div>
-      <div style="height:1px;background:var(--XpmColors-bg-base);flex-shrink:0;"></div>
 
       <!-- Notifications panel -->
-      <div class="scroll-area" id="panel-notif" style="flex:1;background:var(--XpmColors-bg-base);">
+      <div class="scroll-area" id="panel-notif" style="flex:1;background:var(--MpColors-bg-stage);">
 
         <div class="notif-swipe-wrap">
           <div class="notif-swipe-action" onclick="markNotifAsRead(this)">
@@ -145,7 +145,7 @@
       </div><!-- /panel-notif -->
 
       <!-- Need my approval panel -->
-      <div class="scroll-area" id="panel-approval" style="flex:1;background:var(--XpmColors-bg-base);display:none;">
+      <div class="scroll-area" id="panel-approval" style="flex:1;background:var(--MpColors-bg-stage);display:none;">
         <div style="background:var(--MpColors-bg-warning);border-bottom:1px solid var(--MpColors-border-warning);padding:var(--MpSpacing-xSmall) var(--MpSpacing-medium);display:flex;align-items:center;gap:var(--MpSpacing-xSmall);flex-shrink:0;">
           <i class="ti ti-clock" style="font-size:var(--MpTextStyles-sm-fontSize);color:var(--MpColors-text-warning);flex-shrink:0;"></i>
           <span style="font-size:var(--MpTextStyles-xs-fontSize);color:var(--MpColors-text-warning);font-weight:var(--MpTextStyles-semiBold);">2 items need your review</span>
