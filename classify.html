@@ -120,9 +120,13 @@
     { vendor: 'Indomaret',   category: 'Per diem',        subCategory: 'Daily Allowance', amount:  '55.000' },
   ];
 
-  // In the MPA we start with 1 capture (from reimb.html confirm)
+  // In the MPA we receive the capture count via ?count=N from reimb.html.
+  // Default to 1 if no param was passed (defensive fallback).
   const SCAN_CREDITS = 12;
-  const CAPTURE_COUNT = 1;
+  const CAPTURE_COUNT = Math.max(
+    1,
+    parseInt(new URLSearchParams(location.search).get('count') || '1', 10) || 1
+  );
 
   let tripReceipts = [];
   let pendingCatRowId = null;
@@ -215,7 +219,8 @@
 
   function continueFlow() {
     if (tripReceipts.some(r => !r.category)) return;
-    window.location.href = 'trip-form.html';
+    // Route based on mode: reimb → reimb-form, trip → trip-form
+    window.location.href = urlMode === 'trip' ? 'trip-form.html' : 'reimb-form.html';
   }
 
   /* Trip select sheet */
